@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>ArtikelListDisplay.qml</file>
+        <file>Tracer.qml</file>
+        <file>JahreDisplay.qml</file>
+        <file>AusgabenDisplay.qml</file>
+    </qresource>
+</RCC>
