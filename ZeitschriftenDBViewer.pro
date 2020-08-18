@@ -22,7 +22,7 @@ SOURCES += \
         DatenbankListen/cjahr.cpp \
         DatenbankListen/cjahrdisplaylist.cpp \
         main.cpp \
-        sqlite-amalgamation-3330000/sqlite3.c
+        sqlite/sqlite3.c
 
 RESOURCES += QML/Desktop/qml.qrc
 
@@ -47,5 +47,5 @@ HEADERS += \
     DatenbankListen/causgabedisplaylist.h \
     DatenbankListen/cjahr.h \
     DatenbankListen/cjahrdisplaylist.h \
-    sqlite-amalgamation-3330000/sqlite3.h \
-    sqlite-amalgamation-3330000/sqlite3ext.h
+    sqlite/sqlite3.h \
+    sqlite/sqlite3ext.h

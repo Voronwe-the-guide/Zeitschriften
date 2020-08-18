@@ -4,7 +4,7 @@
 #include <QAbstractListModel>
 #include <QObject>
 #include "causgabe.h"
-#include <sqlite-amalgamation-3330000/sqlite3.h>
+#include <sqlite/sqlite3.h>
 
 class CAusgabeDisplayList  : public QAbstractListModel
 {

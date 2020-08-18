@@ -5,7 +5,7 @@
 #include <QAbstractListModel>
 #include <QObject>
 #include "cjahr.h"
-#include <sqlite-amalgamation-3330000/sqlite3.h>
+#include <sqlite/sqlite3.h>
 
 class CJahrDisplayList  : public QAbstractListModel
 {

@@ -4,7 +4,7 @@
 #include <QAbstractListModel>
 #include <QObject>
 #include "cartikel.h"
-#include <sqlite-amalgamation-3330000/sqlite3.h>
+#include <sqlite/sqlite3.h>
 
 /*static int c_callback(void *param, int argc, char **argv, char **azColName)
 {
