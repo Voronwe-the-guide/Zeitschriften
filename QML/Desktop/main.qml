@@ -16,22 +16,22 @@ Window {
     JahreDisplay
     {
         id: jahre
-        width: 50
+        width: 100
         height: parent.height
     }
-    AusgabenDisplay
+  /*  AusgabenDisplay
     {
         id: ausgaben
         width: 50
         height: parent.height
         anchors.left: jahre.right
     }
-
+*/
     ArtikelListDisplay
      {
         id: artikel
-        anchors.left: ausgaben.right
-         width: parent.width - jahre.width -ausgaben.width
+        anchors.left: jahre.right
+         width: parent.width - jahre.width// -ausgaben.width
          Tracer{}
     }
 }

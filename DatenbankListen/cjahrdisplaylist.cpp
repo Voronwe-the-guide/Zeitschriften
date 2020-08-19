@@ -101,6 +101,23 @@ void CJahrDisplayList::AddJahr(CJahr &jahr)
 
 }
 
+void CJahrDisplayList::deleteAusgaben()
+{
+	//m_AusgabenListe.clear();
+}
+
+void CJahrDisplayList::AddAusgabe(CAusgabe ausgabe)
+{
+/*	CAusgabeDisplayList list(m_db);
+	if (m_AusgabenListe.contains(ausgabe.Jahr()))
+	{
+		list = m_AusgabenListe.value(ausgabe.Jahr());
+	}
+	list.AddAusgabe(ausgabe);
+	m_AusgabenListe.insert(ausgabe.Jahr(),list);
+*/
+}
+
 QHash<int, QByteArray> CJahrDisplayList::roleNames() const
 {
 	QHash<int, QByteArray> roles;

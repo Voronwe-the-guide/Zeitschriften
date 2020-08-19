@@ -5,7 +5,8 @@ Item
 
     id: ausgabenDisplay
     width: 50
-    height: 800
+    height: visible?ausgabenListe.count* 30:0 //ausgabeElement.height // ausgabeElement.height
+
     property int fontSize: 20
 
     property int currentAusgabe: -1
@@ -25,6 +26,7 @@ Tracer {}
         id: ausgabeComponent
         Rectangle
         {
+            id: ausgabeElement
             width: parent.width
             height: 30
             border.color: "red"
@@ -59,6 +61,7 @@ Tracer {}
 
     ListView
     {
+       id: ausgabenListe
         width: parent.width
         height: parent.height
         model: cAusgabenList
@@ -66,10 +69,13 @@ Tracer {}
 
         onCountChanged:
         {
+           console.log("count changes to"+count);
             if (count == 0)
             {
                 ausgabenDisplay.currentAusgabe = -1;
             }
+
+
         }
     }
 

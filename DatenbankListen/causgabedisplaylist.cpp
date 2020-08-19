@@ -13,7 +13,7 @@ CAusgabeDisplayList::CAusgabeDisplayList(sqlite3 *db, QObject *parent) :
 
 CAusgabeDisplayList::~CAusgabeDisplayList()
 {
-
+	deleteAll();
 }
 
 int CAusgabeDisplayList::rowCount ( const QModelIndex & /*parent*/) const
@@ -52,7 +52,7 @@ void CAusgabeDisplayList::getAusgabenForJahr(int jahr)
 	deleteAll();
 	char *zErrMsg = 0;
 	sqlite3_stmt *stmt;
-	QString request = QString("SELECT Jahr,Ausgabe FROM Inhalte WHERE Jahr=%1 ORDER BY Jahr ASC,Ausgabe ASC").arg(jahr);
+	QString request = QString("SELECT Jahr,Ausgabe FROM Inhalte WHERE Jahr='%1' ORDER BY Jahr ASC,Ausgabe ASC").arg(jahr);
 	int rc = sqlite3_prepare_v2(m_db, request.toStdString().c_str(), -1, &stmt, NULL);
 	if (rc != SQLITE_OK)
 	{

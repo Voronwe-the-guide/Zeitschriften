@@ -3,6 +3,7 @@
 
 
 #include <QAbstractListModel>
+#include "causgabedisplaylist.h"
 #include <QObject>
 #include "cjahr.h"
 #include <sqlite/sqlite3.h>
@@ -26,6 +27,9 @@ public slots:
 	void GetDBRequest();
 	void deleteAll();
 	void AddJahr(CJahr &jahr);
+	void deleteAusgaben();
+	void AddAusgabe(CAusgabe ausgabe);
+
 
 protected:
 
@@ -35,6 +39,7 @@ private:
 
 
 	QList<CJahr> m_JahrList;
+	//QMap<int,CAusgabeDisplayList>  m_AusgabenListe;
 	sqlite3 *m_db;
 
 	static const int  Role_Jahr;
