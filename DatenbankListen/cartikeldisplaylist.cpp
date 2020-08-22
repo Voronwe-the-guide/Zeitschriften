@@ -77,7 +77,7 @@ void CArtikelDisplayList::getArtikelForAusgabe(int jahr, int ausgabe)
 	deleteAll();
 	char *zErrMsg = 0;
 	sqlite3_stmt *stmt;
-	QString request = QString("SELECT * FROM Inhalte WHERE Jahr=%1 AND Ausgabe=%2 ORDER BY Jahr ASC,Ausgabe ASC,Seite ASC").arg(jahr).arg(ausgabe);
+	QString request = QString("SELECT * FROM Inhalte WHERE Jahr='%1' AND Ausgabe='%2' ORDER BY Jahr ASC,Ausgabe ASC,Seite ASC").arg(jahr).arg(ausgabe);
 
 	int rc = sqlite3_prepare_v2(m_db, request.toStdString().c_str(), -1, &stmt, NULL);
 	if (rc != SQLITE_OK)
@@ -86,7 +86,6 @@ void CArtikelDisplayList::getArtikelForAusgabe(int jahr, int ausgabe)
 	}
 	while ((rc = sqlite3_step(stmt)) == SQLITE_ROW)
 	{
-		int id = sqlite3_column_int(stmt, 0);
 		int number = sqlite3_column_count(stmt);
 		CArtikel artikel;
 		for (int i=0; i<number; ++i)

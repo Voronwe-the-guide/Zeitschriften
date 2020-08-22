@@ -10,26 +10,38 @@ Item
 
     property int currentJahr: -1
 
+    property int year:0;
+
     Component
     {
         id: jahrComponent
-        Rectangle
+        Item
         {
             width: parent.width
+            height: jahr.height + ausgabenDisplay.height
+
+        Rectangle
+        {
+            id: jahrButton
+            width: parent.width
             height: 30
-            border.color: "red"
+          //  border.color: "red"
             color: model.index === currentJahr?"lightblue":"transparent"
             radius: 5
+
             Text
             {
                 id: jahr
-                text: model.jahr
                 anchors.fill: parent
-                horizontalAlignment: Text.AlignHCenter
+
+                text: model.jahr
+                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 font.pixelSize: jahreDisplay.fontSize
 
+
             }
+
             MouseArea
             {
                 anchors.fill: parent
@@ -41,7 +53,24 @@ Item
                     cAusgabenList.getAusgabenForJahr(model.jahr);
                 }
 
+                Tracer{}
+
             }
+        }
+            AusgabenDisplay
+            {
+                id: ausgabenDisplay
+                anchors.top: jahrButton.bottom
+                width: parent.width-20
+                anchors.left: parent.left
+                anchors.leftMargin: 20
+                visible: jahreDisplay.currentJahr === model.index
+                //    height: 200
+
+            }
+
+
+
         }
     }
 

@@ -6,19 +6,23 @@
 #include <DatenbankListen/cartikeldisplaylist.h>
 #include <DatenbankListen/cjahrdisplaylist.h>
 #include <DatenbankListen/causgabedisplaylist.h>
-#include <QDebug>
+#include <DatenbankListen/clistencontroller.h>
 
-#include <QCoreApplication>
+/*static int callback(void *NotUsed, int argc, char **argv, char **azColName)
+{
+   int i;
+   for(i=0; i<argc; i++) {
+	  printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+	}
+	 return 0;
+ }
+*/
 
 int main(int argc, char *argv[])
 {
- //   QCoreApplication a(argc, argv);
-    printf("Hello2");
+	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    printf("Hello2");
-    qDebug()<<"start";
-    QGuiApplication app(argc, argv);
+	QGuiApplication app(argc, argv);
 
 	qRegisterMetaType<CArtikel>("CArtikel");
 
@@ -27,11 +31,14 @@ int main(int argc, char *argv[])
 
 
 	int rc = sqlite3_open_v2("GEO_Register.db",&db,SQLITE_OPEN_READWRITE,NULL);
-	CJahrDisplayList jahrgaengeDisplay(db);
-	jahrgaengeDisplay.GetDBRequest();
+	CListenController listenController(db);
 
-	CAusgabeDisplayList ausgabenDisplay(db);
-	CArtikelDisplayList artikelDisplay(db);
+
+//	CJahrDisplayList jahrgaengeDisplay(db);
+	listenController.jahrgaengeDisplay()->GetDBRequest();
+
+//	CAusgabeDisplayList ausgabenDisplay(db);
+//	CArtikelDisplayList artikelDisplay(db);
 //	artikelDisplay.GetDBRequest();
 
 
@@ -45,9 +52,9 @@ int main(int argc, char *argv[])
 			QCoreApplication::exit(-1);
 	}, Qt::QueuedConnection);
 
-	engine.rootContext()->setContextProperty("cArtikelList",&artikelDisplay);
-	engine.rootContext()->setContextProperty("cJahreList",&jahrgaengeDisplay);
-	engine.rootContext()->setContextProperty("cAusgabenList",&ausgabenDisplay);
+	engine.rootContext()->setContextProperty("cArtikelList", listenController.artikelDisplay());
+	engine.rootContext()->setContextProperty("cJahreList",listenController.jahrgaengeDisplay());
+	engine.rootContext()->setContextProperty("cAusgabenList",listenController.ausgabenDisplay());
 	engine.load(url);
 
 	app.exec();

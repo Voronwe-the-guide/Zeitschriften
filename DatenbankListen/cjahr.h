@@ -2,6 +2,7 @@
 #define CJAHR_H
 
 #include "causgabe.h"
+
 class CJahr
 {
 public:
@@ -20,6 +21,7 @@ public:
 
 private:
 	int m_Jahr;
+
 };
 
 #endif // CJAHR_H
