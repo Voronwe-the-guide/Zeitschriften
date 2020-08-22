@@ -3,7 +3,7 @@
 Ein DatenbankViewer für Zeitschriften
 
 
-This Software is licensed und LGPL3
+This Software is licensed under LGPL3
 
 This Software uses the Qt-Framework under the LGPL3-License https://www.qt.io/
 
