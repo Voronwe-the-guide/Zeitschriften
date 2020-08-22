@@ -1,6 +1,7 @@
 #include "cartikeldisplaylist.h"
 
 
+
 const int  CArtikelDisplayList::Role_Zeitschrift = Qt::UserRole+1;
 const int  CArtikelDisplayList::Role_Jahr  = Qt::UserRole+2;					//!< Jahrgang der Zeitschrift
 const int  CArtikelDisplayList::Role_Ausgabe = Qt::UserRole+3;				//!< Ausgabe der Zeitschrift, bezogen auf Jahrgang

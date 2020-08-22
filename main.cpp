@@ -6,22 +6,19 @@
 #include <DatenbankListen/cartikeldisplaylist.h>
 #include <DatenbankListen/cjahrdisplaylist.h>
 #include <DatenbankListen/causgabedisplaylist.h>
+#include <QDebug>
 
-/*static int callback(void *NotUsed, int argc, char **argv, char **azColName)
-{
-   int i;
-   for(i=0; i<argc; i++) {
-	  printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-	}
-	 return 0;
- }
-*/
+#include <QCoreApplication>
 
 int main(int argc, char *argv[])
 {
-	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+ //   QCoreApplication a(argc, argv);
+    printf("Hello2");
 
-	QGuiApplication app(argc, argv);
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    printf("Hello2");
+    qDebug()<<"start";
+    QGuiApplication app(argc, argv);
 
 	qRegisterMetaType<CArtikel>("CArtikel");
 

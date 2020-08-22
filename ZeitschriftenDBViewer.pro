@@ -1,7 +1,8 @@
+#QT -= gui
 QT += quick
 QT += positioning
 
-CONFIG += c++11
+CONFIG += c++11 console
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -20,14 +21,14 @@ SOURCES += \
         DatenbankListen/causgabe.cpp \
         DatenbankListen/causgabedisplaylist.cpp \
         DatenbankListen/cjahr.cpp \
-        DatenbankListen/cjahrdisplaylist.cpp \
+       DatenbankListen/cjahrdisplaylist.cpp \
         main.cpp \
-        sqlite/sqlite3.c
+       sqlite/sqlite3.c
 
 RESOURCES += QML/Desktop/qml.qrc
 
-TRANSLATIONS += \
-    Translation/ZeitschriftenDBViewer_de_DE.ts
+#TRANSLATIONS += \
+#    Translation/ZeitschriftenDBViewer_de_DE.ts
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
