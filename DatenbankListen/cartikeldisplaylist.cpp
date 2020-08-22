@@ -19,9 +19,9 @@ const int  CArtikelDisplayList::Role_Koordinate = Qt::UserRole+13;
 
 
 
-CArtikelDisplayList::CArtikelDisplayList(sqlite3 *db, QObject *parent) :
-	QAbstractListModel(parent),
-	m_db(db)
+CArtikelDisplayList::CArtikelDisplayList(QObject *parent) :
+    QAbstractListModel(parent)
+
 {
 
 }
@@ -72,36 +72,6 @@ QVariant CArtikelDisplayList::data ( const QModelIndex & index, int role) const
  * from: https://stackoverflow.com/questions/15836253/c-populate-vector-from-sqlite3-callback-function
  * Answer by: https://stackoverflow.com/users/11654/cl
  */
-void CArtikelDisplayList::getArtikelForAusgabe(int jahr, int ausgabe)
-{
-	deleteAll();
-	char *zErrMsg = 0;
-	sqlite3_stmt *stmt;
-	QString request = QString("SELECT * FROM Inhalte WHERE Jahr='%1' AND Ausgabe='%2' ORDER BY Jahr ASC,Ausgabe ASC,Seite ASC").arg(jahr).arg(ausgabe);
-
-	int rc = sqlite3_prepare_v2(m_db, request.toStdString().c_str(), -1, &stmt, NULL);
-	if (rc != SQLITE_OK)
-	{
-		   return; // or throw
-	}
-	while ((rc = sqlite3_step(stmt)) == SQLITE_ROW)
-	{
-		int number = sqlite3_column_count(stmt);
-		CArtikel artikel;
-		for (int i=0; i<number; ++i)
-		{
-
-			QString columnName(reinterpret_cast<const char*>(sqlite3_column_name(stmt,i)));
-			QString columnText(reinterpret_cast<const char*>(sqlite3_column_text(stmt,i)));
-			artikel.setDBElement(columnName,columnText);
-		}
-
-		AddArtikel(artikel);
-	}
-
-	sqlite3_finalize(stmt);
-
-}
 
 void CArtikelDisplayList::deleteAll()
 {

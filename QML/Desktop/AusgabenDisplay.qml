@@ -49,7 +49,7 @@ Tracer {}
                 {
                     ausgabenDisplay.currentAusgabe = model.index;
                     console.log("Artikel request");
-                    cArtikelList.getArtikelForAusgabe(model.jahr, model.ausgabe);
+                    cListenController.getArtikelForAusgabe(model.jahr, model.ausgabe);
 
                 }
 
@@ -69,7 +69,7 @@ Tracer {}
 
         onCountChanged:
         {
-           console.log("count changes to"+count);
+  //         console.log("count changes to"+count);
             if (count == 0)
             {
                 ausgabenDisplay.currentAusgabe = -1;

@@ -33,13 +33,8 @@ int main(int argc, char *argv[])
 	int rc = sqlite3_open_v2("GEO_Register.db",&db,SQLITE_OPEN_READWRITE,NULL);
 	CListenController listenController(db);
 
+    listenController.getJahre();
 
-//	CJahrDisplayList jahrgaengeDisplay(db);
-	listenController.jahrgaengeDisplay()->GetDBRequest();
-
-//	CAusgabeDisplayList ausgabenDisplay(db);
-//	CArtikelDisplayList artikelDisplay(db);
-//	artikelDisplay.GetDBRequest();
 
 
 	//rc = sqlite3_exec(db, "SELECT * FROM Inhalte", callback, 0, &zErrMsg);
@@ -55,7 +50,8 @@ int main(int argc, char *argv[])
 	engine.rootContext()->setContextProperty("cArtikelList", listenController.artikelDisplay());
 	engine.rootContext()->setContextProperty("cJahreList",listenController.jahrgaengeDisplay());
 	engine.rootContext()->setContextProperty("cAusgabenList",listenController.ausgabenDisplay());
-	engine.load(url);
+    engine.rootContext()->setContextProperty("cListenController",&listenController);
+    engine.load(url);
 
 	app.exec();
 

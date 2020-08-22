@@ -12,26 +12,56 @@ Window {
         color: "blue"
     }
 */
+    Item
+    {
+        id: searchArea
+        width: parent.width
+        height: 50
+        TextInput
+        {
+            width: parent.width
+            height: parent.height
+            onAccepted:
+            {
+                if (text == "")
+                {
+                    cListenController.getJahre();
+                }
+                else
+                {
+                    cListenController.searchArtikel(text);
+                }
+            }
+        }
+    }
 
-    JahreDisplay
+    Item
     {
-        id: jahre
-        width: 100
-        height: parent.height
-    }
-  /*  AusgabenDisplay
-    {
-        id: ausgaben
-        width: 50
-        height: parent.height
-        anchors.left: jahre.right
-    }
-*/
-    ArtikelListDisplay
-     {
-        id: artikel
-        anchors.left: jahre.right
-         width: parent.width - jahre.width// -ausgaben.width
-         Tracer{}
+        id: listDisplayArea
+        width: parent.width
+        height: parent.height-searchArea.height
+        anchors.top: searchArea.bottom
+
+        JahreDisplay
+        {
+            id: jahre
+            width: 100
+            height: parent.height
+        }
+      /*  AusgabenDisplay
+        {
+            id: ausgaben
+            width: 50
+            height: parent.height
+            anchors.left: jahre.right
+        }
+    */
+        ArtikelListDisplay
+         {
+            id: artikel
+            anchors.left: jahre.right
+             width: parent.width - jahre.width// -ausgaben.width
+             Tracer{}
+        }
     }
 }

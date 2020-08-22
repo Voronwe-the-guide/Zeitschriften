@@ -50,7 +50,7 @@ Item
                     jahreDisplay.currentJahr = model.index;
                     console.log("Ausgaben request");
                     cArtikelList.deleteAll();
-                    cAusgabenList.getAusgabenForJahr(model.jahr);
+                    cListenController.getAusgabenForJahr(model.jahr);
                 }
 
                 Tracer{}

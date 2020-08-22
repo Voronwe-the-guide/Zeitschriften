@@ -4,13 +4,12 @@
 #include <QAbstractListModel>
 #include <QObject>
 #include "causgabe.h"
-#include <sqlite/sqlite3.h>
 
 class CAusgabeDisplayList  : public QAbstractListModel
 {
 	Q_OBJECT
 public:
-	CAusgabeDisplayList(sqlite3 *db,QObject *parent = 0);
+    CAusgabeDisplayList(QObject *parent = 0);
 
 	virtual ~CAusgabeDisplayList();
 
@@ -22,8 +21,8 @@ signals:
 	void listEmpty();
 
 public slots:
-	void getAusgabenForJahr(int jahr);
-	void deleteAll();
+
+    void deleteAll();
 	void AddAusgabe (CAusgabe &ausgabe);
 
 protected:
@@ -34,7 +33,6 @@ private:
 
 
 	QList<CAusgabe> m_AusgabenList;
-	sqlite3 *m_db;
 
 	static const int Role_Jahr;
 	static const int Role_Ausgabe;
