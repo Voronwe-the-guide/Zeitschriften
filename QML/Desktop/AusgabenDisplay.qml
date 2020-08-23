@@ -29,7 +29,7 @@ Tracer {}
             id: ausgabeElement
             width: parent.width
             height: 30
-            border.color: "red"
+          //  border.color: "red"
             color: model.index === currentAusgabe?"lightblue":"transparent"
             radius: 5
             Text

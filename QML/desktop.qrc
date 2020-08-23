@@ -1,0 +1,31 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Images/edition.svg</file>
+        <file>Images/flag.svg</file>
+        <file>Images/foto.svg</file>
+        <file>Images/land.svg</file>
+        <file>Images/magazin.svg</file>
+        <file>Images/page.svg</file>
+        <file>Images/rubrik.svg</file>
+        <file>Images/writer.svg</file>
+        <file>Images/year.svg</file>
+        <file>Desktop/Artikel.qml</file>
+        <file>Desktop/ArtikelListDisplay.qml</file>
+        <file>Desktop/AusgabenDisplay.qml</file>
+        <file>Desktop/BackgroundElement.qml</file>
+        <file>Desktop/DisplayText.qml</file>
+        <file>Desktop/IconWithText.qml</file>
+        <file>Desktop/JahreDisplay.qml</file>
+        <file>Desktop/main.qml</file>
+        <file>Desktop/Tracer.qml</file>
+        <file>Images/magazin.png</file>
+        <file>Images/edition.png</file>
+        <file>Images/flag.png</file>
+        <file>Images/foto.png</file>
+        <file>Images/land.png</file>
+        <file>Images/page.png</file>
+        <file>Images/rubrik.png</file>
+        <file>Images/writer.png</file>
+        <file>Images/year.png</file>
+    </qresource>
+</RCC>

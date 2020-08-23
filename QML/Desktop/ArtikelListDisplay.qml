@@ -9,7 +9,43 @@ Item
     Component
     {
         id: artikelComponent
-        Rectangle
+        Item
+        {
+            id: showArtikel
+            width: parent.width
+            height: artikelDisplay.height+artikelSeperator.height
+            Artikel
+            {
+                id: artikelDisplay
+                width: parent.width
+                zeitschrift:""
+                jahrgang: model.jahr
+                ausgabe:model.ausgabe
+                seite: model.seite
+                rubrik: model.rubrik
+                kurztext: model.kurztext
+                ueberschrift: model.ueberschrift
+                zusammenfassung: model.zusammenfassung
+                stichworte: model.schlagworte
+                author:model.autor
+                fotos: model.fotos
+                land: model.land
+        //        hasGPS: true
+
+            }
+               Rectangle
+               {
+                   id: artikelSeperator
+                   anchors.top: artikelDisplay.bottom
+                   width: parent.width
+                   height: 5
+                   color: "black"
+               }
+
+        }
+    }
+
+   /*     Rectangle
         {
            color: "lightblue"
             id: artikelDisplay
@@ -92,14 +128,22 @@ Item
             }
         }
 
-    }
+        */
+
 
     ListView
     {
-        width: parent.width
+       id: artikelList
+        width: parent.width-20
         height: parent.height
+        x: 20
         model: cArtikelList
         delegate: artikelComponent
+        onCountChanged:
+        {
+            artikelList.positionViewAtBeginning()
+        }
+
     }
 
 }

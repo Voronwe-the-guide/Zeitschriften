@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 	//rc = sqlite3_exec(db, "SELECT * FROM Inhalte", callback, 0, &zErrMsg);
 
 	QQmlApplicationEngine engine;
-	const QUrl url(QStringLiteral("qrc:/main.qml"));
+    const QUrl url(QStringLiteral("qrc:/Desktop/main.qml"));
 	QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
 					 &app, [url](QObject *obj, const QUrl &objUrl) {
 		if (!obj && url == objUrl)

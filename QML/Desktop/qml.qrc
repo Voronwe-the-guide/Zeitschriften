@@ -5,5 +5,18 @@
         <file>Tracer.qml</file>
         <file>JahreDisplay.qml</file>
         <file>AusgabenDisplay.qml</file>
+        <file>Artikel.qml</file>
+        <file>DisplayText.qml</file>
+        <file>BackgroundElement.qml</file>
+        <file>../Images/edition.svg</file>
+        <file>../Images/flag.svg</file>
+        <file>../Images/foto.svg</file>
+        <file>../Images/land.svg</file>
+        <file>../Images/page.svg</file>
+        <file>../Images/writer.svg</file>
+        <file>../Images/year.svg</file>
+        <file>IconWithText.qml</file>
+        <file>../Images/magazin.svg</file>
+        <file>../Images/rubrik.svg</file>
     </qresource>
 </RCC>

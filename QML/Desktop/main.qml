@@ -5,7 +5,7 @@ Window {
     visible: true
     width:800
     height: 800
-    title: qsTr("Hello World: "+width+"x"+height)
+    title: qsTr("Zeitschriften DB: "+width+"x"+height)
   /*  Rectangle
     {
         anchors.fill: parent
@@ -41,6 +41,7 @@ Window {
         width: parent.width
         height: parent.height-searchArea.height
         anchors.top: searchArea.bottom
+        clip: true
 
         JahreDisplay
         {
