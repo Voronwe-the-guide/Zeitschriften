@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         DatenbankInfo/ccolumn.cpp \
+        DatenbankInfo/csqlitedbloader.cpp \
         DatenbankListen/cartikel.cpp \
         DatenbankListen/cartikeldisplaylist.cpp \
         DatenbankListen/causgabe.cpp \
@@ -46,6 +47,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     DatenbankInfo/ccolumn.h \
+    DatenbankInfo/csqlitedbloader.h \
     DatenbankListen/cartikel.h \
     DatenbankListen/cartikeldisplaylist.h \
     DatenbankListen/causgabe.h \

@@ -1,5 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
+import QtQuick.Dialogs 1.0
+import QtQuick.Controls 2.12
 
 Window {
     visible: true
@@ -12,10 +14,18 @@ Window {
         color: "blue"
     }
 */
+    Button
+    {
+       id: dbLoadButton
+        text: qsTr("Lade DB")
+        onClicked: fileDialog.visible = true
+    }
+
     Item
     {
         id: searchArea
         width: parent.width
+        anchors.left: dbLoadButton.right
         height: 50
         TextInput
         {
@@ -64,5 +74,22 @@ Window {
              width: parent.width - jahre.width// -ausgaben.width
              Tracer{}
         }
+    }
+
+
+    FileDialog
+    {
+        id: fileDialog
+        title: "Please choose a file"
+        folder: shortcuts.home
+        selectMultiple: false
+        onAccepted: {
+            cListenController.openDB(fileDialog.fileUrl.toString())
+            visible: false;
+        }
+        onRejected: {
+           visible: false
+        }
+     //   Component.onCompleted: visible = true
     }
 }

@@ -18,7 +18,7 @@ Item
             {
                 id: artikelDisplay
                 width: parent.width
-                zeitschrift:""
+                zeitschrift:model.zeitschrift
                 jahrgang: model.jahr
                 ausgabe:model.ausgabe
                 seite: model.seite

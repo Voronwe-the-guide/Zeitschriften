@@ -1,9 +1,9 @@
 #include "clistencontroller.h"
 #include <QDebug>
 
-CListenController::CListenController(sqlite3 *db, QObject *parent) : QObject(parent)
+CListenController::CListenController( QObject *parent) : QObject(parent)
 {
-    m_db = db;
+    m_db = nullptr;
     m_searchElement = "";
     m_jahrgaengeDisplay = new CJahrDisplayList();
     m_ausgabenDisplay = new CAusgabeDisplayList();
@@ -25,7 +25,36 @@ CListenController::CListenController(sqlite3 *db, QObject *parent) : QObject(par
     m_searchTablesSetting["Schlagworte"].setName("Schlagworte");
     m_searchTablesSetting["Land"].setName("Land");
 
+
+}
+
+CListenController::~CListenController()
+{
+    sqlite3_close(m_db);
+}
+
+bool CListenController::openDB(QString DBPath)
+{
+    int rc =  sqlite3_close(m_db);
+    if (rc != SQLITE_OK)
+    {
+        qDebug()<<"Could not close current SQLite DB ";
+        return false;
+    }
+    m_db = nullptr;
+    sqlite3 *db;
+       rc = sqlite3_open_v2("GEO_Register.db",&db,SQLITE_OPEN_READWRITE,NULL);
+  //   rc = sqlite3_open_v2("file:///D:/GEO/GEO_Register.db",&db,SQLITE_OPEN_READWRITE,NULL);
+    if (rc != SQLITE_OK)
+    {
+        qDebug()<<"Could not open SQLite DB "<<DBPath;
+        return false;
+    }
+    m_db = db;
+
     getTableNamesFromDB();
+    getJahre();
+    return true;
 
 }
 
@@ -50,6 +79,12 @@ void CListenController::getJahre()
     m_jahrgaengeDisplay->deleteAll();
     m_ausgabenDisplay->deleteAll();
     m_artikelDisplay->deleteAll();
+
+    if (m_db == nullptr)
+    {
+        qDebug()<<"No open DB!";
+        return;
+    }
     m_searchElement="";
     char *zErrMsg = 0;
     sqlite3_stmt *stmt;
@@ -82,7 +117,12 @@ void CListenController::getAusgabenForJahr(int jahr)
 	//m_jahrgaengeDisplay->deleteAusgaben();
 	m_ausgabenDisplay->deleteAll();
     m_artikelDisplay->deleteAll();
-	char *zErrMsg = 0;
+    if (m_db == nullptr)
+    {
+        qDebug()<<"No open DB!";
+        return;
+    }
+    char *zErrMsg = 0;
 	sqlite3_stmt *stmt;
     QString searchForString = setSearchStringAsSQL();
     if (!(searchForString.isEmpty()))
@@ -123,6 +163,11 @@ void  CListenController::getArtikelForAusgabe(int jahr, int ausgabe)
     m_artikelDisplay->deleteAll();
     char *zErrMsg = 0;
     sqlite3_stmt *stmt;
+    if (m_db == nullptr)
+    {
+        qDebug()<<"No open DB!";
+        return;
+    }
 
     QString searchForString = setSearchStringAsSQL();
     if (!(searchForString.isEmpty()))
@@ -161,6 +206,11 @@ void CListenController::getTableNamesFromDB()
 {
     char **result;
     int row;int column;
+    if (m_db == nullptr)
+    {
+        qDebug()<<"No open DB!";
+        return;
+    }
 
     int rc = sqlite3_get_table(m_db, "SELECT * from Inhalte", &result, &row,    &column,   NULL   );
       for (int i=0; i<column; i++)
@@ -204,6 +254,11 @@ void CListenController::searchArtikel(QString searchElement)
     m_ausgabenDisplay->deleteAll();
     m_artikelDisplay->deleteAll();
     m_searchElement = searchElement;
+    if (m_db == nullptr)
+    {
+        qDebug()<<"No open DB!";
+        return;
+    }
     char *zErrMsg = 0;
     sqlite3_stmt *stmt;
     QString searchForString = setSearchStringAsSQL();

@@ -26,14 +26,13 @@ int main(int argc, char *argv[])
 
 	qRegisterMetaType<CArtikel>("CArtikel");
 
-	sqlite3 *db;
+//	sqlite3 *db;
 	char *zErrMsg = 0;
 
 
-	int rc = sqlite3_open_v2("GEO_Register.db",&db,SQLITE_OPEN_READWRITE,NULL);
-	CListenController listenController(db);
-
-    listenController.getJahre();
+    CListenController listenController;
+    listenController.openDB("file:///D:/GEO/GEO_Register.db"); //("GEO_Register.db");
+  //  listenController.getJahre();
 
 
 
@@ -55,7 +54,7 @@ int main(int argc, char *argv[])
 
 	app.exec();
 
-	sqlite3_close(db);
+
 
 	return 0;
 

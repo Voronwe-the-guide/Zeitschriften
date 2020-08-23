@@ -12,13 +12,17 @@ class CListenController : public QObject
 {
 	Q_OBJECT
 public:
-	explicit CListenController(sqlite3 *db,QObject *parent = nullptr);
+    explicit CListenController(QObject *parent = nullptr);
+    ~CListenController();
+
 
 	CJahrDisplayList *jahrgaengeDisplay();
 	CAusgabeDisplayList *ausgabenDisplay();
 	CArtikelDisplayList *artikelDisplay();
 
 public slots:
+    bool openDB(QString DBPath);
+
     void getJahre();
 	void getAusgabenForJahr(int jahr);
     void getArtikelForAusgabe(int jahr, int ausgabe);

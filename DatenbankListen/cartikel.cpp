@@ -23,6 +23,8 @@ bool CArtikel::setDBElement(QString columnName, QString columnEntry)
 	else if (columnName == "autor") { setAutor(columnEntry); return true;}
 	else if (columnName == "fotos") { setFotos(columnEntry); return true;}
 	else if (columnName == "schlagworte") { setSchlagworte(columnEntry); return true;}
+    else if (columnName == "zeitschrift") {setZeitschrift(columnEntry); return true;}
+    else if (columnName == "land") {setLand(columnEntry); return true;}
 
 	return false;
 }
