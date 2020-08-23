@@ -5,6 +5,5 @@ Ein DatenbankViewer für Zeitschriften
 
 This Software is licensed under LGPL3
 
-This Software uses the Qt-Framework under the LGPL3-License https://www.qt.io/
+Beside this, I would like you to ask to use this software only in good mood and not for purposes which could harm people, animals, magical creatures or the environment.
 
-This Software includes the SQLite-code, which is under public domain https://www.sqlite.org
