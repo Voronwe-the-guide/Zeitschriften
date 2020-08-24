@@ -1,0 +1,59 @@
+I have the following code:
+
+<code>
+
+    CListenController::~CListenController()
+   {
+      
+       sqlite3_close(m_db);
+
+   }
+
+   bool CListenController::openDB(QString DBPath)
+   {
+
+    int rc =  sqlite3_close(m_db);
+
+    if (rc != SQLITE_OK)
+    {
+        return false;
+    }
+
+    m_db = nullptr;
+
+    sqlite3 *db;
+
+	   rc = sqlite3_open_v2("file:///D:/QTTest/Zeitschriften/GEO_Register.db",&db,SQLITE_OPEN_READWRITE,NULL);
+
+    if (rc != SQLITE_OK)
+    {
+        return false;
+    }
+
+    m_db = db;
+
+    return true;
+
+}
+</code>
+
+In this case got back the rc = SQLITE_CANTOPEN(14)
+and the DB is not opened
+
+When debugging it, the problem seems to appear in sqlite3BtreeOpen(), and there in sqlite3PagerSetPagesize() 
+
+Strange thing is: When I call the function the following way:
+ 
+<code> 
+      rc = sqlite3_open_v2("GEO_Register.db",&db,SQLITE_OPEN_READWRITE,NULL);
+</code>
+
+It opens the DB-File (this is the same DB-File)
+
+System: Windows 10, happens both with MSVC 2017 and MinGW.
+Using the Qt-Framework 5.12.9
+
+SQLite Version:
+define SQLITE_VERSION        "3.33.0"
+define SQLITE_VERSION_NUMBER 3033000
+define SQLITE_SOURCE_ID      "2020-08-14 13:23:32 fca8dc8b578f215a969cd899336378966156154710873e68b3d9ac5881b0ff3f"

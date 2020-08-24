@@ -43,7 +43,7 @@ bool CListenController::openDB(QString DBPath)
     }
     m_db = nullptr;
     sqlite3 *db;
-       rc = sqlite3_open_v2("GEO_Register.db",&db,SQLITE_OPEN_READWRITE,NULL);
+	   rc = sqlite3_open_v2("file:///D:/QTTest/Zeitschriften/GEO_Register.db"/*"GEO_Register.db"*/,&db,SQLITE_OPEN_READWRITE,NULL);
   //   rc = sqlite3_open_v2("file:///D:/GEO/GEO_Register.db",&db,SQLITE_OPEN_READWRITE,NULL);
     if (rc != SQLITE_OK)
     {
