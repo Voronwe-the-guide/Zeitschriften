@@ -26,26 +26,20 @@ int main(int argc, char *argv[])
 
 	qRegisterMetaType<CArtikel>("CArtikel");
 
-	sqlite3 *db;
+//	sqlite3 *db;
 	char *zErrMsg = 0;
 
 
-	int rc = sqlite3_open_v2("GEO_Register.db",&db,SQLITE_OPEN_READWRITE,NULL);
-	CListenController listenController(db);
+    CListenController listenController;
+    listenController.openDB("file:///D:/GEO/GEO_Register.db"); //("GEO_Register.db");
+  //  listenController.getJahre();
 
-
-//	CJahrDisplayList jahrgaengeDisplay(db);
-	listenController.jahrgaengeDisplay()->GetDBRequest();
-
-//	CAusgabeDisplayList ausgabenDisplay(db);
-//	CArtikelDisplayList artikelDisplay(db);
-//	artikelDisplay.GetDBRequest();
 
 
 	//rc = sqlite3_exec(db, "SELECT * FROM Inhalte", callback, 0, &zErrMsg);
 
 	QQmlApplicationEngine engine;
-	const QUrl url(QStringLiteral("qrc:/main.qml"));
+    const QUrl url(QStringLiteral("qrc:/Desktop/main.qml"));
 	QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
 					 &app, [url](QObject *obj, const QUrl &objUrl) {
 		if (!obj && url == objUrl)
@@ -55,11 +49,12 @@ int main(int argc, char *argv[])
 	engine.rootContext()->setContextProperty("cArtikelList", listenController.artikelDisplay());
 	engine.rootContext()->setContextProperty("cJahreList",listenController.jahrgaengeDisplay());
 	engine.rootContext()->setContextProperty("cAusgabenList",listenController.ausgabenDisplay());
-	engine.load(url);
+    engine.rootContext()->setContextProperty("cListenController",&listenController);
+    engine.load(url);
 
 	app.exec();
 
-	sqlite3_close(db);
+
 
 	return 0;
 

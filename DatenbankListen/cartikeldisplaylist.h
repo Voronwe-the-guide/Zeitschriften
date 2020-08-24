@@ -4,7 +4,6 @@
 #include <QAbstractListModel>
 #include <QObject>
 #include "cartikel.h"
-#include <sqlite/sqlite3.h>
 
 /*static int c_callback(void *param, int argc, char **argv, char **azColName)
 {
@@ -16,7 +15,7 @@ class CArtikelDisplayList : public QAbstractListModel
 {
 	Q_OBJECT
 public:
-	CArtikelDisplayList(sqlite3 *db,QObject *parent = 0);
+    CArtikelDisplayList(QObject *parent = 0);
 
 	virtual ~CArtikelDisplayList();
 
@@ -28,8 +27,6 @@ signals:
 	void listEmpty();
 
 public slots:
-//	void GetDBRequest();
-	void getArtikelForAusgabe(int Jahr, int Ausgabe);
 	void deleteAll();
 	void AddArtikel(CArtikel &artikel);
 protected:
@@ -40,7 +37,6 @@ private:
 
 
 	QList<CArtikel> m_ArtikelList;
-	sqlite3 *m_db;
 
 	static const int  Role_Zeitschrift;
 	static const int  Role_Jahr;					//!< Jahrgang der Zeitschrift

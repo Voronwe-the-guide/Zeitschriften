@@ -6,13 +6,12 @@
 #include "causgabedisplaylist.h"
 #include <QObject>
 #include "cjahr.h"
-#include <sqlite/sqlite3.h>
 
 class CJahrDisplayList  : public QAbstractListModel
 {
 		Q_OBJECT
 public:
-	CJahrDisplayList(sqlite3 *db,QObject *parent = 0);
+    CJahrDisplayList(QObject *parent = 0);
 
 	virtual ~CJahrDisplayList();
 
@@ -24,7 +23,6 @@ signals:
 	void listEmpty();
 
 public slots:
-	void GetDBRequest();
 	void deleteAll();
 	void AddJahr(CJahr &jahr);
 	void deleteAusgaben();
@@ -40,7 +38,6 @@ private:
 
 	QList<CJahr> m_JahrList;
 	//QMap<int,CAusgabeDisplayList>  m_AusgabenListe;
-	sqlite3 *m_db;
 
 	static const int  Role_Jahr;
 };

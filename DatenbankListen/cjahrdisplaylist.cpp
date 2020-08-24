@@ -2,9 +2,8 @@
 
 const int  CJahrDisplayList::Role_Jahr  = Qt::UserRole+1;
 
-CJahrDisplayList::CJahrDisplayList(sqlite3 *db, QObject *parent) :
-	QAbstractListModel(parent),
-	m_db(db)
+CJahrDisplayList::CJahrDisplayList(QObject *parent) :
+    QAbstractListModel(parent)
 {
 
 }
@@ -39,39 +38,6 @@ QVariant CJahrDisplayList::data ( const QModelIndex & index, int role) const
 	return ret;
 }
 
-/*!
- * from: https://stackoverflow.com/questions/15836253/c-populate-vector-from-sqlite3-callback-function
- * Answer by: https://stackoverflow.com/users/11654/cl
- */
-void CJahrDisplayList::GetDBRequest()
-{
-	deleteAll();
-	char *zErrMsg = 0;
-	sqlite3_stmt *stmt;
-	int rc = sqlite3_prepare_v2(m_db, "SELECT Jahr FROM Inhalte ORDER BY Jahr ASC", -1, &stmt, NULL);
-	if (rc != SQLITE_OK)
-	{
-		   return; // or throw
-	}
-	while ((rc = sqlite3_step(stmt)) == SQLITE_ROW)
-	{
-		int id = sqlite3_column_int(stmt, 0);
-		int number = sqlite3_column_count(stmt);
-		CJahr jahr;
-		for (int i=0; i<number; ++i)
-		{
-
-			QString columnName(reinterpret_cast<const char*>(sqlite3_column_name(stmt,i)));
-			QString columnText(reinterpret_cast<const char*>(sqlite3_column_text(stmt,i)));
-			jahr.setDBElement(columnName,columnText);
-		}
-
-		AddJahr(jahr);
-	}
-
-	sqlite3_finalize(stmt);
-
-}
 
 void CJahrDisplayList::deleteAll()
 {
