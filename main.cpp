@@ -7,6 +7,7 @@
 #include <DatenbankListen/cjahrdisplaylist.h>
 #include <DatenbankListen/causgabedisplaylist.h>
 #include <DatenbankListen/clistencontroller.h>
+#include <QDebug>
 
 /*static int callback(void *NotUsed, int argc, char **argv, char **azColName)
 {
@@ -26,15 +27,21 @@ int main(int argc, char *argv[])
 
 	qRegisterMetaType<CArtikel>("CArtikel");
 
-//	sqlite3 *db;
-	char *zErrMsg = 0;
 
 
     CListenController listenController;
-    listenController.openDB("file:///D:/GEO/GEO_Register.db"); //("GEO_Register.db");
+	listenController.openDB("file:///D:/QTTest/Zeitschriften/GEO_Register.db"); //("GEO_Register.db");
   //  listenController.getJahre();
 
-
+//	sqlite3 *db;
+//	  int rc = sqlite3_open_v2("file:///D:/QTTest/Zeitschriften/GEO_Register.db"/*"GEO_Register.db"*/,&db,(SQLITE_OPEN_READWRITE | SQLITE_OPEN_URI),NULL);
+	// rc = sqlite3_open_v2("file:///D:/GEO/GEO_Register.db",&db,SQLITE_OPEN_READWRITE,NULL);
+/*	if (rc != SQLITE_OK)
+	{
+		qDebug()<<"Could not open SQLite DB ";//<<DBPath;
+		return false;
+	}
+	*/
 
 	//rc = sqlite3_exec(db, "SELECT * FROM Inhalte", callback, 0, &zErrMsg);
 
