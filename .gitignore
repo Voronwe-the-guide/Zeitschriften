@@ -5,6 +5,11 @@ ZeitschriftenDBViewer.pro.user
 *.user
 *.autosave
 *.zip
+*.obj
+debug/
+release/
+settings.json
+
 .qmake.stash
 DatenbankListen/clistencontroller.cpp
 debug/cartikel.obj

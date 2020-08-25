@@ -7,7 +7,7 @@ Window {
     visible: true
     width:800
     height: 800
-    title: qsTr("Zeitschriften DB: "+width+"x"+height)
+    title: qsTr("Zeitschriften DB: "+width+"x"+height+" "+cSettings.currentDB())
   /*  Rectangle
     {
         anchors.fill: parent
@@ -84,7 +84,7 @@ Window {
         folder: shortcuts.home
         selectMultiple: false
         onAccepted: {
-            cListenController.openDB(fileDialog.fileUrl.toString())
+            cSettings.setCurrentDB(fileDialog.fileUrl.toString())
             visible: false;
         }
         onRejected: {

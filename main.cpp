@@ -7,17 +7,11 @@
 #include <DatenbankListen/cjahrdisplaylist.h>
 #include <DatenbankListen/causgabedisplaylist.h>
 #include <DatenbankListen/clistencontroller.h>
+#include <Settings/csettings.h>
+
 #include <QDebug>
 
-/*static int callback(void *NotUsed, int argc, char **argv, char **azColName)
-{
-   int i;
-   for(i=0; i<argc; i++) {
-	  printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-	}
-	 return 0;
- }
-*/
+
 
 int main(int argc, char *argv[])
 {
@@ -27,10 +21,12 @@ int main(int argc, char *argv[])
 
 	qRegisterMetaType<CArtikel>("CArtikel");
 
-
+	CSettings settings;
 
     CListenController listenController;
-	listenController.openDB("file:///D:/QTTest/Zeitschriften/GEO_Register.db"); //("GEO_Register.db");
+	listenController.openDB(settings.currentDB()); //("GEO_Register.db");
+	QObject::connect(&settings, &CSettings::dbUpdated, &listenController, &CListenController::openDB);
+
   //  listenController.getJahre();
 
 //	sqlite3 *db;
@@ -53,10 +49,12 @@ int main(int argc, char *argv[])
 			QCoreApplication::exit(-1);
 	}, Qt::QueuedConnection);
 
+	engine.rootContext()->setContextProperty("cSettings",&settings);
 	engine.rootContext()->setContextProperty("cArtikelList", listenController.artikelDisplay());
 	engine.rootContext()->setContextProperty("cJahreList",listenController.jahrgaengeDisplay());
 	engine.rootContext()->setContextProperty("cAusgabenList",listenController.ausgabenDisplay());
     engine.rootContext()->setContextProperty("cListenController",&listenController);
+
     engine.load(url);
 
 	app.exec();

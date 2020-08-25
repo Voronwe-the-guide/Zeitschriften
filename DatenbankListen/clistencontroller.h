@@ -8,6 +8,7 @@
 #include <DatenbankListen/causgabedisplaylist.h>
 #include <DatenbankInfo/ccolumn.h>
 
+
 class CListenController : public QObject
 {
 	Q_OBJECT
