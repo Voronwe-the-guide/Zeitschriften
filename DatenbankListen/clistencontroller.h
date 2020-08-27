@@ -21,13 +21,17 @@ public:
 	CAusgabeDisplayList *ausgabenDisplay();
 	CArtikelDisplayList *artikelDisplay();
 
+
 public slots:
     bool openDB(QString DBPath);
 
     void getJahre();
-	void getAusgabenForJahr(int jahr);
+    void getAusgabenForJahr(int jahr);
     void getArtikelForAusgabe(int jahr, int ausgabe);
     void searchArtikel(QString searchElement);
+
+    QString getSearchElement() const;
+    void setSearchElement(const QString &searchElement);
 
 signals:
 

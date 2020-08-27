@@ -5,5 +5,5 @@ Rectangle {
     property string bc: "red"
     color: "transparent"
     border.color: bc
-  visible: false
+  //visible: false
 }

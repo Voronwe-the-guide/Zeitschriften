@@ -6,36 +6,104 @@ import QtQuick.Controls 2.12
 Window
 {
     visible: true
-    width:800
-    height: 800
+    minimumHeight: 400
+    minimumWidth: 600
+    width:cSettings.getWindowSize().width
+    height: cSettings.getWindowSize().height
     title: qsTr("Zeitschriften DB: "+width+"x"+height+" "+cSettings.currentDB())
-
-    Button
-    {
-       id: dbLoadButton
-       text: qsTr("Lade DB")
-       onClicked: fileDialog.visible = true
-    }
+    onWidthChanged: cSettings.setWindowWidth(width)
+    onHeightChanged: cSettings.setWindowHeight(height)
 
     Item
     {
-        id: searchArea
+        id: topArea
         width: parent.width
-        anchors.left: dbLoadButton.right
         height: 50
-        TextInput
+
+        Row
         {
-            width: parent.width
-            height: parent.height
-            onAccepted:
+            anchors.fill: parent
+            Button
             {
-                if (text == "")
+               id: dbLoadButton
+               text: qsTr("Lade DB")
+               onClicked: fileDialog.visible = true
+               anchors.verticalCenter: parent.verticalCenter
+          //     color: "lightblue"
+            }
+            Item
+            {
+               width: 10
+               height: parent.height
+            }
+
+            Rectangle
+            {
+                id: searchArea
+                width: 500
+                //anchors.left: dbLoadButton.right
+                height: parent.height
+               // Tracer {}
+                color: "lightgrey"
+                Row
                 {
-                    cListenController.getJahre();
-                }
-                else
-                {
-                    cListenController.searchArtikel(text);
+                    anchors.fill: parent
+                    Rectangle
+                    {
+                        id: searchtextArea
+                        width: parent.width - 50
+                        height: searchText.height
+                        color: "white"
+                        anchors.left: parent.left
+                        anchors.leftMargin: 10
+
+                        anchors.verticalCenter: parent.verticalCenter
+                     //   Tracer {bc: "green"}
+
+                        TextInput
+                        {
+                            id: searchText
+                           font.pixelSize: 15
+                        //    Tracer{bc: "green"}
+                            width: parent.width-10
+                            anchors.left:parent.left
+                            anchors.leftMargin: 5
+                            anchors.verticalCenter: parent.verticalCenter
+                            verticalAlignment: Text.AlignVCenter
+
+                            height:25//parent.height
+                            onAccepted:
+                            {
+                               // searchButton.click();
+                                if (text == "")
+                                {
+                                    cListenController.getJahre();
+                                }
+                                else
+                                {
+                                    cListenController.searchArtikel(text);
+                                }
+
+                            }
+                        }
+                    }
+                   RoundButton
+                    {
+                       id: searchButton
+                       text: "X"
+                       anchors.left:searchtextArea.right
+                       anchors.leftMargin: 5
+                       width: 25
+                       height: 25
+                       onClicked:
+                       {
+                           searchText.text="";
+                           cListenController.getJahre();
+
+                       }
+                       anchors.verticalCenter: parent.verticalCenter
+                    }
+
                 }
             }
         }
@@ -46,7 +114,7 @@ Window
         id: listDisplayArea
         width: parent.width
         height: parent.height-searchArea.height
-        anchors.top: searchArea.bottom
+        anchors.top: topArea.bottom
         clip: true
 
         JahreDisplay
@@ -69,7 +137,7 @@ Window
     {
         id: fileDialog
         title: qsTr("Datenbank auswählen")
-        folder: shortcuts.home
+        folder: cSettings.currentDB() // shortcuts.home
         selectMultiple: false
         onAccepted: {
             cSettings.setCurrentDB(fileDialog.fileUrl.toString())

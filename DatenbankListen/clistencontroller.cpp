@@ -226,6 +226,16 @@ void CListenController::getTableNamesFromDB()
     sqlite3_free_table(result);
 }
 
+QString CListenController::getSearchElement() const
+{
+    return m_searchElement;
+}
+
+void CListenController::setSearchElement(const QString &searchElement)
+{
+    m_searchElement = searchElement;
+}
+
 QString CListenController::setSearchStringAsSQL()
 {
     QString searchString;

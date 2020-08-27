@@ -8,6 +8,8 @@ CSettings::CSettings()
 	loadSettingsFile();
 
 	connect(this, &CSettings::dbUpdated, this, &CSettings::writeSettingsFile);
+    m_sizeSettingTimer.setInterval(1000);
+    connect(&m_sizeSettingTimer,&QTimer::timeout,this,&CSettings::writeSettingsFile);
 
 }
 
@@ -42,7 +44,8 @@ void CSettings::loadSettingsFile()
 
 void CSettings::writeSettingsFile()
 {
-	QFile file ("settings.json");
+    m_sizeSettingTimer.stop();
+    QFile file ("settings.json");
 	if (!(file.open(QIODevice::WriteOnly | QIODevice::Text)))
 	{
 		//No setting-file available
@@ -56,12 +59,17 @@ void CSettings::writeSettingsFile()
 void CSettings::cleanData()
 {
 	m_currentDB="";
+    m_windowSize.setWidth(1200);
+    m_windowSize.setHeight(600);
 }
 
 QJsonObject CSettings::getAsJSONObject()
 {
 	QJsonObject jsonObject;
 	jsonObject["CurrentDB"]=m_currentDB;
+    jsonObject["WindowWidth"]=m_windowSize.width();
+    jsonObject["WindowHeight"]=m_windowSize.height();
+
 	return jsonObject;
 
 
@@ -84,7 +92,10 @@ void CSettings::readDataFromJSONFormat(QJsonObject &jsonObject)
 
 	cleanData();
 
-	m_currentDB =jsonObject["CurrentDB"].toString();
+    m_currentDB =jsonObject["CurrentDB"].toString();
+    m_windowSize.setWidth(jsonObject["WindowWidth"].toInt());
+    m_windowSize.setHeight(jsonObject["WindowHeight"].toInt());
+
 }
 void CSettings::readDataFromJSONFormat(std::string &json)
 {
@@ -108,3 +119,27 @@ void CSettings::setCurrentDB(const QString &currentDBPath)
 
 
 }
+
+QSize CSettings::getWindowSize() const
+{
+    return m_windowSize;
+}
+
+void CSettings::setWindowSize(const QSize &windowSize)
+{
+    m_windowSize = windowSize;
+}
+
+void CSettings::setWindowHeight(int height)
+{
+   m_windowSize.setHeight(height);
+   m_sizeSettingTimer.start();
+
+}
+void CSettings::setWindowWidth(int width)
+{
+    m_windowSize.setWidth(width);
+    m_sizeSettingTimer.start();
+
+}
+
