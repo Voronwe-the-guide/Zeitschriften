@@ -23,7 +23,7 @@ signals:
 public slots:
 
     void deleteAll();
-	void AddAusgabe (CAusgabe &ausgabe);
+	void AddElement (CAusgabe &ausgabe);
 
 protected:
 

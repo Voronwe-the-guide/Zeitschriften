@@ -27,7 +27,6 @@ public:
 
 public slots:
 	QString currentDB() const;
-//	void setCurrentDB(const QFileInfo &currentDB);
 	void setCurrentDB(const QString &currentDBPath);
 
 signals:

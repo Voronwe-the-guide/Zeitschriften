@@ -32,7 +32,6 @@ Item
             id: allgemeineInfo
             width: parent.width
             height: showColumn.basicHeight
-            Tracer{}
             Row
             {
                 anchors.fill: parent
@@ -95,7 +94,6 @@ Item
             id: textInfo
             width: parent.width
             height: authorArea.height + photoArea.height
-            Tracer {bc:"green"}
             Column
             {
                anchors.fill: parent
@@ -133,12 +131,11 @@ Item
             DisplayText
             {
               anchors.fill: parent
-              font.pixelSize: font.pixelSize+3
+              additionToFont: 3
               font.bold: true
               property string trenner: ((artikelDisplay.kurztext!="") && (artikelDisplay.ueberschrift!=""))?": ":""
               text: artikelDisplay.kurztext+trenner+artikelDisplay.ueberschrift
             }
-            Tracer{}
 
         }
          Item
@@ -151,14 +148,15 @@ Item
             anchors.fill: parent
             BackgroundElement
             {
+                id: zusammenfassung_bg
                 height: parent.height-6
                 width: parent.width/2-6
                 DisplayText
                 {
                     id: zusammenfassung
-                    height: zusammenfassung.contentHeight + 20//artikelListDisplay.fontSize//>50?zusammenfassungDisplay.contentHeight:50  //parent.height-shortInfoDisplay.height-searchInfoDisplay.height
+                    height: zusammenfassung.contentHeight + 20
 
-                  //  height: parent.height-6
+
                     width: parent.width-6
                     anchors.centerIn: parent
                     text: artikelDisplay.zusammenfassung
@@ -176,6 +174,7 @@ Item
 
             BackgroundElement
             {
+                id: schlagworte_bg
                 height: parent.height-6
                 width: parent.width/2-6
 
@@ -189,8 +188,7 @@ Item
                     wrapMode: Text.Wrap
                     verticalAlignment: Text.AlignTop
                     clip: true
-                    anchors.left: zusammenfassung.right
-                }
+                  }
               }
            }
 

@@ -3,22 +3,18 @@ import QtQuick.Window 2.12
 import QtQuick.Dialogs 1.0
 import QtQuick.Controls 2.12
 
-Window {
+Window
+{
     visible: true
     width:800
     height: 800
     title: qsTr("Zeitschriften DB: "+width+"x"+height+" "+cSettings.currentDB())
-  /*  Rectangle
-    {
-        anchors.fill: parent
-        color: "blue"
-    }
-*/
+
     Button
     {
        id: dbLoadButton
-        text: qsTr("Lade DB")
-        onClicked: fileDialog.visible = true
+       text: qsTr("Lade DB")
+       onClicked: fileDialog.visible = true
     }
 
     Item
@@ -59,20 +55,12 @@ Window {
             width: 100
             height: parent.height
         }
-      /*  AusgabenDisplay
-        {
-            id: ausgaben
-            width: 50
-            height: parent.height
-            anchors.left: jahre.right
-        }
-    */
+
         ArtikelListDisplay
-         {
+        {
             id: artikel
             anchors.left: jahre.right
-             width: parent.width - jahre.width// -ausgaben.width
-             Tracer{}
+             width: parent.width - jahre.width
         }
     }
 
@@ -80,7 +68,7 @@ Window {
     FileDialog
     {
         id: fileDialog
-        title: "Please choose a file"
+        title: qsTr("Datenbank auswählen")
         folder: shortcuts.home
         selectMultiple: false
         onAccepted: {
@@ -90,6 +78,5 @@ Window {
         onRejected: {
            visible: false
         }
-     //   Component.onCompleted: visible = true
     }
 }

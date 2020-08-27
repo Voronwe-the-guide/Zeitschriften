@@ -3,7 +3,8 @@ import QtQuick 2.0
 Text
 {
     id: textdisplay
-    font.pixelSize: 15
+    property int additionToFont: 0
+    font.pixelSize: 15 + additionToFont
     verticalAlignment: Text.AlignVCenter
     horizontalAlignment: Text.AlignLeft
 

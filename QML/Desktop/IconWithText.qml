@@ -8,8 +8,6 @@ Item
     property string text:""
     property string iconSource:""
     property string toolTip:""
-//   property string fontSize: textDisplay.font.pixelSize
-    Tracer {bc: "blue"}
     Row
     {
       id: displayRow
@@ -22,7 +20,6 @@ Item
             width:  source==""?0:height
             anchors.verticalCenter: parent.verticalCenter
             source: textArea.iconSource
-            Tracer{}
        }
         Item
         {
@@ -47,10 +44,6 @@ Item
         onEntered: {toolTip.showTip = true}
         onExited: {toolTip.showTip = false}
 
-
-     //   ToolTip.visible: entered
-     //   ToolTip.text: "test"
-     //   ToolTip.delay: 200
     }
     ToolTip
     {
@@ -59,8 +52,6 @@ Item
        delay:200
        property bool showTip: false
        visible: text==""?false:showTip
-
-
     }
 
 }

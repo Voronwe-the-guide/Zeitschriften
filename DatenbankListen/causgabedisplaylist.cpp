@@ -60,7 +60,7 @@ void CAusgabeDisplayList::deleteAll()
 }
 
 
-void CAusgabeDisplayList::AddAusgabe(CAusgabe &ausgabe)
+void CAusgabeDisplayList::AddElement(CAusgabe &ausgabe)
 {
 	for (int i=0; i<m_AusgabenList.count(); i++)
 	{

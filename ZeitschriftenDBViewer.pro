@@ -1,6 +1,7 @@
 QT += quick
 QT += positioning
 QT += svg
+QT += quickcontrols2
 
 CONFIG += c++11
 #CONFIG += console

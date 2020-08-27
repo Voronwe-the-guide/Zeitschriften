@@ -5,12 +5,7 @@
 #include <QObject>
 #include "cartikel.h"
 
-/*static int c_callback(void *param, int argc, char **argv, char **azColName)
-{
-	CArtikelDisplayList* cust = reinterpret_cast<CArtikelDisplayList*>(param);
-	return cust->callback(argc, argv, azColName);
-}
-*/
+
 class CArtikelDisplayList : public QAbstractListModel
 {
 	Q_OBJECT
@@ -28,7 +23,7 @@ signals:
 
 public slots:
 	void deleteAll();
-	void AddArtikel(CArtikel &artikel);
+	void AddElement(CArtikel &artikel);
 protected:
 
 	QHash<int, QByteArray> roleNames() const;

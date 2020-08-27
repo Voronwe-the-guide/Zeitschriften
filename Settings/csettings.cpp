@@ -99,17 +99,10 @@ QString CSettings::currentDB() const
 	return m_currentDB;
 }
 
-/*void CSettings::setCurrentDB(const QFileInfo &currentDB)
-{
-	m_currentDB = currentDB;
-	QString a = m_currentDB.absolutePath();
-	emit dbUpdated(m_currentDB.absolutePath());
-}
-*/
+
 void CSettings::setCurrentDB(const QString &currentDBPath)
 {
-	//QFileInfo currentDB(currentDBPath);
-	//setCurrentDB(currentDB);
+
 	m_currentDB = currentDBPath;
 	emit dbUpdated(m_currentDB);
 

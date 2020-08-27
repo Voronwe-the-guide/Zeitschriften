@@ -85,7 +85,7 @@ void CArtikelDisplayList::deleteAll()
 }
 
 
-void CArtikelDisplayList::AddArtikel(CArtikel &artikel)
+void CArtikelDisplayList::AddElement(CArtikel &artikel)
 {
 	beginInsertRows(QModelIndex(),rowCount(),rowCount());//This is to keep the list in QML updated
 	m_ArtikelList << artikel;

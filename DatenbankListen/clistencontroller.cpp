@@ -43,7 +43,7 @@ bool CListenController::openDB(QString DBPath)
     }
     m_db = nullptr;
     sqlite3 *db;
-	   rc = sqlite3_open_v2(DBPath.toUtf8(),&db,(SQLITE_OPEN_READWRITE | SQLITE_OPEN_URI),NULL);
+	   rc = sqlite3_open_v2(DBPath.toUtf8(),&db,(SQLITE_OPEN_READWRITE | SQLITE_OPEN_URI),nullptr);
     if (rc != SQLITE_OK)
     {
         qDebug()<<"Could not open SQLite DB "<<DBPath;
@@ -85,17 +85,15 @@ void CListenController::getJahre()
         return;
     }
     m_searchElement="";
-    char *zErrMsg = 0;
     sqlite3_stmt *stmt;
-    int rc = sqlite3_prepare_v2(m_db, "SELECT Jahr FROM Inhalte ORDER BY Jahr ASC", -1, &stmt, NULL);
+	int rc = sqlite3_prepare_v2(m_db, "SELECT Jahr FROM Inhalte ORDER BY Jahr ASC", -1, &stmt, nullptr);
     if (rc != SQLITE_OK)
     {
            return; // or throw
     }
     while ((rc = sqlite3_step(stmt)) == SQLITE_ROW)
     {
-        int id = sqlite3_column_int(stmt, 0);
-        int number = sqlite3_column_count(stmt);
+		int number = sqlite3_column_count(stmt);
         CJahr jahr;
         for (int i=0; i<number; ++i)
         {
@@ -105,7 +103,7 @@ void CListenController::getJahre()
             jahr.setDBElement(columnName,columnText);
         }
 
-         m_jahrgaengeDisplay->AddJahr(jahr);
+		 m_jahrgaengeDisplay->AddElement(jahr);
     }
 
     sqlite3_finalize(stmt);
@@ -121,7 +119,7 @@ void CListenController::getAusgabenForJahr(int jahr)
         qDebug()<<"No open DB!";
         return;
     }
-    char *zErrMsg = 0;
+
 	sqlite3_stmt *stmt;
     QString searchForString = setSearchStringAsSQL();
     if (!(searchForString.isEmpty()))
@@ -130,14 +128,13 @@ void CListenController::getAusgabenForJahr(int jahr)
     }
     QString request = QString("SELECT * FROM Inhalte WHERE Jahr='%1' %2 ORDER BY Jahr ASC,Ausgabe ASC,Seite ASC").arg(jahr).arg(searchForString);
     qDebug()<<request;
-	int rc = sqlite3_prepare_v2(m_db, request.toStdString().c_str(), -1, &stmt, NULL);
+	int rc = sqlite3_prepare_v2(m_db, request.toStdString().c_str(), -1, &stmt, nullptr);
 	if (rc != SQLITE_OK)
 	{
 		   return; // or throw
 	}
 	while ((rc = sqlite3_step(stmt)) == SQLITE_ROW)
 	{
-		int id = sqlite3_column_int(stmt, 0);
 		int number = sqlite3_column_count(stmt);
 		CAusgabe ausgabe;
         CArtikel artikel;
@@ -150,8 +147,8 @@ void CListenController::getAusgabenForJahr(int jahr)
             artikel.setDBElement(columnName,columnText);
         }
 
-		m_ausgabenDisplay->AddAusgabe(ausgabe);
-        m_artikelDisplay->AddArtikel(artikel);
+		m_ausgabenDisplay->AddElement(ausgabe);
+		m_artikelDisplay->AddElement(artikel);
 	}
 
 	sqlite3_finalize(stmt);
@@ -160,8 +157,7 @@ void CListenController::getAusgabenForJahr(int jahr)
 void  CListenController::getArtikelForAusgabe(int jahr, int ausgabe)
 {
     m_artikelDisplay->deleteAll();
-    char *zErrMsg = 0;
-    sqlite3_stmt *stmt;
+	sqlite3_stmt *stmt;
     if (m_db == nullptr)
     {
         qDebug()<<"No open DB!";
@@ -177,7 +173,7 @@ void  CListenController::getArtikelForAusgabe(int jahr, int ausgabe)
     QString request = QString("SELECT * FROM Inhalte WHERE Jahr='%1' AND Ausgabe='%2' %3 ORDER BY Jahr ASC,Ausgabe ASC,Seite ASC").arg(jahr).arg(ausgabe).arg(searchForString);
     qDebug()<<request;
 
-    int rc = sqlite3_prepare_v2(m_db, request.toStdString().c_str(), -1, &stmt, NULL);
+	int rc = sqlite3_prepare_v2(m_db, request.toStdString().c_str(), -1, &stmt, nullptr);
     if (rc != SQLITE_OK)
     {
            return; // or throw
@@ -194,7 +190,7 @@ void  CListenController::getArtikelForAusgabe(int jahr, int ausgabe)
             artikel.setDBElement(columnName,columnText);
         }
 
-        m_artikelDisplay->AddArtikel(artikel);
+		m_artikelDisplay->AddElement(artikel);
     }
 
     sqlite3_finalize(stmt);
@@ -211,8 +207,12 @@ void CListenController::getTableNamesFromDB()
         return;
     }
 
-    int rc = sqlite3_get_table(m_db, "SELECT * from Inhalte", &result, &row,    &column,   NULL   );
-      for (int i=0; i<column; i++)
+	int rc = sqlite3_get_table(m_db, "SELECT * from Inhalte", &result, &row,    &column,  nullptr);
+	if (rc != SQLITE_OK)
+	{
+		   return; // or throw
+	}
+	for (int i=0; i<column; i++)
     {
         QString name = result[i];
         CColumn columnInfo(name);
@@ -258,7 +258,6 @@ void CListenController::searchArtikel(QString searchElement)
         qDebug()<<"No open DB!";
         return;
     }
-    char *zErrMsg = 0;
     sqlite3_stmt *stmt;
     QString searchForString = setSearchStringAsSQL();
     if (!(searchForString.isEmpty()))
@@ -269,7 +268,7 @@ void CListenController::searchArtikel(QString searchElement)
     QString request = QString("SELECT * FROM Inhalte %1 ORDER BY Jahr ASC,Ausgabe ASC,Seite ASC").arg(searchForString);
     qDebug()<<request;
 
-    int rc = sqlite3_prepare_v2(m_db, request.toStdString().c_str(), -1, &stmt, NULL);
+	int rc = sqlite3_prepare_v2(m_db, request.toStdString().c_str(), -1, &stmt, nullptr);
     if (rc != SQLITE_OK)
     {
            return; // or throw
@@ -288,8 +287,8 @@ void CListenController::searchArtikel(QString searchElement)
             jahr.setDBElement(columnName,columnText);
         }
 
-        m_artikelDisplay->AddArtikel(artikel);
-        m_jahrgaengeDisplay->AddJahr(jahr);
+		m_artikelDisplay->AddElement(artikel);
+		m_jahrgaengeDisplay->AddElement(jahr);
     }
 
     sqlite3_finalize(stmt);

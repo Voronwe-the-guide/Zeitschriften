@@ -5,7 +5,7 @@ Item
 
     id: ausgabenDisplay
     width: 50
-    height: visible?ausgabenListe.count* 30:0 //ausgabeElement.height // ausgabeElement.height
+    height: visible?ausgabenListe.count* 30:0
 
     property int fontSize: 20
 
@@ -20,7 +20,6 @@ Item
         }
     }
 
-Tracer {}
     Component
     {
         id: ausgabeComponent
@@ -29,7 +28,7 @@ Tracer {}
             id: ausgabeElement
             width: parent.width
             height: 30
-          //  border.color: "red"
+
             color: model.index === currentAusgabe?"lightblue":"transparent"
             radius: 5
             Text
@@ -50,12 +49,8 @@ Tracer {}
                     ausgabenDisplay.currentAusgabe = model.index;
                     console.log("Artikel request");
                     cListenController.getArtikelForAusgabe(model.jahr, model.ausgabe);
-
                 }
-
             }
-
-
         }
     }
 
@@ -69,14 +64,10 @@ Tracer {}
 
         onCountChanged:
         {
-  //         console.log("count changes to"+count);
             if (count == 0)
             {
                 ausgabenDisplay.currentAusgabe = -1;
             }
-
-
         }
     }
-
 }
