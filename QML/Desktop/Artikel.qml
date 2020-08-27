@@ -131,8 +131,9 @@ Item
             DisplayText
             {
               anchors.fill: parent
-              additionToFont: 3
-              font.bold: true
+              additionToFont: 5
+              font.weight: Font.DemiBold
+             // font.bold: true
               property string trenner: ((artikelDisplay.kurztext!="") && (artikelDisplay.ueberschrift!=""))?": ":""
               text: artikelDisplay.kurztext+trenner+artikelDisplay.ueberschrift
             }

@@ -3,8 +3,7 @@
 CArtikel::CArtikel():
 	m_Ausgabe(0),
 	m_Jahr(0),
-	m_Seite(0)
-
+    m_Seite(0)
 {
 
 }
@@ -82,12 +81,15 @@ void CArtikel::setRubrik(const QString &Rubrik)
 
 QString CArtikel::Ueberschrift() const
 {
-	return m_Ueberschrift;
+    return m_Ueberschrift;
 }
 
 void CArtikel::setUeberschrift(const QString &Ueberschrift)
 {
-	m_Ueberschrift = Ueberschrift;
+   // m_Ueberschrift = "<font color=\"red\">"+Ueberschrift+"</font>";
+  // m_Ueberschrift = "<i>"+Ueberschrift+"</i>";
+
+   m_Ueberschrift = Ueberschrift;
 }
 
 QString CArtikel::Zusammenfassung() const
@@ -159,3 +161,5 @@ void CArtikel::setKoordinate(const QGeoCoordinate &Koordinate)
 {
 	m_Koordinate = Koordinate;
 }
+
+

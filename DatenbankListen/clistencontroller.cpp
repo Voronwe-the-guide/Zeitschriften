@@ -234,6 +234,7 @@ QString CListenController::getSearchElement() const
 void CListenController::setSearchElement(const QString &searchElement)
 {
     m_searchElement = searchElement;
+    m_artikelDisplay->setSearchElement(m_searchElement);
 }
 
 QString CListenController::setSearchStringAsSQL()
@@ -262,7 +263,7 @@ void CListenController::searchArtikel(QString searchElement)
     m_jahrgaengeDisplay->deleteAll();
     m_ausgabenDisplay->deleteAll();
     m_artikelDisplay->deleteAll();
-    m_searchElement = searchElement;
+   setSearchElement(searchElement);
     if (m_db == nullptr)
     {
         qDebug()<<"No open DB!";

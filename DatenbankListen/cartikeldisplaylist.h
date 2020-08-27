@@ -18,20 +18,29 @@ public:
 	int columnCount ( const QModelIndex & parent = QModelIndex() ) const;
 	QVariant data ( const QModelIndex & index, int role = Qt::DisplayRole ) const;
 
+    QString searchElement() const;
+    void setSearchElement(const QString &searchElement);
+
 signals:
 	void listEmpty();
 
 public slots:
 	void deleteAll();
 	void AddElement(CArtikel &artikel);
+
+
 protected:
 
 	QHash<int, QByteArray> roleNames() const;
 
 private:
 
-
+    QString HighlightSearchElement(QString parsedString) const;
 	QList<CArtikel> m_ArtikelList;
+    QString m_searchElement;
+
+    QString m_fontColor_normal;
+    QString m_fontColor_highlight;
 
 	static const int  Role_Zeitschrift;
 	static const int  Role_Jahr;					//!< Jahrgang der Zeitschrift

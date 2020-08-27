@@ -56,10 +56,11 @@ public:
 	void setKoordinate(const QGeoCoordinate &Koordinate);
 
 
+
 private:
 
-	QString m_Zeitschrift;		//!< Name der Zeitschrift
-	int m_Jahr;					//!< Jahrgang der Zeitschrift
+    QString m_Zeitschrift;		//!< Name der Zeitschrift
+    int m_Jahr;					//!< Jahrgang der Zeitschrift
 	int m_Ausgabe;				//!< Ausgabe der Zeitschrift, bezogen auf Jahrgang
 	int m_Seite;				//!< Seitennummer
 	QString m_Rubrik;
@@ -71,6 +72,8 @@ private:
 	QString m_Schlagworte;
 	QString m_Land;
 	QGeoCoordinate m_Koordinate;
+
+
 };
 
 #endif // CARTIKEL_H

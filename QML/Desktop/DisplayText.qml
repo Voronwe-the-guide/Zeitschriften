@@ -7,6 +7,7 @@ Text
     font.pixelSize: 15 + additionToFont
     verticalAlignment: Text.AlignVCenter
     horizontalAlignment: Text.AlignLeft
+    textFormat: Text.StyledText
 
 }
 

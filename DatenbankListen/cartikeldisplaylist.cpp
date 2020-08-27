@@ -20,7 +20,9 @@ const int  CArtikelDisplayList::Role_Koordinate = Qt::UserRole+13;
 
 
 CArtikelDisplayList::CArtikelDisplayList(QObject *parent) :
-    QAbstractListModel(parent)
+    QAbstractListModel(parent),
+    m_fontColor_normal("\"black\""),
+    m_fontColor_highlight("\"red\"")
 
 {
 
@@ -54,13 +56,13 @@ QVariant CArtikelDisplayList::data ( const QModelIndex & index, int role) const
 			case Role_Ausgabe: return temp.Ausgabe();				//!< Ausgabe der Zeitschrift, bezogen auf Jahrgang
 			case Role_Seite: return temp.Seite();				//!< Seitennummer
 			case Role_Rubrik: return temp.Rubrik();
-			case Role_Ueberschrift: return temp.Ueberschrift();
-			case Role_Zusammenfassung: return temp.Zusammenfassung();
-			case Role_Kurztext: return temp.Kurztext();
-			case Role_Autor: return temp.Autor();
-			case Role_Fotos: return temp.Fotos();
-			case Role_Schlagworte: return temp.Schlagworte();
-			case Role_Land: return temp.Land();
+        case Role_Ueberschrift: return HighlightSearchElement(temp.Ueberschrift());
+            case Role_Zusammenfassung: return HighlightSearchElement(temp.Zusammenfassung());
+            case Role_Kurztext: return HighlightSearchElement(temp.Kurztext());
+            case Role_Autor: return HighlightSearchElement(temp.Autor());
+            case Role_Fotos: return HighlightSearchElement(temp.Fotos());
+            case Role_Schlagworte: return HighlightSearchElement(temp.Schlagworte());
+            case Role_Land: return HighlightSearchElement(temp.Land());
 	//		case Role_Koordinate: return temp.Koordinate();
 		}
 	}
@@ -111,5 +113,75 @@ QHash<int, QByteArray> CArtikelDisplayList::roleNames() const
 	roles[Role_Land] = "land";
 	roles[Role_Koordinate] = "koordinate";
 
-	return roles;
+    return roles;
+}
+QString CArtikelDisplayList::HighlightSearchElement(QString inputString) const
+{
+   QString parsedString = inputString;
+    if ((m_searchElement=="" ) || (parsedString == ""))
+   {
+       return parsedString;
+   }
+   int indexOfElement = 0;
+   QString startNormal = "<font color="+m_fontColor_normal+">";
+   QString end = "</font>";
+   QString startHighlight =  "<font color="+m_fontColor_highlight+">";
+   int startNormalSize = startNormal.size();
+   int endSize = end.size();
+   int startHighlightSize = startHighlight.size();
+  //find the first one
+   indexOfElement = parsedString.indexOf(m_searchElement,indexOfElement,Qt::CaseInsensitive);
+   if (indexOfElement<0)
+   {
+       //not in there
+       return parsedString;
+   }
+   else if (indexOfElement == 0)
+   {
+       //starts with
+       parsedString.insert(indexOfElement,startHighlight);
+       indexOfElement = parsedString.indexOf(m_searchElement,indexOfElement,Qt::CaseInsensitive);
+       parsedString.insert(indexOfElement+m_searchElement.size(),end+startNormal);
+       indexOfElement += m_searchElement.size();
+
+   }
+   else if (indexOfElement >0)
+   {
+       parsedString.insert(0,startNormal);
+       indexOfElement = 0;
+   }
+
+   do
+   {
+       indexOfElement = parsedString.indexOf(m_searchElement,indexOfElement,Qt::CaseInsensitive);
+       if (indexOfElement < 0)
+       {
+           break;
+       }
+       parsedString.insert(indexOfElement,end+startHighlight);
+       indexOfElement = parsedString.indexOf(m_searchElement,indexOfElement,Qt::CaseInsensitive);
+       parsedString.insert(indexOfElement+m_searchElement.size(),end+startNormal);
+       indexOfElement += m_searchElement.size();
+
+
+   }while(indexOfElement>=0);
+
+   if (!(parsedString.endsWith(end)))
+   {
+       parsedString += end;
+    }
+
+   return parsedString;
+
+}
+
+
+QString CArtikelDisplayList::searchElement() const
+{
+    return m_searchElement;
+}
+
+void CArtikelDisplayList::setSearchElement(const QString &searchElement)
+{
+    m_searchElement = searchElement;
 }
