@@ -46,6 +46,8 @@ int main(int argc, char *argv[])
 	engine.rootContext()->setContextProperty("cArtikelList", listenController.artikelDisplay());
 	engine.rootContext()->setContextProperty("cJahreList",listenController.jahrgaengeDisplay());
 	engine.rootContext()->setContextProperty("cAusgabenList",listenController.ausgabenDisplay());
+    engine.rootContext()->setContextProperty("cZeitschriftenList",listenController.zeitschriftenDisplay());
+    engine.rootContext()->setContextProperty("cZeitschriftenForJahr",listenController.zeitschriftenForJahrDisplay());
     engine.rootContext()->setContextProperty("cListenController",&listenController);
 
     engine.load(url);

@@ -77,7 +77,7 @@ Window
                                // searchButton.click();
                                 if (text == "")
                                 {
-                                    cListenController.getJahre();
+                                    cListenController.getOverview();
                                 }
                                 else
                                 {
@@ -98,7 +98,7 @@ Window
                        onClicked:
                        {
                            searchText.text="";
-                           cListenController.getJahre();
+                           cListenController.getOverview();
 
                        }
                        anchors.verticalCenter: parent.verticalCenter
@@ -108,14 +108,21 @@ Window
             }
         }
     }
+   ZeitschriftenDisplay
+    {
+        id: zeitschriftenArea
+        anchors.top: topArea.bottom
+
+
+    }
 
     Item
     {
         id: listDisplayArea
         width: parent.width
         height: parent.height-searchArea.height
-        anchors.top: topArea.bottom
         clip: true
+        anchors.top: zeitschriftenArea.bottom
 
         JahreDisplay
         {

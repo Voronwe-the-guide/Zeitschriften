@@ -27,6 +27,8 @@ SOURCES += \
         DatenbankListen/cjahr.cpp \
         DatenbankListen/cjahrdisplaylist.cpp \
         DatenbankListen/clistencontroller.cpp \
+        DatenbankListen/czeitschrift.cpp \
+        DatenbankListen/czeitschriftdisplaylist.cpp \
         Settings/csettings.cpp \
         main.cpp \
         sqlite/sqlite3.c
@@ -57,6 +59,8 @@ HEADERS += \
     DatenbankListen/cjahr.h \
     DatenbankListen/cjahrdisplaylist.h \
     DatenbankListen/clistencontroller.h \
+    DatenbankListen/czeitschrift.h \
+    DatenbankListen/czeitschriftdisplaylist.h \
     Settings/csettings.h \
     sqlite/sqlite3.h \
     sqlite/sqlite3ext.h

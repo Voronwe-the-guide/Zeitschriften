@@ -3,7 +3,6 @@
 
 
 #include <QAbstractListModel>
-#include "causgabedisplaylist.h"
 #include <QObject>
 #include "cjahr.h"
 
@@ -11,7 +10,7 @@ class CJahrDisplayList  : public QAbstractListModel
 {
 		Q_OBJECT
 public:
-    CJahrDisplayList(QObject *parent = 0);
+    CJahrDisplayList(QObject *parent = nullptr);
 
 	virtual ~CJahrDisplayList();
 

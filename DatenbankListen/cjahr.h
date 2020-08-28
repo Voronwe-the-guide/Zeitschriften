@@ -1,7 +1,7 @@
 #ifndef CJAHR_H
 #define CJAHR_H
 
-#include "causgabe.h"
+#include <QString>
 
 class CJahr
 {

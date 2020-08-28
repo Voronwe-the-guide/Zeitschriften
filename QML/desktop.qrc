@@ -27,5 +27,6 @@
         <file>Images/rubrik.png</file>
         <file>Images/writer.png</file>
         <file>Images/year.png</file>
+        <file>Desktop/ZeitschriftenDisplay.qml</file>
     </qresource>
 </RCC>
