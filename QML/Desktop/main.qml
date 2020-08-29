@@ -1,13 +1,13 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
-import QtQuick.Dialogs 1.0
+import QtQuick.Dialogs 1.3
 import QtQuick.Controls 2.12
 
 Window
 {
     visible: true
     minimumHeight: 400
-    minimumWidth: 600
+    minimumWidth: 650
     width:cSettings.getWindowSize().width
     height: cSettings.getWindowSize().height
     title: qsTr("Zeitschriften DB: "+width+"x"+height+" "+cSettings.currentDB())
@@ -107,6 +107,23 @@ Window
                 }
             }
         }
+
+        RoundButton
+         {
+            id: infoButton
+            text: "i"
+            anchors.right:parent.right
+            anchors.rightMargin: 10
+            width: 25
+            height: 25
+            onClicked:
+            {
+                 messageDialog.visible=true;
+
+            }
+            anchors.verticalCenter: parent.verticalCenter
+         }
+
     }
    ZeitschriftenDisplay
     {
@@ -153,5 +170,34 @@ Window
         onRejected: {
            visible: false
         }
+    }
+
+    MessageDialog {
+        id: messageDialog
+        title: "License Information"
+        text: "Zeitschriften DB Viewer "
+              +"\n (c) by Thorsten Stapel"
+              +"\n This Software is licensed under the GNU GENERAL PUBLIC LICENSE Version 3 "
+              +"\n\n"
+        +"\nBeside this, I would like you to ask to use this software only in good mood"
+        +"\n and not for purposes which could harm people, animals, magical creatures or the environment."
+         +"\n\n"
+         +"\n This Software uses the Qt-Framework Version "+qtversion+" licensed under the LGPL3-License"
+        +"\n https://www.qt.io/"
+        +"\n "
+        +"\n -------"
+        +"\n "
+        +"\n This Software includes the SQLite-code version "+sqliteversion+" licensed under public domain "
+        +"\n https://www.sqlite.org"
+        +"\n "
+       +"\n  -------"
+        +"\n "
+       +"\n This Software uses graphics from Linearicons licensed under the CC BY-SA 4.0 license."
+       +"\n https://linearicons.com "
+       +"\n Linearicons where created by Perxis https://perxis.com"
+        onAccepted: {
+            visible = false;
+         }
+   //     Component.onCompleted: visible = true
     }
 }

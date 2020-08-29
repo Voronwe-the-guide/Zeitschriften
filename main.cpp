@@ -11,6 +11,8 @@
 
 #include <Settings/csettings.h>
 
+#include <sqlite/sqlite3.h>
+
 #include <QDebug>
 
 
@@ -42,6 +44,8 @@ int main(int argc, char *argv[])
 			QCoreApplication::exit(-1);
 	}, Qt::QueuedConnection);
 
+    engine.rootContext()->setContextProperty("sqliteversion", QString(sqlite3_libversion()));
+    engine.rootContext()->setContextProperty("qtversion", QString(qVersion()));
 	engine.rootContext()->setContextProperty("cSettings",&settings);
 	engine.rootContext()->setContextProperty("cArtikelList", listenController.artikelDisplay());
 	engine.rootContext()->setContextProperty("cJahreList",listenController.jahrgaengeDisplay());
