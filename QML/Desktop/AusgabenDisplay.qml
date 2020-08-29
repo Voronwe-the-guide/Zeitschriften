@@ -48,7 +48,7 @@ Item
                 {
                     ausgabenDisplay.currentAusgabe = model.index;
                     console.log("Artikel request");
-                    cListenController.getArtikelForAusgabe(model.jahr, model.ausgabe);
+                    cListenController.getArtikelForAusgabe(model.zeitschrift,model.jahr, model.ausgabe);
                 }
             }
         }

@@ -24,6 +24,9 @@ public slots:
     void deleteAll();
     void AddElement(CZeitschrift &zeitschrift);
     void ToggleSelection(int index);
+    void deselectAll();
+    void deselect(int theIndex);
+
 
     QStringList getSelectedElements();
 

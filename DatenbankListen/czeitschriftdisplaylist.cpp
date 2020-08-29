@@ -82,6 +82,26 @@ void CZeitschriftDisplayList::ToggleSelection(int theIndex)
     }
 }
 
+void CZeitschriftDisplayList::deselectAll()
+{
+    for (int i=0; i<m_ZeitschriftenList.count();++i)
+    {
+        deselect(i);
+    }
+}
+
+void CZeitschriftDisplayList::deselect(int theIndex)
+{
+    if ((theIndex>=0) && (theIndex<rowCount()))
+    {
+        CZeitschrift temp = m_ZeitschriftenList.at(theIndex);
+        temp.setIsSelected(false);
+        m_ZeitschriftenList.replace(theIndex,temp);
+        const QModelIndex idx = index(theIndex);
+        emit dataChanged(idx,idx);
+    }
+}
+
 
 QStringList CZeitschriftDisplayList::getSelectedElements()
 {

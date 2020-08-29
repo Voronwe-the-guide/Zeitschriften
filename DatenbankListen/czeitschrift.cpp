@@ -34,3 +34,4 @@ void CZeitschrift::setIsSelected(bool isSelected)
 {
     m_isSelected = isSelected;
 }
+

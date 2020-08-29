@@ -28,5 +28,6 @@
         <file>Images/writer.png</file>
         <file>Images/year.png</file>
         <file>Desktop/ZeitschriftenDisplay.qml</file>
+        <file>Desktop/ZeitschriftenForJahreDisplay.qml</file>
     </qresource>
 </RCC>

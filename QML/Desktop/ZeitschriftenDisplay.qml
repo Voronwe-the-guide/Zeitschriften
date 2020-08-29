@@ -88,6 +88,7 @@ Item
                 {
                  //   jahreDisplay.currentJahr = model.index;
                     console.log("Zeitschriften request");
+               //     cZeitschriftenList.deselectAll();
                     cListenController.getOverview();
                 //    cListenController.addOrRemoveZeitschrift(model.index);
                 }

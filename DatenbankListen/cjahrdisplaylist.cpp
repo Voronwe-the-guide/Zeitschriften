@@ -47,7 +47,7 @@ void CJahrDisplayList::deleteAll()
 		 m_JahrList.clear();
 		 endRemoveRows();
 	}
-		emit listEmpty();
+    emit listEmpty();
 }
 
 

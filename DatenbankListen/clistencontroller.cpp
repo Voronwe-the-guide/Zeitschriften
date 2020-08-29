@@ -59,6 +59,7 @@ bool CListenController::openDB(QString DBPath)
     m_db = db;
 
     getTableNamesFromDB();
+    getListOfZeitschriften();
     getOverview();
     return true;
 
@@ -89,6 +90,40 @@ CZeitschriftDisplayList *CListenController::zeitschriftenForJahrDisplay()
     return m_zeitschriftenForJahrDisplay;
 }
 
+void CListenController::getListOfZeitschriften()
+{
+    m_zeitschriftenDisplay->deleteAll();
+    if (m_db == nullptr)
+    {
+        qDebug()<<"No open DB!";
+        return;
+    }
+    sqlite3_stmt *stmt;
+
+    QString request = QString("SELECT Zeitschrift FROM Inhalte  ORDER BY Zeitschrift ASC");
+    int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt);
+    if (rc != SQLITE_OK)
+    {
+           return; // or throw
+    }
+    while ((rc = sqlite3_step(stmt)) == SQLITE_ROW)
+    {
+        int number = sqlite3_column_count(stmt);
+        CZeitschrift zeitschrift;
+        for (int i=0; i<number; ++i)
+        {
+
+            QString columnName(reinterpret_cast<const char*>(sqlite3_column_name(stmt,i)));
+            QString columnText(reinterpret_cast<const char*>(sqlite3_column_text(stmt,i)));
+            zeitschrift.setDBElement(columnName,columnText);
+
+        }
+
+         m_zeitschriftenDisplay->AddElement(zeitschrift);
+    }
+
+    sqlite3_finalize(stmt);
+}
 /*!
   Will search for all Jahrgänge and Zeitschriften
   */
@@ -97,25 +132,25 @@ void CListenController::getOverview()
     m_jahrgaengeDisplay->deleteAll();
     m_ausgabenDisplay->deleteAll();
     m_artikelDisplay->deleteAll();
-    m_zeitschriftenDisplay->deleteAll();
-    m_zeitschriftenForJahrDisplay->deleteAll();
+     m_zeitschriftenForJahrDisplay->deleteAll();
+     m_zeitschriftenDisplay->deselectAll();
 
     if (m_db == nullptr)
     {
         qDebug()<<"No open DB!";
         return;
     }
-    m_searchElement="";
     sqlite3_stmt *stmt;
     QString select ="Jahr";
-    if (m_searchTables.contains("Zeitschrift"))
+
+    QString searchForString = setSearchStringAsSQL();
+    if (!(searchForString.isEmpty()))
     {
-        select += ",Zeitschrift";
+        searchForString = QString("WHERE (")+searchForString+QString(") ");
     }
-    QString request = QString("SELECT %1 FROM Inhalte ORDER BY Jahr ASC").arg(select);
+    QString request = QString("SELECT %1 FROM Inhalte %2 ORDER BY Jahr ASC").arg(select).arg(searchForString);
     int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt);
-    //sqlite3_prepare_v2(m_db,request.toStdString().c_str() , -1, &stmt, nullptr);
-    if (rc != SQLITE_OK)
+     if (rc != SQLITE_OK)
     {
            return; // or throw
     }
@@ -123,19 +158,16 @@ void CListenController::getOverview()
     {
         int number = sqlite3_column_count(stmt);
         CJahr jahr;
-        CZeitschrift zeitschrift;
         for (int i=0; i<number; ++i)
         {
 
             QString columnName(reinterpret_cast<const char*>(sqlite3_column_name(stmt,i)));
             QString columnText(reinterpret_cast<const char*>(sqlite3_column_text(stmt,i)));
             jahr.setDBElement(columnName,columnText);
-            zeitschrift.setDBElement(columnName,columnText);
 
         }
 
          m_jahrgaengeDisplay->AddElement(jahr);
-         m_zeitschriftenDisplay->AddElement(zeitschrift);
     }
 
     sqlite3_finalize(stmt);
@@ -156,25 +188,35 @@ void CListenController::getJahreForZeitschrift(QStringList zeitschriften)
     m_jahrgaengeDisplay->deleteAll();
     m_ausgabenDisplay->deleteAll();
     m_artikelDisplay->deleteAll();
+    m_zeitschriftenForJahrDisplay->deleteAll();
 
     if (m_db == nullptr)
     {
         qDebug()<<"No open DB!";
         return;
     }
-    m_searchElement="";
+//    m_searchElement="";
     sqlite3_stmt *stmt;
-    QString searchString;
+    QString zeitschriftenSearch;
     if (zeitschriften.count()>0)
     {
+        zeitschriftenSearch += QString(" ( ");
         for (int i=0;i<zeitschriften.count();i++)
         {
-            searchString += QString("Zeitschrift='%1' OR ").arg(zeitschriften.at(i));
+            zeitschriftenSearch += QString("Zeitschrift='%1' OR ").arg(zeitschriften.at(i));
         }
-        int lastOR = searchString.lastIndexOf("OR");
-        searchString = searchString.remove(lastOR, 20);
+        int lastOR = zeitschriftenSearch.lastIndexOf("OR");
+        zeitschriftenSearch = zeitschriftenSearch.remove(lastOR, 20);
+        zeitschriftenSearch += QString(" ) ");
     }
-    QString request = QString("SELECT Jahr,Zeitschrift FROM Inhalte WHERE %1 ORDER BY Jahr ASC").arg(searchString);
+
+    QString searchForString = setSearchStringAsSQL();
+    if (!(searchForString.isEmpty()))
+    {
+        searchForString = QString("AND (")+searchForString+QString(") ");
+    }
+
+    QString request = QString("SELECT Jahr,Zeitschrift FROM Inhalte WHERE %1 %2 ORDER BY Jahr ASC").arg(zeitschriftenSearch).arg(searchForString);
     int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt);
 
 //    int rc = sqlite3_prepare_v2(m_db,request.toStdString().c_str() , -1, &stmt, nullptr);
@@ -200,6 +242,68 @@ void CListenController::getJahreForZeitschrift(QStringList zeitschriften)
     sqlite3_finalize(stmt);
 }
 
+void CListenController::getLowerInfoForJahr(int jahr)
+{
+    m_ausgabenDisplay->deleteAll();
+    m_artikelDisplay->deleteAll();
+    m_zeitschriftenForJahrDisplay->deleteAll();
+    getZeitschriftenForJahr(jahr);
+}
+
+int CListenController::getZeitschriftenForJahr(int jahr)
+{
+      int numberOfZeitschriften;
+      m_ausgabenDisplay->deleteAll();
+      m_artikelDisplay->deleteAll();
+      m_zeitschriftenForJahrDisplay->deleteAll();
+      if (m_db == nullptr)
+      {
+          qDebug()<<"No open DB!";
+          return 0;
+      }
+      sqlite3_stmt *stmt;
+      QString searchForString = setSearchStringAsSQL();
+      if (!(searchForString.isEmpty()))
+      {
+          searchForString = QString("AND (")+searchForString+QString(") ");
+      }
+       QString zeitschriftenSearch = setZeitschriftenAsSQL();
+       if (!(zeitschriftenSearch.isEmpty()))
+       {
+           zeitschriftenSearch = QString(" AND ( ")+zeitschriftenSearch+QString(") ");
+       }
+
+      QString request = QString("SELECT * FROM Inhalte WHERE Jahr='%1' %2 %3 ORDER BY Zeitschrift ASC, Jahr ASC,Ausgabe ASC,Seite ASC").arg(jahr).arg(zeitschriftenSearch).arg(searchForString);
+      int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt);
+  //	int rc = sqlite3_prepare_v2(m_db, request.toStdString().c_str(), -1, &stmt, nullptr);
+      if (rc != SQLITE_OK)
+      {
+             return 0; // or throw
+      }
+      while ((rc = sqlite3_step(stmt)) == SQLITE_ROW)
+      {
+          int number = sqlite3_column_count(stmt);
+          CAusgabe ausgabe;
+          CArtikel artikel;
+          CZeitschrift zeitschrift;
+          for (int i=0; i<number; ++i)
+          {
+
+              QString columnName(reinterpret_cast<const char*>(sqlite3_column_name(stmt,i)));
+              QString columnText(reinterpret_cast<const char*>(sqlite3_column_text(stmt,i)));
+              zeitschrift.setDBElement(columnName,columnText);
+              ausgabe.setDBElement(columnName,columnText);
+              artikel.setDBElement(columnName,columnText);
+          }
+
+          m_ausgabenDisplay->AddElement(ausgabe);
+          m_artikelDisplay->AddElement(artikel);
+          m_zeitschriftenForJahrDisplay->AddElement(zeitschrift);
+      }
+    return m_zeitschriftenForJahrDisplay->rowCount();
+}
+
+
 void CListenController::getAusgabenForJahr(int jahr)
 {
 	//m_jahrgaengeDisplay->deleteAusgaben();
@@ -217,6 +321,7 @@ void CListenController::getAusgabenForJahr(int jahr)
     {
         searchForString = QString("AND (")+searchForString+QString(") ");
     }
+
     QString request = QString("SELECT * FROM Inhalte WHERE Jahr='%1' %2 ORDER BY Jahr ASC,Ausgabe ASC,Seite ASC").arg(jahr).arg(searchForString);
 //    qDebug()<<request;
     int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt);
@@ -246,7 +351,54 @@ void CListenController::getAusgabenForJahr(int jahr)
 	sqlite3_finalize(stmt);
 }
 
-void  CListenController::getArtikelForAusgabe(int jahr, int ausgabe)
+void CListenController::getAusgabenForZeitschrift(QString zeitschrift, int jahr)
+{
+    //m_jahrgaengeDisplay->deleteAusgaben();
+    m_ausgabenDisplay->deleteAll();
+    m_artikelDisplay->deleteAll();
+    if (m_db == nullptr)
+    {
+        qDebug()<<"No open DB!";
+        return;
+    }
+
+    sqlite3_stmt *stmt;
+    QString searchForString = setSearchStringAsSQL();
+    if (!(searchForString.isEmpty()))
+    {
+        searchForString = QString("AND (")+searchForString+QString(") ");
+    }
+
+    QString request = QString("SELECT * FROM Inhalte WHERE Jahr='%1' AND Zeitschrift='%2' %3 ORDER BY Jahr ASC,Ausgabe ASC,Seite ASC").arg(jahr).arg(zeitschrift).arg(searchForString);
+//    qDebug()<<request;
+    int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt);
+//	int rc = sqlite3_prepare_v2(m_db, request.toStdString().c_str(), -1, &stmt, nullptr);
+    if (rc != SQLITE_OK)
+    {
+           return; // or throw
+    }
+    while ((rc = sqlite3_step(stmt)) == SQLITE_ROW)
+    {
+        int number = sqlite3_column_count(stmt);
+        CAusgabe ausgabe;
+        CArtikel artikel;
+        for (int i=0; i<number; ++i)
+        {
+
+            QString columnName(reinterpret_cast<const char*>(sqlite3_column_name(stmt,i)));
+            QString columnText(reinterpret_cast<const char*>(sqlite3_column_text(stmt,i)));
+            ausgabe.setDBElement(columnName,columnText);
+            artikel.setDBElement(columnName,columnText);
+        }
+
+        m_ausgabenDisplay->AddElement(ausgabe);
+        m_artikelDisplay->AddElement(artikel);
+    }
+
+    sqlite3_finalize(stmt);
+}
+
+void  CListenController::getArtikelForAusgabe(QString zeitschrift, int jahr, int ausgabe)
 {
     m_artikelDisplay->deleteAll();
 	sqlite3_stmt *stmt;
@@ -262,7 +414,7 @@ void  CListenController::getArtikelForAusgabe(int jahr, int ausgabe)
         searchForString = QString("AND (")+searchForString+QString(") ");
     }
 
-    QString request = QString("SELECT * FROM Inhalte WHERE Jahr='%1' AND Ausgabe='%2' %3 ORDER BY Jahr ASC,Ausgabe ASC,Seite ASC").arg(jahr).arg(ausgabe).arg(searchForString);
+    QString request = QString("SELECT * FROM Inhalte WHERE Jahr='%1' AND Ausgabe='%2' AND Zeitschrift='%3' %4 ORDER BY Zeitschrift ASC, Jahr ASC,Ausgabe ASC,Seite ASC").arg(jahr).arg(ausgabe).arg(zeitschrift).arg(searchForString);
  //   qDebug()<<request;
     int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt);
 
@@ -351,12 +503,34 @@ QString CListenController::setSearchStringAsSQL()
     return searchString;
 
 }
+
+
+QString CListenController::setZeitschriftenAsSQL()
+{
+    QStringList zeitschriften = m_zeitschriftenDisplay->getSelectedElements();
+    QString zeitschriftenSearch;
+    if (zeitschriften.count()>0)
+    {
+  //      zeitschriftenSearch+= " ( ";
+        for (int i=0;i<zeitschriften.count();i++)
+        {
+            zeitschriftenSearch += QString("Zeitschrift='%1' OR ").arg(zeitschriften.at(i));
+        }
+        int lastOR = zeitschriftenSearch.lastIndexOf("OR");
+        zeitschriftenSearch = zeitschriftenSearch.remove(lastOR, 20);
+//        zeitschriftenSearch +" ) ";
+    }
+    return zeitschriftenSearch;
+
+}
 void CListenController::searchArtikel(QString searchElement)
 {
     m_jahrgaengeDisplay->deleteAll();
     m_ausgabenDisplay->deleteAll();
     m_artikelDisplay->deleteAll();
-   setSearchElement(searchElement);
+    m_zeitschriftenForJahrDisplay->deleteAll();
+
+    setSearchElement(searchElement);
     if (m_db == nullptr)
     {
         qDebug()<<"No open DB!";
@@ -364,12 +538,35 @@ void CListenController::searchArtikel(QString searchElement)
     }
     sqlite3_stmt *stmt;
     QString searchForString = setSearchStringAsSQL();
-    if (!(searchForString.isEmpty()))
+  /*  if (!(searchForString.isEmpty()))
     {
         searchForString = QString("WHERE (")+searchForString+QString(") ");
     }
+*/
 
-    QString request = QString("SELECT * FROM Inhalte %1 ORDER BY Jahr ASC,Ausgabe ASC,Seite ASC").arg(searchForString);
+    QString zeitschriftenSearch = setZeitschriftenAsSQL();
+
+
+    QString filterRequest;
+    if ((!(searchForString.isEmpty())) || (!(zeitschriftenSearch.isEmpty())))
+    {
+        filterRequest = QString("WHERE ");
+        if (!(zeitschriftenSearch.isEmpty()))
+        {
+            filterRequest += QString(" ( ")+zeitschriftenSearch +  QString(" ) ");
+            if (!(searchForString.isEmpty()))
+            {
+                filterRequest += " AND ";
+            }
+        }
+
+        if (!(searchForString.isEmpty()))
+        {
+            filterRequest += QString(" (")+searchForString+QString(") ");
+        }
+    }
+
+    QString request = QString("SELECT * FROM Inhalte %1 ORDER BY Jahr ASC,Ausgabe ASC,Seite ASC").arg(filterRequest);
 //    qDebug()<<request;
 
     int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt);
@@ -399,6 +596,7 @@ void CListenController::searchArtikel(QString searchElement)
     sqlite3_finalize(stmt);
 
 }
+
 
 int CListenController::makeSQLiteSearch(const QString& request, sqlite3_stmt **stmt) const
 {

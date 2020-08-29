@@ -28,10 +28,16 @@ public:
 public slots:
     bool openDB(QString DBPath);
 
+    void getListOfZeitschriften();
     void getOverview();
+
     void getJahreForZeitschrift(QStringList zeitschriften);
+    void getLowerInfoForJahr(int jahr);
+    int getZeitschriftenForJahr(int Jahr);
     void getAusgabenForJahr(int jahr);
-    void getArtikelForAusgabe(int jahr, int ausgabe);
+    void getAusgabenForZeitschrift(QString zeitschrift, int jahr);
+
+    void getArtikelForAusgabe(QString zeitschrift,int jahr, int ausgabe);
     void searchArtikel(QString searchElement);
 
     QString getSearchElement() const;
@@ -44,6 +50,7 @@ signals:
 
 private:
     QString setSearchStringAsSQL();
+    QString setZeitschriftenAsSQL();
     void getTableNamesFromDB();
     int makeSQLiteSearch(const QString& request, sqlite3_stmt **stmt) const;
 

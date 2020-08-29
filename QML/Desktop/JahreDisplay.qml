@@ -11,6 +11,14 @@ Item
     property int currentJahr: -1
 
     property int year:0;
+    Connections
+    {
+        target: cJahreList
+        onListEmpty:
+        {
+            currentJahr = -1;
+        }
+    }
 
     Component
     {
@@ -19,7 +27,7 @@ Item
         {
             id: jahrArea
             width: parent.width
-            height: jahr.height + ausgabenDisplay.height
+            height: jahrButton.height + zeitschriftenDisplay.height// + ausgabenDisplay.height
 
             Rectangle
             {
@@ -50,20 +58,32 @@ Item
                         jahreDisplay.currentJahr = model.index;
                         console.log("Ausgaben request");
                         cArtikelList.deleteAll();
-                        cListenController.getAusgabenForJahr(model.jahr);
+                        cListenController.getLowerInfoForJahr(model.jahr);
                     }
                  }
             }
-            AusgabenDisplay
+            ZeitschriftenForJahreDisplay
+            {
+                id: zeitschriftenDisplay
+                anchors.top: jahrButton.bottom
+                width: parent.width-20
+                anchors.left: parent.left
+                anchors.leftMargin: 20
+                jahr: model.jahr
+                visible: jahreDisplay.currentJahr === model.index
+
+            }
+
+   /*         AusgabenDisplay
             {
                 id: ausgabenDisplay
-                anchors.top: jahrButton.bottom
+                anchors.top: zeitschriftenDisplay.bottom//jahrButton.bottom
                 width: parent.width-20
                 anchors.left: parent.left
                 anchors.leftMargin: 20
                 visible: jahreDisplay.currentJahr === model.index
              }
-        }
+     */   }
     }
 
     ListView
@@ -72,6 +92,14 @@ Item
         height: parent.height
         model: cJahreList
         delegate: jahrComponent
+        onCountChanged:
+        {
+            console.log("Jahre count = "+count)
+            if (count == 0)
+            {
+                jahreDisplay.currentJahr = -1;
+            }
+        }
     }
 
 }

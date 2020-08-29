@@ -14,6 +14,7 @@ bool CAusgabe::setDBElement(QString columnName, QString columnEntry)
 
 	if (columnName == "ausgabe"){ setAusgabe(columnEntry.toInt()); return true;}
 	else if (columnName == "jahr") { setJahr(columnEntry.toInt()); return true;}
+    else if (columnName == "zeitschrift"){setZeitschrift(columnEntry); return true;}
 
 	return false;
 }
