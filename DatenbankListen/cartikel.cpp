@@ -24,6 +24,8 @@ bool CArtikel::setDBElement(QString columnName, QString columnEntry)
 	else if (columnName == "schlagworte") { setSchlagworte(columnEntry); return true;}
     else if (columnName == "zeitschrift") {setZeitschrift(columnEntry); return true;}
     else if (columnName == "land") {setLand(columnEntry); return true;}
+    else if (columnName == "koordinate") {setKoordinate(columnEntry); return true;}
+    else if (columnName == "aenderungszeit") {setLastChange(columnEntry); return true;}
 
 	return false;
 }
@@ -86,9 +88,6 @@ QString CArtikel::Ueberschrift() const
 
 void CArtikel::setUeberschrift(const QString &Ueberschrift)
 {
-   // m_Ueberschrift = "<font color=\"red\">"+Ueberschrift+"</font>";
-  // m_Ueberschrift = "<i>"+Ueberschrift+"</i>";
-
    m_Ueberschrift = Ueberschrift;
 }
 
@@ -156,10 +155,67 @@ QGeoCoordinate CArtikel::Koordinate() const
 {
 	return m_Koordinate;
 }
-
-void CArtikel::setKoordinate(const QGeoCoordinate &Koordinate)
+QString CArtikel::KoordinateAsString() const
 {
-	m_Koordinate = Koordinate;
+    if (Koordinate().isValid())
+    {
+        return Koordinate().toString(QGeoCoordinate::Degrees);
+    }
+    return "";
+}
+
+void CArtikel::setKoordinate(const QGeoCoordinate &koordinate)
+{
+    m_Koordinate = koordinate;
+}
+void CArtikel::setKoordinate(const QString &koordinate)
+{
+    QStringList coordinates = koordinate.split(",");
+    if (coordinates.size()>=2)
+    {
+        QString latitude = coordinates.at(0);
+        QString longitude = coordinates.at(1);
+        latitude.remove("°");
+        longitude.remove("°");
+        QGeoCoordinate coord;
+        bool latOk = true;
+        bool longOk = true;
+        coord.setLatitude(latitude.toDouble(&latOk));
+        coord.setLongitude(longitude.toDouble(&longOk));
+        if (coord.isValid())
+        {
+            setKoordinate(coord);
+        }
+    }
+}
+
+QDateTime CArtikel::lastChange() const
+{
+    return m_lastChange;
+}
+
+QString CArtikel::lastChangeAsString() const
+{
+    if (lastChange().isValid())
+    {
+        return lastChange().toString(Qt::ISODate);
+    }
+    return "";
+
+}
+
+ void CArtikel::setLastChange(const QString &lastChange)
+ {
+     QDateTime date = QDateTime::fromString(lastChange,Qt::ISODate);
+     if (date.isValid())
+     {
+         setLastChange(date);
+     }
+ }
+
+void CArtikel::setLastChange(const QDateTime &lastChange)
+{
+    m_lastChange = lastChange;
 }
 
 

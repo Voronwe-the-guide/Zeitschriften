@@ -44,3 +44,4 @@ GEO_Register.db
 Makefile
 Makefile.Debug
 Makefile.Release
+*.ods#

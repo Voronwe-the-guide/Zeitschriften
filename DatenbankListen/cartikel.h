@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QGeoCoordinate>
+#include <QDateTime>
 
 class CArtikel
 {
@@ -53,9 +54,14 @@ public:
 	void setLand(const QString &Land);
 
 	QGeoCoordinate Koordinate() const;
+    QString KoordinateAsString() const;
 	void setKoordinate(const QGeoCoordinate &Koordinate);
+    void setKoordinate(const QString &Koordinate);
 
-
+    QDateTime lastChange() const;
+    QString lastChangeAsString() const;
+     void setLastChange(const QString &Koordinate);
+    void setLastChange(const QDateTime &lastChange);
 
 private:
 
@@ -72,6 +78,7 @@ private:
 	QString m_Schlagworte;
 	QString m_Land;
 	QGeoCoordinate m_Koordinate;
+    QDateTime m_lastChange;
 
 
 };
