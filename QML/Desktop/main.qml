@@ -2,7 +2,8 @@ import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Dialogs 1.3
 import QtQuick.Controls 2.12
-
+//import Qt.labs.folderlistmodel 2.1
+//import Qt.labs.settings 1.0
 Window
 {
     visible: true
@@ -157,7 +158,7 @@ Window
     }
 
 
-    FileDialog
+   FileDialog
     {
         id: fileDialog
         title: qsTr("Datenbank auswählen")
@@ -172,7 +173,7 @@ Window
         }
     }
 
-    MessageDialog {
+   MessageDialog {
         id: messageDialog
         title: "License Information"
         text: "Zeitschriften DB Viewer "
@@ -200,4 +201,5 @@ Window
          }
    //     Component.onCompleted: visible = true
     }
+
 }

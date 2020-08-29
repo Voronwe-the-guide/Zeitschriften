@@ -39,7 +39,7 @@ Item
                 {
                     id: magazinArea
                     text: artikelDisplay.zeitschrift
-                    iconSource: "qrc:/Images/magazin.png"
+                    iconSource: "qrc:/Images/magazin.svg" //"png"
                     toolTip: qsTr("Magazin")
 
                 }
@@ -47,7 +47,7 @@ Item
                 {
                     id: yearArea
                     text: artikelDisplay.jahrgang
-                    iconSource: "qrc:/Images/year.png"
+                    iconSource: "qrc:/Images/year.svg"//.png"
                     toolTip: qsTr("Jahr")
                  }
 
@@ -55,21 +55,21 @@ Item
                 {
                    id: editionArea
                    text: artikelDisplay.ausgabe
-                   iconSource: "qrc:/Images/edition.png"
+                   iconSource: "qrc:/Images/edition.svg"  //.png"
                    toolTip: qsTr("Ausgabe")
                 }
                 IconWithText
                 {
                    id:pageArea
                    text: artikelDisplay.seite
-                   iconSource: "qrc:/Images/page.png"
+                   iconSource: "qrc:/Images/page.svg"  //.png"
                    toolTip: qsTr("Seite")
                 }
                 IconWithText
                 {
                    id: rubrikArea
                    text: artikelDisplay.rubrik
-                   iconSource: "qrc:/Images/rubrik.png"
+                   iconSource: "qrc:/Images/rubrik.svg" //.png"
                    toolTip: qsTr("Rubrik")
                 }
             }
@@ -83,7 +83,7 @@ Item
             {
                 id: countyArea
                 text: artikelDisplay.land
-                iconSource:  "qrc:/Images/land.png"
+                iconSource:  "qrc:/Images/land.svg" //png"
                 toolTip: qsTr("Land")
             }
 
@@ -102,7 +102,7 @@ Item
                     id: authorArea
                      height: showColumn.basicHeight
                     text: artikelDisplay.author
-                    iconSource:  "qrc:/Images/writer.png"
+                    iconSource:  "qrc:/Images/writer.svg" //.png"
                     toolTip: qsTr("Text von")
 
                 }
@@ -111,7 +111,7 @@ Item
                     id: photoArea
                      height: showColumn.basicHeight
                     text: artikelDisplay.fotos
-                    iconSource:  "qrc:/Images/foto.png"
+                    iconSource:  "qrc:/Images/foto.svg" //.png"
                     toolTip: qsTr("Fotos von")
 
                 }
