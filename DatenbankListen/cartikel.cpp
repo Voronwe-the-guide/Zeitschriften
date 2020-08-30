@@ -1,8 +1,9 @@
 #include "cartikel.h"
 
 CArtikel::CArtikel():
-	m_Ausgabe(0),
-	m_Jahr(0),
+    m_DBIndex(-1),
+    m_Jahr(0),
+    m_Ausgabe(0),
     m_Seite(0)
 {
 
@@ -10,22 +11,23 @@ CArtikel::CArtikel():
 
 bool CArtikel::setDBElement(QString columnName, QString columnEntry)
 {
-	columnName = columnName.toLower();
+    //columnName = columnName.toLower();
 
-	if (columnName == "ausgabe"){ setAusgabe(columnEntry.toInt()); return true;}
-	else if (columnName == "jahr") { setJahr(columnEntry.toInt()); return true;}
-	else if (columnName == "rubrik") { setRubrik(columnEntry); return true;}
-	else if (columnName == "ueberschrift") { setUeberschrift(columnEntry); return true;}
-	else if (columnName == "zusammenfassung") { setZusammenfassung(columnEntry); return true;}
-	else if (columnName == "kurztext") { setKurztext(columnEntry); return true;}
-	else if (columnName == "seite") { setSeite(columnEntry.toInt()); return true;}
-	else if (columnName == "autor") { setAutor(columnEntry); return true;}
-	else if (columnName == "fotos") { setFotos(columnEntry); return true;}
-	else if (columnName == "schlagworte") { setSchlagworte(columnEntry); return true;}
-    else if (columnName == "zeitschrift") {setZeitschrift(columnEntry); return true;}
-    else if (columnName == "land") {setLand(columnEntry); return true;}
-    else if (columnName == "koordinate") {setKoordinate(columnEntry); return true;}
-    else if (columnName == "aenderungszeit") {setLastChange(columnEntry); return true;}
+    if (columnName == "Ausgabe"){ m_artikelMap[columnName] = columnEntry; setAusgabe(columnEntry.toInt()); return true;}
+    else if (columnName == "Jahr") { m_artikelMap[columnName] = columnEntry; setJahr(columnEntry.toInt()); return true;}
+    else if (columnName == "Rubrik") { m_artikelMap[columnName] = columnEntry; setRubrik(columnEntry); return true;}
+    else if (columnName == "Ueberschrift") { m_artikelMap[columnName] = columnEntry; setUeberschrift(columnEntry); return true;}
+    else if (columnName == "Zusammenfassung") {m_artikelMap[columnName] = columnEntry; setZusammenfassung(columnEntry); return true;}
+    else if (columnName == "Kurztext") {m_artikelMap[columnName] = columnEntry; setKurztext(columnEntry); return true;}
+    else if (columnName == "Seite") {m_artikelMap[columnName] = columnEntry; setSeite(columnEntry.toInt()); return true;}
+    else if (columnName == "Autor") {m_artikelMap[columnName] = columnEntry; setAutor(columnEntry); return true;}
+    else if (columnName == "Fotos") {m_artikelMap[columnName] = columnEntry; setFotos(columnEntry); return true;}
+    else if (columnName == "Schlagworte") {m_artikelMap[columnName] = columnEntry; setSchlagworte(columnEntry); return true;}
+    else if (columnName == "Zeitschrift") {m_artikelMap[columnName] = columnEntry;setZeitschrift(columnEntry); return true;}
+    else if (columnName == "Land") {m_artikelMap[columnName] = columnEntry;setLand(columnEntry); return true;}
+    else if (columnName == "Koordinate") {m_artikelMap[columnName] = columnEntry;setKoordinate(columnEntry); return true;}
+    else if (columnName == "Aenderungszeit") {m_artikelMap[columnName] = columnEntry;setLastChange(columnEntry); return true;}
+    else if (columnName == "UniqueIndex") {m_artikelMap[columnName] = columnEntry;setDBIndex(columnEntry.toInt()); return true;}
 
 	return false;
 }
@@ -38,7 +40,7 @@ QString CArtikel::Zeitschrift() const
 
 void CArtikel::setZeitschrift(const QString &Zeitschrift)
 {
-	m_Zeitschrift = Zeitschrift;
+    m_Zeitschrift = Zeitschrift;
 }
 
 int CArtikel::Jahr() const
@@ -48,7 +50,7 @@ int CArtikel::Jahr() const
 
 void CArtikel::setJahr(int Jahr)
 {
-	m_Jahr = Jahr;
+    m_Jahr = Jahr;
 }
 
 int CArtikel::Ausgabe() const
@@ -206,7 +208,9 @@ QString CArtikel::lastChangeAsString() const
 
  void CArtikel::setLastChange(const QString &lastChange)
  {
+
      QDateTime date = QDateTime::fromString(lastChange,Qt::ISODate);
+     date.setTimeSpec(Qt::OffsetFromUTC);
      if (date.isValid())
      {
          setLastChange(date);
@@ -215,7 +219,45 @@ QString CArtikel::lastChangeAsString() const
 
 void CArtikel::setLastChange(const QDateTime &lastChange)
 {
+    QDateTime temp = lastChange;
+    temp.setTimeSpec(Qt::OffsetFromUTC);
     m_lastChange = lastChange;
+}
+
+int CArtikel::DBIndex() const
+{
+    return m_DBIndex;
+}
+
+void CArtikel::setDBIndex(int index)
+{
+    m_DBIndex = index;
+}
+
+QString CArtikel::getArtikelAsSQLString(bool include_whereID)
+{
+    QString artikel = "SET ";
+    artikel += QString(" Ausgabe = '%1',").arg(Ausgabe());
+    artikel +=QString(" Jahr = '%1',").arg(Jahr());
+    artikel +=QString(" Rubrik = '%1',").arg(Rubrik());
+    artikel +=QString(" Ueberschrift = '%1',").arg(Ueberschrift());
+    artikel +=QString(" Zusammenfassung = '%1',").arg(Zusammenfassung());
+    artikel +=QString(" Kurztext = '%1',").arg(Kurztext());
+    artikel +=QString(" Seite = '%1',").arg(Seite());
+    artikel +=QString(" Autor = '%1',").arg(Autor());
+    artikel +=QString(" Fotos = '%1',").arg(Fotos());
+    artikel +=QString(" Schlagworte = '%1',").arg(Schlagworte());
+    artikel +=QString(" Zeitschrift = '%1',").arg(Zeitschrift());
+    artikel +=QString(" Land = '%1',").arg(Land());
+    artikel +=QString(" Koordinate = '%1',").arg(KoordinateAsString());
+    artikel +=QString(" Aenderungszeit = '%1'").arg(lastChangeAsString());
+
+    if (include_whereID)
+    {
+       artikel += QString(" WHERE UniqueIndex='%1'").arg(DBIndex());
+    }
+
+    return artikel;
 }
 
 

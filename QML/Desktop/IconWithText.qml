@@ -8,6 +8,11 @@ Item
     property string text:""
     property string iconSource:""
     property string toolTip:""
+    property bool readOnly: true
+
+    signal textWasEdited(var newText)
+
+
     Row
     {
       id: displayRow
@@ -20,6 +25,15 @@ Item
             width:  source==""?0:height
             anchors.verticalCenter: parent.verticalCenter
             source: textArea.iconSource
+            MouseArea
+            {
+               id: mouseArea
+                anchors.fill: parent
+                hoverEnabled: true
+                onEntered: {toolTip.showTip = true}
+                onExited: {toolTip.showTip = false}
+
+            }
        }
         Item
         {
@@ -34,17 +48,14 @@ Item
             height: parent.height
             width: textDisplay.contentWidth+10
             text: textArea.text
+            readOnly: textArea.readOnly
+            focus: textArea.focus
+            onTextWasEdited:{console.log("IconWText edit to "+newText); textArea.textWasEdited(newText)}
+
+
         }
     }
-    MouseArea
-    {
-       id: mouseArea
-        anchors.fill: parent
-        hoverEnabled: true
-        onEntered: {toolTip.showTip = true}
-        onExited: {toolTip.showTip = false}
 
-    }
     ToolTip
     {
       id: toolTip

@@ -55,6 +55,7 @@ private:
 	static const int  Role_Schlagworte;
 	static const int  Role_Land;
 	static const int  Role_Koordinate;
+    static const int  Role_Index;
 };
 
 

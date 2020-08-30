@@ -1,5 +1,5 @@
 import QtQuick 2.0
-
+import QtQuick.Controls 2.12
 Item
 {
     id: artikelDisplay
@@ -7,19 +7,42 @@ Item
     width: 600
     height: showColumn.height
 
+
     property string zeitschrift:""
+    signal zeitschriftEdit(var newText)
     property string jahrgang:""
+    signal jahrgangEdit(var  newText)
     property string ausgabe:""
+    signal ausgabeEdit(var newText)
     property string seite: ""
+    signal seiteEdit(var  newText)
     property string rubrik: ""
+    signal rubrikEdit(var newText)
     property string kurztext: ""
+    signal kurztextEdit(var  newText)
     property string ueberschrift: ""
+    signal ueberschriftEdit(var newText)
     property string zusammenfassung: ""
+    signal zusammenfassungEdit(var newText)
     property string stichworte:""
+    signal stichworteEdit(var newText)
     property string author:""
+    signal authorEdit(var newText)
     property string fotos:""
+    signal fotosEdit(var newText)
     property string land:""
+    signal landEdit(var newText)
     property bool   hasGPS: true
+
+    property bool readOnlyMode: true
+
+    signal editButtonPressed();
+
+    function startFocus()
+    {
+        magazinArea.focus = true;
+    }
+
 
     Column
     {
@@ -41,6 +64,8 @@ Item
                     text: artikelDisplay.zeitschrift
                     iconSource: "qrc:/Images/magazin.svg" //"png"
                     toolTip: qsTr("Magazin")
+                    readOnly: artikelDisplay.readOnlyMode
+                    onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.zeitschriftEdit(newText)}
 
                 }
                 IconWithText
@@ -49,6 +74,8 @@ Item
                     text: artikelDisplay.jahrgang
                     iconSource: "qrc:/Images/year.svg"//.png"
                     toolTip: qsTr("Jahr")
+                    readOnly: artikelDisplay.readOnlyMode
+                    onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.jahrgangEdit(newText)}
                  }
 
                 IconWithText
@@ -57,6 +84,8 @@ Item
                    text: artikelDisplay.ausgabe
                    iconSource: "qrc:/Images/edition.svg"  //.png"
                    toolTip: qsTr("Ausgabe")
+                   readOnly: artikelDisplay.readOnlyMode
+                   onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.ausgabeEdit(newText)}
                 }
                 IconWithText
                 {
@@ -64,6 +93,8 @@ Item
                    text: artikelDisplay.seite
                    iconSource: "qrc:/Images/page.svg"  //.png"
                    toolTip: qsTr("Seite")
+                   readOnly: artikelDisplay.readOnlyMode
+                   onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.seiteEdit(newText)}
                 }
                 IconWithText
                 {
@@ -71,6 +102,8 @@ Item
                    text: artikelDisplay.rubrik
                    iconSource: "qrc:/Images/rubrik.svg" //.png"
                    toolTip: qsTr("Rubrik")
+                   readOnly: artikelDisplay.readOnlyMode
+                   onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.rubrikEdit(newText)}
                 }
             }
         }
@@ -85,6 +118,8 @@ Item
                 text: artikelDisplay.land
                 iconSource:  "qrc:/Images/land.svg" //png"
                 toolTip: qsTr("Land")
+                readOnly: artikelDisplay.readOnlyMode
+                onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.landEdit(newText)}
             }
 
         }
@@ -105,6 +140,8 @@ Item
                     iconSource:  "qrc:/Images/writer.svg" //.png"
                     toolTip: qsTr("Text von")
 
+                    readOnly: artikelDisplay.readOnlyMode
+                    onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.authorEdit(newText)}
                 }
                IconWithText
                 {
@@ -113,6 +150,8 @@ Item
                     text: artikelDisplay.fotos
                     iconSource:  "qrc:/Images/foto.svg" //.png"
                     toolTip: qsTr("Fotos von")
+                    readOnly: artikelDisplay.readOnlyMode
+                    onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.fotosEdit(newText)}
 
                 }
              }
@@ -123,19 +162,55 @@ Item
             width: parent.width
 
             height:showColumn.basicHeight + 10
-            IconWithText
+          /*  IconWithText
             {
 
             }
-
-            DisplayText
+*/
+            Row
             {
-              anchors.fill: parent
-              additionToFont: 5
-              font.weight: Font.DemiBold
-             // font.bold: true
-              property string trenner: ((artikelDisplay.kurztext!="") && (artikelDisplay.ueberschrift!=""))?": ":""
-              text: artikelDisplay.kurztext+trenner+artikelDisplay.ueberschrift
+               anchors.fill: parent
+                DisplayText
+                {
+                    id: kurzText
+                    height: parent.height
+                    width: contentWidth //+10
+                    //anchors.fill: parent
+                    additionToFont: 5
+                    font.weight: Font.DemiBold
+                   // font.bold: true
+            //        property string trenner: ((artikelDisplay.kurztext!="") && (artikelDisplay.ueberschrift!=""))?": ":""
+                    text: artikelDisplay.kurztext //+trenner+artikelDisplay.ueberschrift
+                    readOnly: artikelDisplay.readOnlyMode
+                    onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.kurztextEdit(newText)}
+
+                }
+                DisplayText
+                {
+                    id: trenner
+                    height: parent.height
+                    width: visible?contentWidth:0
+
+                    text: " - "
+                    additionToFont: 5
+                    font.weight: Font.DemiBold
+                    visible: ((artikelDisplay.kurztext!="") && (artikelDisplay.ueberschrift!=""))
+
+                }
+
+                DisplayText
+                {
+                  id: ueberschrift
+                  height: parent.height
+                  width: contentWidth //+10
+                  additionToFont: 5
+                  font.weight: Font.DemiBold
+                 // font.bold: true
+                //  property string trenner: ((artikelDisplay.kurztext!="") && (artikelDisplay.ueberschrift!=""))?": ":""
+                  text: /*artikelDisplay.kurztext+trenner+*/artikelDisplay.ueberschrift
+                  readOnly: artikelDisplay.readOnlyMode
+                  onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.ueberschriftEdit(newText)}
+                }
             }
 
         }
@@ -164,6 +239,8 @@ Item
                     wrapMode: Text.Wrap
                     verticalAlignment: Text.AlignTop
                     clip: true
+                    readOnly: artikelDisplay.readOnlyMode
+                    onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.zusammenfassungEdit(newText)}
 
                 }
             }
@@ -189,6 +266,8 @@ Item
                     wrapMode: Text.Wrap
                     verticalAlignment: Text.AlignTop
                     clip: true
+                    readOnly: artikelDisplay.readOnlyMode
+                    onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.stichworteEdit(newText)}
                   }
               }
            }
@@ -196,6 +275,13 @@ Item
         }
 
 
+    }
+    Button
+    {
+        text: "Edit"
+        anchors.right: parent.right
+        visible:  artikelDisplay.readOnlyMode
+        onClicked:  editButtonPressed();
     }
 
 }

@@ -4,8 +4,11 @@ import QtQuick.Dialogs 1.3
 import QtQuick.Controls 2.12
 //import Qt.labs.folderlistmodel 2.1
 //import Qt.labs.settings 1.0
-Window
+
+
+ApplicationWindow
 {
+   id: mainWindow
     visible: true
     minimumHeight: 400
     minimumWidth: 650
@@ -202,4 +205,7 @@ Window
    //     Component.onCompleted: visible = true
     }
 
+
 }
+
+

@@ -6,6 +6,24 @@ Item
     width: 480
     height: 800
     property int fontSize: 20
+
+    onVisibleChanged:
+    {
+        if (visible)
+        {
+
+        }
+    }
+
+    Connections
+    {
+        target: cArtikelList
+        onListEmpty:
+        {
+            artikelList.positionViewAtIndex(0,ListView.Beginning);
+        }
+    }
+
     Component
     {
         id: artikelComponent
@@ -31,6 +49,12 @@ Item
                 fotos: model.fotos
                 land: model.land
         //        hasGPS: true
+                onEditButtonPressed:
+                {
+                     cArtikelEditor.setArtikelForUpdate(model.dbindex);
+                   Qt.createComponent("ArtikelWriter.qml").createObject(artikelListDisplay)// artikeleditor.visible = true;
+                 //   editElement.active = true;
+                }
 
             }
                Rectangle
@@ -61,5 +85,24 @@ Item
         }
 
     }
+
+
+ /*   Loader
+    {
+        id: editElement
+        sourceComponent: editArtikel
+        active: false
+    }
+
+    Component
+    {
+        id: editArtikel
+        ArtikelWriter
+        {
+             id: artikeleditor
+           // visible: false
+        }
+    }
+*/
 
 }

@@ -50,7 +50,7 @@ bool CListenController::openDB(QString DBPath)
     }
     m_db = nullptr;
     sqlite3 *db;
-       rc = sqlite3_open_v2(DBPath.toUtf8(),&db,(SQLITE_OPEN_READONLY | SQLITE_OPEN_URI),nullptr);
+       rc = sqlite3_open_v2(DBPath.toUtf8(),&db,(SQLITE_OPEN_READWRITE | SQLITE_OPEN_URI),nullptr);
     if (rc != SQLITE_OK)
     {
         qDebug()<<"Could not open SQLite DB "<<DBPath;
@@ -217,6 +217,7 @@ void CListenController::getJahreForZeitschrift(QStringList zeitschriften)
     }
 
     QString request = QString("SELECT Jahr,Zeitschrift FROM Inhalte WHERE %1 %2 ORDER BY Jahr ASC").arg(zeitschriftenSearch).arg(searchForString);
+
     int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt);
 
 //    int rc = sqlite3_prepare_v2(m_db,request.toStdString().c_str() , -1, &stmt, nullptr);
@@ -442,6 +443,85 @@ void  CListenController::getArtikelForAusgabe(QString zeitschrift, int jahr, int
 
 }
 
+void CListenController::updateInhalteTable(QString sqlElements)
+{
+    if (m_db == nullptr)
+    {
+        qDebug()<<"No open DB!";
+    }
+    sqlite3_stmt *stmt;
+    char *zErrMsg;
+
+    QString request = QString("UPDATE Inhalte %1").arg(sqlElements);
+    int rc = sqlite3_exec(m_db,request.toStdString().c_str(),nullptr,0,&zErrMsg);
+//    int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt);
+    if (rc !=0 )
+    {
+        qDebug()<<"SqLite request returned "<<sqlite3_errstr(rc)<<" ("<<rc<<") for "<<request;
+    }
+    else
+    {
+        qDebug()<<"SqLite request returned OK for "<<request;
+
+    }
+  //  sqlite3_finalize(stmt);
+    return;
+}
+
+CArtikel CListenController::getArtikelByIndex(int index)
+{
+    CArtikel artikel;
+
+
+    if (m_db == nullptr)
+    {
+        qDebug()<<"No open DB!";
+        return artikel;
+    }
+    sqlite3_stmt *stmt;
+
+    QString request = QString("SELECT * FROM Inhalte WHERE UniqueIndex='%1' ORDER BY Jahr ASC,Ausgabe ASC,Seite ASC").arg(index);
+//    qDebug()<<request;
+
+    int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt);
+//	int rc = sqlite3_prepare_v2(m_db, request.toStdString().c_str(), -1, &stmt, nullptr);
+    if (rc != SQLITE_OK)
+    {
+           return artikel; // or throw
+    }
+
+  /*  if (number != 1)
+    {
+       qDebug()<<"Index "<<index<<" nicht eindeutig";
+       return artikel;
+    }*/
+
+    int counter =0;
+    while ((rc = sqlite3_step(stmt)) == SQLITE_ROW)
+    {
+          if (counter > 0)
+          {
+             qDebug()<<"Index "<<index<<" nicht eindeutig";
+             return artikel;
+          }
+        int number = sqlite3_column_count(stmt);
+
+        for (int i=0; i<number; ++i)
+        {
+
+           QString columnName(reinterpret_cast<const char*>(sqlite3_column_name(stmt,i)));
+            QString columnText(reinterpret_cast<const char*>(sqlite3_column_text(stmt,i)));
+            artikel.setDBElement(columnName,columnText);
+
+        }
+        counter ++;
+
+      }
+
+    sqlite3_finalize(stmt);
+    return artikel;
+}
+
 void CListenController::getTableNamesFromDB()
 {
     char **result;
@@ -575,6 +655,8 @@ void CListenController::searchArtikel(QString searchElement)
     {
            return; // or throw
     }
+
+
     while ((rc = sqlite3_step(stmt)) == SQLITE_ROW)
     {
         int number = sqlite3_column_count(stmt);
@@ -600,8 +682,17 @@ void CListenController::searchArtikel(QString searchElement)
 
 int CListenController::makeSQLiteSearch(const QString& request, sqlite3_stmt **stmt) const
 {
+ //   int rc = sqlite3_get_table
     int rc = sqlite3_prepare_v2(m_db,request.toStdString().c_str() , -1, stmt, nullptr);
-    qDebug()<<"SqLite request returned "<<rc<<" for "<<request;
+    if (rc !=0 )
+    {
+        qDebug()<<"SqLite request returned "<<sqlite3_errstr(rc)<<" ("<<rc<<") for "<<request;
+    }
+    else
+    {
+        qDebug()<<"SqLite request returned OK for "<<request;
+
+    }
     return rc;
 }
 

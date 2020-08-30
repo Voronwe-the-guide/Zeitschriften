@@ -38,6 +38,15 @@ public slots:
     void getAusgabenForZeitschrift(QString zeitschrift, int jahr);
 
     void getArtikelForAusgabe(QString zeitschrift,int jahr, int ausgabe);
+
+    void updateInhalteTable(QString sqlElements);
+
+    /*!
+     * \brief getArtikelByIndex
+     * \param index
+     * \param changeOtherLists: Soll nur der Artikel gefunden werden, oder auch Jahr + Ausgabe nur diesen anzeigen?
+     */
+    CArtikel getArtikelByIndex(int index);
     void searchArtikel(QString searchElement);
 
     QString getSearchElement() const;

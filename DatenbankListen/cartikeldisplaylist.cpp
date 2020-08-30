@@ -15,6 +15,7 @@ const int  CArtikelDisplayList::Role_Fotos = Qt::UserRole+10;
 const int  CArtikelDisplayList::Role_Schlagworte = Qt::UserRole+11;
 const int  CArtikelDisplayList::Role_Land = Qt::UserRole+12;
 const int  CArtikelDisplayList::Role_Koordinate = Qt::UserRole+13;
+const int  CArtikelDisplayList::Role_Index = Qt::UserRole+14;
 
 
 
@@ -63,6 +64,7 @@ QVariant CArtikelDisplayList::data ( const QModelIndex & index, int role) const
             case Role_Fotos: return HighlightSearchElement(temp.Fotos());
             case Role_Schlagworte: return HighlightSearchElement(temp.Schlagworte());
             case Role_Land: return HighlightSearchElement(temp.Land());
+            case Role_Index: return temp.DBIndex();
 	//		case Role_Koordinate: return temp.Koordinate();
 		}
 	}
@@ -112,6 +114,7 @@ QHash<int, QByteArray> CArtikelDisplayList::roleNames() const
 	roles[Role_Schlagworte] = "schlagworte";
 	roles[Role_Land] = "land";
 	roles[Role_Koordinate] = "koordinate";
+    roles[Role_Index] = "dbindex";
 
     return roles;
 }

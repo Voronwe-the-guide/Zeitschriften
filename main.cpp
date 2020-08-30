@@ -8,6 +8,8 @@
 #include <DatenbankListen/causgabe.h>
 #include <DatenbankListen/clistencontroller.h>
 #include <DatenbankInfo/ccolumn.h>
+#include <DatenbankInfo/cartikeleditor.h>
+
 
 #include <Settings/csettings.h>
 
@@ -35,6 +37,7 @@ int main(int argc, char *argv[])
 	listenController.openDB(settings.currentDB());
 	QObject::connect(&settings, &CSettings::dbUpdated, &listenController, &CListenController::openDB);
 
+    CArtikelEditor artikelEditor(&listenController);
 
 	QQmlApplicationEngine engine;
     engine.addImportPath("qrc:/");
@@ -54,6 +57,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("cZeitschriftenList",listenController.zeitschriftenDisplay());
     engine.rootContext()->setContextProperty("cZeitschriftenForJahr",listenController.zeitschriftenForJahrDisplay());
     engine.rootContext()->setContextProperty("cListenController",&listenController);
+    engine.rootContext()->setContextProperty("cArtikelEditor",&artikelEditor);
 
     engine.load(url);
 
