@@ -30,5 +30,6 @@
         <file>Desktop/ZeitschriftenDisplay.qml</file>
         <file>Desktop/ZeitschriftenForJahreDisplay.qml</file>
         <file>Desktop/ArtikelWriter.qml</file>
+        <file>Desktop/MessageDisplay.qml</file>
     </qresource>
 </RCC>

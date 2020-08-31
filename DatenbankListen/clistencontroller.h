@@ -55,13 +55,13 @@ public slots:
     void addOrRemoveZeitschrift(int index);
 
 signals:
-
+	void errorMessage(QString sender, QString Message);
 
 private:
     QString setSearchStringAsSQL();
     QString setZeitschriftenAsSQL();
     void getTableNamesFromDB();
-    int makeSQLiteSearch(const QString& request, sqlite3_stmt **stmt) const;
+	int makeSQLiteSearch(const QString& request, sqlite3_stmt **stmt,QString callingFunction);
 
     sqlite3 *m_db;
 	CJahrDisplayList *m_jahrgaengeDisplay;

@@ -9,6 +9,7 @@
 #include <DatenbankListen/clistencontroller.h>
 #include <DatenbankInfo/ccolumn.h>
 #include <DatenbankInfo/cartikeleditor.h>
+#include <Helper/cerrordisplay.h>
 
 
 #include <Settings/csettings.h>
@@ -31,11 +32,14 @@ int main(int argc, char *argv[])
 	qRegisterMetaType<CAusgabe>("CAusgabe");
 	qRegisterMetaType<CJahr>("CJahr");
 	qRegisterMetaType<CColumn>("CColumn");
+
+	CErrorDisplay errorDisplay;
 	CSettings settings;
 
     CListenController listenController;
 	listenController.openDB(settings.currentDB());
 	QObject::connect(&settings, &CSettings::dbUpdated, &listenController, &CListenController::openDB);
+	QObject::connect(&listenController, &CListenController::errorMessage, &errorDisplay, &CErrorDisplay::gotErrorMessage);
 
     CArtikelEditor artikelEditor(&listenController);
 
@@ -58,7 +62,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("cZeitschriftenForJahr",listenController.zeitschriftenForJahrDisplay());
     engine.rootContext()->setContextProperty("cListenController",&listenController);
     engine.rootContext()->setContextProperty("cArtikelEditor",&artikelEditor);
-
+	engine.rootContext()->setContextProperty("cErrorDisplay",&errorDisplay);
     engine.load(url);
 
 	app.exec();

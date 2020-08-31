@@ -101,7 +101,7 @@ void CListenController::getListOfZeitschriften()
     sqlite3_stmt *stmt;
 
     QString request = QString("SELECT Zeitschrift FROM Inhalte  ORDER BY Zeitschrift ASC");
-    int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt);
+	int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt,"getListOfZeitschriften");
     if (rc != SQLITE_OK)
     {
            return; // or throw
@@ -149,7 +149,7 @@ void CListenController::getOverview()
         searchForString = QString("WHERE (")+searchForString+QString(") ");
     }
     QString request = QString("SELECT %1 FROM Inhalte %2 ORDER BY Jahr ASC").arg(select).arg(searchForString);
-    int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt);
+	int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt,"getOverview");
      if (rc != SQLITE_OK)
     {
            return; // or throw
@@ -218,7 +218,7 @@ void CListenController::getJahreForZeitschrift(QStringList zeitschriften)
 
     QString request = QString("SELECT Jahr,Zeitschrift FROM Inhalte WHERE %1 %2 ORDER BY Jahr ASC").arg(zeitschriftenSearch).arg(searchForString);
 
-    int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt);
+	int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt,"getJahreForZeitschrift");
 
 //    int rc = sqlite3_prepare_v2(m_db,request.toStdString().c_str() , -1, &stmt, nullptr);
     if (rc != SQLITE_OK)
@@ -253,8 +253,7 @@ void CListenController::getLowerInfoForJahr(int jahr)
 
 int CListenController::getZeitschriftenForJahr(int jahr)
 {
-      int numberOfZeitschriften;
-      m_ausgabenDisplay->deleteAll();
+	  m_ausgabenDisplay->deleteAll();
       m_artikelDisplay->deleteAll();
       m_zeitschriftenForJahrDisplay->deleteAll();
       if (m_db == nullptr)
@@ -275,7 +274,7 @@ int CListenController::getZeitschriftenForJahr(int jahr)
        }
 
       QString request = QString("SELECT * FROM Inhalte WHERE Jahr='%1' %2 %3 ORDER BY Zeitschrift ASC, Jahr ASC,Ausgabe ASC,Seite ASC").arg(jahr).arg(zeitschriftenSearch).arg(searchForString);
-      int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt);
+	  int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt,"getLowerInfoForJahr");
   //	int rc = sqlite3_prepare_v2(m_db, request.toStdString().c_str(), -1, &stmt, nullptr);
       if (rc != SQLITE_OK)
       {
@@ -325,7 +324,7 @@ void CListenController::getAusgabenForJahr(int jahr)
 
     QString request = QString("SELECT * FROM Inhalte WHERE Jahr='%1' %2 ORDER BY Jahr ASC,Ausgabe ASC,Seite ASC").arg(jahr).arg(searchForString);
 //    qDebug()<<request;
-    int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt);
+	int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt,"getAusgabenForJahr");
 //	int rc = sqlite3_prepare_v2(m_db, request.toStdString().c_str(), -1, &stmt, nullptr);
 	if (rc != SQLITE_OK)
 	{
@@ -372,7 +371,7 @@ void CListenController::getAusgabenForZeitschrift(QString zeitschrift, int jahr)
 
     QString request = QString("SELECT * FROM Inhalte WHERE Jahr='%1' AND Zeitschrift='%2' %3 ORDER BY Jahr ASC,Ausgabe ASC,Seite ASC").arg(jahr).arg(zeitschrift).arg(searchForString);
 //    qDebug()<<request;
-    int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt);
+	int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt,"getAusgabenForZeitschrift");
 //	int rc = sqlite3_prepare_v2(m_db, request.toStdString().c_str(), -1, &stmt, nullptr);
     if (rc != SQLITE_OK)
     {
@@ -417,7 +416,7 @@ void  CListenController::getArtikelForAusgabe(QString zeitschrift, int jahr, int
 
     QString request = QString("SELECT * FROM Inhalte WHERE Jahr='%1' AND Ausgabe='%2' AND Zeitschrift='%3' %4 ORDER BY Zeitschrift ASC, Jahr ASC,Ausgabe ASC,Seite ASC").arg(jahr).arg(ausgabe).arg(zeitschrift).arg(searchForString);
  //   qDebug()<<request;
-    int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt);
+	int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt,"getArtikelForAusgabe");
 
 //	int rc = sqlite3_prepare_v2(m_db, request.toStdString().c_str(), -1, &stmt, nullptr);
     if (rc != SQLITE_OK)
@@ -483,7 +482,7 @@ CArtikel CListenController::getArtikelByIndex(int index)
     QString request = QString("SELECT * FROM Inhalte WHERE UniqueIndex='%1' ORDER BY Jahr ASC,Ausgabe ASC,Seite ASC").arg(index);
 //    qDebug()<<request;
 
-    int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt);
+	int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt,"getArtikelByIndex");
 //	int rc = sqlite3_prepare_v2(m_db, request.toStdString().c_str(), -1, &stmt, nullptr);
     if (rc != SQLITE_OK)
     {
@@ -649,7 +648,7 @@ void CListenController::searchArtikel(QString searchElement)
     QString request = QString("SELECT * FROM Inhalte %1 ORDER BY Jahr ASC,Ausgabe ASC,Seite ASC").arg(filterRequest);
 //    qDebug()<<request;
 
-    int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt);
+	int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt,"searchArtikel");
 //	int rc = sqlite3_prepare_v2(m_db, request.toStdString().c_str(), -1, &stmt, nullptr);
     if (rc != SQLITE_OK)
     {
@@ -680,17 +679,19 @@ void CListenController::searchArtikel(QString searchElement)
 }
 
 
-int CListenController::makeSQLiteSearch(const QString& request, sqlite3_stmt **stmt) const
+int CListenController::makeSQLiteSearch(const QString& request, sqlite3_stmt **stmt,QString callingFunction)
 {
  //   int rc = sqlite3_get_table
     int rc = sqlite3_prepare_v2(m_db,request.toStdString().c_str() , -1, stmt, nullptr);
     if (rc !=0 )
     {
-        qDebug()<<"SqLite request returned "<<sqlite3_errstr(rc)<<" ("<<rc<<") for "<<request;
-    }
+		QString error = QString("sqlite3_prepare_v2 request from ")+callingFunction+QString(" returned %1 (%2) for %3").arg(sqlite3_errstr(rc)).arg(rc).arg(request);
+		qDebug()<< error; //"SqLite request from "<<callingFunction"<< returned "<<sqlite3_errstr(rc)<<" ("<<rc<<") for "<<request;
+		emit errorMessage("CListenController",error);
+	}
     else
     {
-        qDebug()<<"SqLite request returned OK for "<<request;
+		qDebug()<<"sqlite3_prepare_v2 request from "<<callingFunction<<" returned OK for "<<request;
 
     }
     return rc;

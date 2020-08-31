@@ -18,6 +18,15 @@ ApplicationWindow
     onWidthChanged: cSettings.setWindowWidth(width)
     onHeightChanged: cSettings.setWindowHeight(height)
 
+    Connections
+    {
+        target: cErrorDisplay
+        onDisplayError:
+        {
+            Qt.createComponent("MessageDisplay.qml").createObject(mainWindow, {text:error})// artikeleditor.visible = true;
+        }
+    }
+
     Item
     {
         id: topArea
