@@ -18,7 +18,7 @@
 
 #include <QDebug>
 
-
+#include <QTextEdit>
 
 int main(int argc, char *argv[])
 {

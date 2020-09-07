@@ -11,6 +11,8 @@ Item
     property bool readOnly: true
 
     signal textWasEdited(var newText)
+    signal nextPressed()
+    signal previousPressed()
 
 
     Row
@@ -51,8 +53,8 @@ Item
             readOnly: textArea.readOnly
             focus: textArea.focus
             onTextWasEdited:{console.log("IconWText edit to "+newText); textArea.textWasEdited(newText)}
-
-
+            onNextPressed: {textArea.nextPressed();}
+            onPreviousPressed: {textArea.previousPressed();}
         }
     }
 

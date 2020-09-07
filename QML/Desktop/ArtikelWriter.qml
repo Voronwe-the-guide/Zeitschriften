@@ -29,11 +29,38 @@ Window
    DialogButtonBox
    {
        id: dialogButtons
-       standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel
+       signal nextPressed()
+       signal previousPressed()
+
+       function focusFromStart(){saveButton.focus = true}
+       function focusFromEnd(){cancelButton.focus = true}
+
+       Button {
+           id: saveButton
+           text: qsTr("Save")
+             DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
+             onClicked: {cArtikelEditor.saveChangesInDB(); editWindow.close()}
+ //            Keys.onTabPressed:{cancelButton.focus = true;}
+ //            Keys.onBacktabPressed:{dialogButtons.previousPressed()}
+ //            Keys.onReturnPressed:{ cArtikelEditor.saveChangesInDB(); editWindow.close()}
+
+
+         }
+         Button {
+             id: cancelButton
+             text: qsTr("Cancel")
+             DialogButtonBox.buttonRole: DialogButtonBox.DestructiveRole
+             onClicked: { editWindow.close()}
+  //           Keys.onTabPressed:{dialogButtons.nextPressed()}
+  //           Keys.onBacktabPressed: {saveButton.focus = true}
+  //           Keys.onReturnPressed:{editWindow.close()}
+
+         }
+  /*     standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel
    //    position: DialogButtonBox.Footer
        onAccepted:{cArtikelEditor.saveChangesInDB(); editWindow.close()}
        onRejected: editWindow.close()
-   }
+  */ }
       Artikel
       {
 
@@ -84,6 +111,9 @@ Window
           onAuthorEdit:{cArtikelEditor.setAutor(newText)}
           onFotosEdit:{cArtikelEditor.setFotos(newText)}
           onLandEdit:{cArtikelEditor.setLand(newText)}
+
+          onPreviousPressed: {dialogButtons.focusFromEnd()}
+          onNextPressed: {dialogButtons.focusFromStart()}
        //   hasGPS: true
       }
 

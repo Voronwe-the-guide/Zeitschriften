@@ -7,7 +7,6 @@ Item
     width: 600
     height: showColumn.height
 
-
     property string zeitschrift:""
     signal zeitschriftEdit(var newText)
     property string jahrgang:""
@@ -37,6 +36,9 @@ Item
     property bool readOnlyMode: true
 
     signal editButtonPressed();
+    signal nextPressed()
+    signal previousPressed()
+
 
     function startFocus()
     {
@@ -66,6 +68,8 @@ Item
                     toolTip: qsTr("Magazin")
                     readOnly: artikelDisplay.readOnlyMode
                     onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.zeitschriftEdit(newText)}
+                    onNextPressed: {yearArea.focus = true}
+                    onPreviousPressed: { schlagworte.focus = true} //artikelDisplay.previousPressed()}
 
                 }
                 IconWithText
@@ -76,6 +80,8 @@ Item
                     toolTip: qsTr("Jahr")
                     readOnly: artikelDisplay.readOnlyMode
                     onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.jahrgangEdit(newText)}
+                    onNextPressed: {editionArea.focus = true}
+                    onPreviousPressed: {magazinArea.focus = true}
                  }
 
                 IconWithText
@@ -86,6 +92,8 @@ Item
                    toolTip: qsTr("Ausgabe")
                    readOnly: artikelDisplay.readOnlyMode
                    onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.ausgabeEdit(newText)}
+                   onNextPressed: {pageArea.focus = true}
+                   onPreviousPressed: {yearArea.focus = true}
                 }
                 IconWithText
                 {
@@ -95,6 +103,8 @@ Item
                    toolTip: qsTr("Seite")
                    readOnly: artikelDisplay.readOnlyMode
                    onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.seiteEdit(newText)}
+                   onNextPressed: {rubrikArea.focus = true}
+                   onPreviousPressed: {editionArea.focus = true}
                 }
                 IconWithText
                 {
@@ -104,6 +114,8 @@ Item
                    toolTip: qsTr("Rubrik")
                    readOnly: artikelDisplay.readOnlyMode
                    onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.rubrikEdit(newText)}
+                   onNextPressed: {countryArea.focus = true}
+                   onPreviousPressed: {pageArea.focus = true}
                 }
             }
         }
@@ -114,12 +126,14 @@ Item
             height: showColumn.basicHeight
             IconWithText
             {
-                id: countyArea
+                id: countryArea
                 text: artikelDisplay.land
                 iconSource:  "qrc:/Images/land.svg" //png"
                 toolTip: qsTr("Land")
                 readOnly: artikelDisplay.readOnlyMode
                 onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.landEdit(newText)}
+                onNextPressed: {authorArea.focus = true}
+                onPreviousPressed: {rubrikArea.focus = true}
             }
 
         }
@@ -142,6 +156,8 @@ Item
 
                     readOnly: artikelDisplay.readOnlyMode
                     onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.authorEdit(newText)}
+                    onNextPressed: {photoArea.focus = true}
+                    onPreviousPressed: {countryArea.focus = true}
                 }
                IconWithText
                 {
@@ -152,6 +168,8 @@ Item
                     toolTip: qsTr("Fotos von")
                     readOnly: artikelDisplay.readOnlyMode
                     onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.fotosEdit(newText)}
+                    onNextPressed: {kurzText.focus = true}
+                    onPreviousPressed: {authorArea.focus = true}
 
                 }
              }
@@ -183,6 +201,8 @@ Item
                     text: artikelDisplay.kurztext //+trenner+artikelDisplay.ueberschrift
                     readOnly: artikelDisplay.readOnlyMode
                     onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.kurztextEdit(newText)}
+                    onNextPressed: {ueberschrift.focus = true}
+                    onPreviousPressed: {photoArea.focus = true}
 
                 }
                 DisplayText
@@ -210,6 +230,9 @@ Item
                   text: /*artikelDisplay.kurztext+trenner+*/artikelDisplay.ueberschrift
                   readOnly: artikelDisplay.readOnlyMode
                   onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.ueberschriftEdit(newText)}
+                  onNextPressed: {zusammenfassung.focus = true}
+                  onPreviousPressed: {kurzText.focus = true}
+
                 }
             }
 
@@ -241,6 +264,8 @@ Item
                     clip: true
                     readOnly: artikelDisplay.readOnlyMode
                     onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.zusammenfassungEdit(newText)}
+                    onNextPressed: {schlagworte.focus = true}
+                    onPreviousPressed: {ueberschrift.focus = true}
 
                 }
             }
@@ -268,6 +293,8 @@ Item
                     clip: true
                     readOnly: artikelDisplay.readOnlyMode
                     onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.stichworteEdit(newText)}
+                    onPreviousPressed: {zusammenfassung.focus = true}
+                    onNextPressed: {magazinArea.focus = true}//artikelDisplay.nextPressed()}
                   }
               }
            }

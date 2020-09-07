@@ -30,7 +30,7 @@ Item
         Item
         {
             id: showArtikel
-            width: parent.width
+            width: artikelListDisplay.width
             height: artikelDisplay.height+artikelSeperator.height
             Artikel
             {
