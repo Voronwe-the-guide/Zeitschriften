@@ -8,6 +8,7 @@
 class CSettings  : public QObject
 {
 	Q_OBJECT
+    Q_PROPERTY(QString currentDB	 READ getCurrentDB NOTIFY dbUpdated)
 public:
 	CSettings();
 	CSettings (std::string &JsonInfo);
@@ -26,7 +27,7 @@ public:
 
 
 public slots:
-    QString currentDB() const;
+    QString getCurrentDB() const;
     void setCurrentDB(const QString &currentDBPath);
     QSize getWindowSize() const;
     void setWindowSize(const QSize &windowSize);

@@ -7,6 +7,10 @@ Window
     width: 1000
     height: artikel.height+dialogButtons.height
     visible: true
+    property bool isNewOne: false;
+    modality:Qt.ApplicationModal
+
+    signal nextButtonPressed();
     onVisibilityChanged:
     {
         if (visible)
@@ -24,7 +28,7 @@ Window
    flags:  Qt.Window | Qt.WindowSystemMenuHint
            | Qt.WindowTitleHint | Qt.WindowMinimizeButtonHint //| Qt.WindowCloseButtonHint
 //      |Qt.WindowCancelButtonHint
-           | Qt.WindowMaximizeButtonHint // | Qt.WindowStaysOnTopHint
+           | Qt.WindowMaximizeButtonHint// | Qt.WindowStaysOnTopHint
 
    DialogButtonBox
    {
@@ -37,7 +41,7 @@ Window
 
        Button {
            id: saveButton
-           text: qsTr("Save")
+           text: qsTr("Speichern")
              DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
              onClicked: {cArtikelEditor.saveChangesInDB(); editWindow.close()}
  //            Keys.onTabPressed:{cancelButton.focus = true;}
@@ -56,6 +60,21 @@ Window
   //           Keys.onReturnPressed:{editWindow.close()}
 
          }
+
+         Button
+         {
+             id: nextButton
+             visible: editWindow.isNewOne
+             text: qsTr("Speichern und Nächster")
+             onClicked:
+             {
+                cArtikelEditor.saveAndNext();
+                 editWindow.close();
+                 editWindow.nextButtonPressed();
+
+             }
+         }
+
   /*     standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel
    //    position: DialogButtonBox.Footer
        onAccepted:{cArtikelEditor.saveChangesInDB(); editWindow.close()}
@@ -67,6 +86,7 @@ Window
           width: parent.width
           anchors.top: dialogButtons.bottom
           id: artikel
+          isNewOne: editWindow.isNewOne
           readOnlyMode: false
           zeitschrift:cArtikelEditor.zeitschrift
           jahrgang:cArtikelEditor.jahr
@@ -85,6 +105,7 @@ Window
               target:cArtikelEditor
               function onArtikelDisplayUpdated()
               {
+                 console.log("Display updated");
                   artikel.zeitschrift = cArtikelEditor.getZeitschrift()
                   artikel.jahrgang=cArtikelEditor.getJahr()
                   artikel.ausgabe=cArtikelEditor.getAusgabe()

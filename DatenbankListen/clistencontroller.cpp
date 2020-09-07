@@ -450,11 +450,65 @@ void  CListenController::getArtikelForAusgabe(QString zeitschrift, int jahr, int
 
 }
 
+int CListenController::addNewEmptyRowToInhalte()
+{
+    if (m_db == nullptr)
+    {
+        qDebug()<<"No open DB!";
+        return -1;
+    }
+    sqlite3_stmt *stmt;
+    char *zErrMsg;
+
+    QString request = QString("INSERT INTO Inhalte DEFAULT VALUES");
+    int rc = sqlite3_exec(m_db,request.toStdString().c_str(),nullptr,0,&zErrMsg);
+    if (rc !=0 )
+    {
+        qDebug()<<"addNewRowToInhalte: SqLite request returned "<<sqlite3_errstr(rc)<<" ("<<rc<<") for "<<request;
+        return -1;
+    }
+    else
+    {
+        qDebug()<<":addNewRowToInhalte: SqLite request returned OK for "<<request;
+
+    }
+    int index = static_cast<int>(sqlite3_last_insert_rowid(m_db));
+ //   sqlite3_finalize(stmt);
+    return index;
+}
+
+void CListenController::deleteArtikel(int index)
+{
+    if (m_db == nullptr)
+    {
+        qDebug()<<"No open DB!";
+        return ;
+    }
+    sqlite3_stmt *stmt;
+    char *zErrMsg;
+
+    QString request = QString("DELETE FROM Inhalte WHERE UniqueIndex='%1'").arg(index);
+    int rc = sqlite3_exec(m_db,request.toStdString().c_str(),nullptr,0,&zErrMsg);
+    if (rc !=0 )
+    {
+        qDebug()<<"deleteArtikel: SqLite request returned "<<sqlite3_errstr(rc)<<" ("<<rc<<") for "<<request;
+        return ;
+    }
+    else
+    {
+        qDebug()<<"deleteArtikel: SqLite request returned OK for "<<request;
+
+    }
+ //   int index = static_cast<int>(sqlite3_last_insert_rowid(m_db));
+ //   sqlite3_finalize(stmt);
+    return ;
+}
 void CListenController::updateInhalteTable(QString sqlElements)
 {
     if (m_db == nullptr)
     {
         qDebug()<<"No open DB!";
+        return;
     }
     sqlite3_stmt *stmt;
     char *zErrMsg;

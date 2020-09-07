@@ -9,6 +9,8 @@ Item
     property string iconSource:""
     property string toolTip:""
     property bool readOnly: true
+    property int additionToFont: 0
+    property int  font_weight: Font.Normal
 
     signal textWasEdited(var newText)
     signal nextPressed()
@@ -48,13 +50,15 @@ Item
         {
             id: textDisplay
             height: parent.height
-            width: textDisplay.contentWidth+10
+            width: (textDisplay.contentWidth+10)<50?50:textDisplay.contentWidth+10
             text: textArea.text
             readOnly: textArea.readOnly
             focus: textArea.focus
             onTextWasEdited:{console.log("IconWText edit to "+newText); textArea.textWasEdited(newText)}
             onNextPressed: {textArea.nextPressed();}
             onPreviousPressed: {textArea.previousPressed();}
+            additionToFont: textArea.additionToFont
+            font.weight: textArea.font_weight
         }
     }
 

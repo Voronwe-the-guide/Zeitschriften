@@ -40,6 +40,9 @@ public slots:
     void getArtikelForAusgabe(QString zeitschrift,int jahr, int ausgabe);
 
     void updateInhalteTable(QString sqlElements);
+    int addNewEmptyRowToInhalte();
+
+    void deleteArtikel(int index);
 
     /*!
      * \brief getArtikelByIndex

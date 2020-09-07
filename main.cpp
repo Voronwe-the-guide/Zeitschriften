@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 	CSettings settings;
 
     CListenController listenController;
-	listenController.openDB(settings.currentDB());
+    listenController.openDB(settings.getCurrentDB());
 	QObject::connect(&settings, &CSettings::dbUpdated, &listenController, &CListenController::openDB);
 	QObject::connect(&listenController, &CListenController::errorMessage, &errorDisplay, &CErrorDisplay::gotErrorMessage);
 

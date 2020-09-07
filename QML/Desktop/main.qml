@@ -14,9 +14,22 @@ ApplicationWindow
     minimumWidth: 650
     width:cSettings.getWindowSize().width
     height: cSettings.getWindowSize().height
-    title: qsTr("Zeitschriften DB: "+width+"x"+height+" "+cSettings.currentDB())
+    title: qsTr("Zeitschriften DB: "+width+"x"+height+" "+cSettings.currentDB)
     onWidthChanged: cSettings.setWindowWidth(width)
     onHeightChanged: cSettings.setWindowHeight(height)
+   // var this_component
+    function callWriter()
+    {
+        var this_component = Qt.createComponent("ArtikelWriter.qml").createObject(mainWindow, {isNewOne:true})// artikeleditor.visible = true;
+        this_component.nextButtonPressed.connect(restart);
+    }
+
+    function restart()
+    {
+        console.log("Restart");
+        callWriter()
+    }
+
 
     Connections
     {
@@ -60,15 +73,17 @@ ApplicationWindow
                 color: "lightgrey"
                 Row
                 {
-                    anchors.fill: parent
+                    width: parent.width
+                    height: parent.height
                     Rectangle
                     {
                         id: searchtextArea
                         width: parent.width - 50
                         height: searchText.height
                         color: "white"
-                        anchors.left: parent.left
-                        anchors.leftMargin: 10
+                      //  anchors.left: parent.left
+                        x:10
+                       ///anchors.leftMargin: 10
 
                         anchors.verticalCenter: parent.verticalCenter
                      //   Tracer {bc: "green"}
@@ -119,9 +134,24 @@ ApplicationWindow
 
                 }
             }
+            Item
+            {
+               width: 10
+               height: parent.height
+            }
+            Button
+            {
+                id: newEntry
+                text: qsTr("Neuer Eintrag")
+                onClicked:
+                {
+                    cArtikelEditor.setNewArtikel();
+                    mainWindow.callWriter();
+                }
+                anchors.verticalCenter: parent.verticalCenter
+            }
         }
-
-        RoundButton
+         RoundButton
          {
             id: infoButton
             text: "i"
@@ -175,7 +205,7 @@ ApplicationWindow
     {
         id: fileDialog
         title: qsTr("Datenbank auswählen")
-        folder: cSettings.currentDB() // shortcuts.home
+        folder: cSettings.currentDB // shortcuts.home
         selectMultiple: false
         onAccepted: {
             cSettings.setCurrentDB(fileDialog.fileUrl.toString())

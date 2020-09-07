@@ -16,7 +16,7 @@ Item
             id: zeitschriftenArea
             width: zeitschriftButton.width+10
             height: zeitschriftenDisplay.height
-            Tracer {}
+       //     Tracer {}
 
 
             Rectangle

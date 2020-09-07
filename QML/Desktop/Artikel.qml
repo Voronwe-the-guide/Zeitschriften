@@ -5,7 +5,7 @@ Item
     id: artikelDisplay
 
     width: 600
-    height: showColumn.height
+    height: showColumn.height+20
 
     property string zeitschrift:""
     signal zeitschriftEdit(var newText)
@@ -34,8 +34,10 @@ Item
     property bool   hasGPS: true
 
     property bool readOnlyMode: true
+    property bool isNewOne: false
 
     signal editButtonPressed();
+    signal deleteButtonPressed();
     signal nextPressed()
     signal previousPressed()
 
@@ -49,6 +51,7 @@ Item
     Column
     {
         id: showColumn
+        spacing: 4
         width: parent.width
         height: allgemeineInfo.height + headline.height + detail.height + textInfo.height + countryInfo.height
         property int basicHeight: 25
@@ -59,6 +62,7 @@ Item
             height: showColumn.basicHeight
             Row
             {
+                spacing: 4
                 anchors.fill: parent
                 IconWithText
                 {
@@ -75,7 +79,7 @@ Item
                 IconWithText
                 {
                     id: yearArea
-                    text: artikelDisplay.jahrgang
+                    text: (artikelDisplay.jahrgang==0)?"":artikelDisplay.jahrgang
                     iconSource: "qrc:/Images/year.svg"//.png"
                     toolTip: qsTr("Jahr")
                     readOnly: artikelDisplay.readOnlyMode
@@ -87,7 +91,7 @@ Item
                 IconWithText
                 {
                    id: editionArea
-                   text: artikelDisplay.ausgabe
+                   text: (artikelDisplay.ausgabe==0)?"":artikelDisplay.ausgabe
                    iconSource: "qrc:/Images/edition.svg"  //.png"
                    toolTip: qsTr("Ausgabe")
                    readOnly: artikelDisplay.readOnlyMode
@@ -98,7 +102,7 @@ Item
                 IconWithText
                 {
                    id:pageArea
-                   text: artikelDisplay.seite
+                   text: (artikelDisplay.seite==0)?"":artikelDisplay.seite
                    iconSource: "qrc:/Images/page.svg"  //.png"
                    toolTip: qsTr("Seite")
                    readOnly: artikelDisplay.readOnlyMode
@@ -146,6 +150,7 @@ Item
             Column
             {
                anchors.fill: parent
+               spacing: 4
                IconWithText
                 {
                     id: authorArea
@@ -179,23 +184,29 @@ Item
             id: headline
             width: parent.width
 
-            height:showColumn.basicHeight + 10
+            height:showColumn.basicHeight + 20
           /*  IconWithText
             {
 
             }
 */
-            Row
+          //  Tracer{}
+            Item //Row
             {
-               anchors.fill: parent
-                DisplayText
+              // anchors.fill: parent
+               height: headline.height-10
+               width: parent.width
+               anchors.verticalCenter: parent.verticalCenter
+             //  spacing: 4
+              // Tracer{bc: "green"}
+                IconWithText//DisplayText
                 {
                     id: kurzText
                     height: parent.height
-                    width: contentWidth //+10
+                  //  width: contentWidth //+10
                     //anchors.fill: parent
                     additionToFont: 5
-                    font.weight: Font.DemiBold
+                    font_weight: Font.DemiBold
                    // font.bold: true
             //        property string trenner: ((artikelDisplay.kurztext!="") && (artikelDisplay.ueberschrift!=""))?": ":""
                     text: artikelDisplay.kurztext //+trenner+artikelDisplay.ueberschrift
@@ -215,16 +226,17 @@ Item
                     additionToFont: 5
                     font.weight: Font.DemiBold
                     visible: ((artikelDisplay.kurztext!="") && (artikelDisplay.ueberschrift!=""))
+                    anchors.left: kurzText.right
 
                 }
 
-                DisplayText
+                IconWithText //DisplayText
                 {
                   id: ueberschrift
                   height: parent.height
-                  width: contentWidth //+10
+               //   width: contentWidth //+10
                   additionToFont: 5
-                  font.weight: Font.DemiBold
+                  font_weight: Font.DemiBold
                  // font.bold: true
                 //  property string trenner: ((artikelDisplay.kurztext!="") && (artikelDisplay.ueberschrift!=""))?": ":""
                   text: /*artikelDisplay.kurztext+trenner+*/artikelDisplay.ueberschrift
@@ -232,6 +244,7 @@ Item
                   onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.ueberschriftEdit(newText)}
                   onNextPressed: {zusammenfassung.focus = true}
                   onPreviousPressed: {kurzText.focus = true}
+                  anchors.left: trenner.right
 
                 }
             }
@@ -248,7 +261,8 @@ Item
             BackgroundElement
             {
                 id: zusammenfassung_bg
-                height: parent.height-6
+                height: parent.height
+                        //-6
                 width: parent.width/2-6
                 DisplayText
                 {
@@ -278,7 +292,7 @@ Item
             BackgroundElement
             {
                 id: schlagworte_bg
-                height: parent.height-6
+                height: parent.height //-6
                 width: parent.width/2-6
 
                 DisplayText
@@ -305,10 +319,22 @@ Item
     }
     Button
     {
+        id: editButton
         text: "Edit"
         anchors.right: parent.right
         visible:  artikelDisplay.readOnlyMode
         onClicked:  editButtonPressed();
+    }
+    Button
+    {
+        id: deleteButton
+        text: "Delete"
+        anchors.right: parent.right
+        anchors.top: editButton.bottom
+        anchors.topMargin: 10
+        visible:  artikelDisplay.readOnlyMode
+        onClicked:  deleteButtonPressed();
+
     }
 
 }

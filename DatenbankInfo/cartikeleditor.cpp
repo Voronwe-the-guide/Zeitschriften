@@ -8,6 +8,24 @@ CArtikelEditor::CArtikelEditor(CListenController *listen,QObject *parent) :
 
 }
 
+void CArtikelEditor::setNewArtikel()
+{
+    CArtikel artikel;
+    setArtikelForUpdate(artikel);
+
+}
+
+void CArtikelEditor::saveAndNext()
+{
+    saveChangesInDB();
+    CArtikel newOne;
+    newOne.setJahr(m_Artikel.Jahr());
+    newOne.setAusgabe(m_Artikel.Ausgabe());
+    newOne.setRubrik(m_Artikel.Rubrik());
+    newOne.setZeitschrift(m_Artikel.Zeitschrift());
+    setArtikelForUpdate(newOne);
+
+}
 void CArtikelEditor::setArtikelForUpdate(int dbIndex)
 {
     CArtikel artikel = m_listen->getArtikelByIndex(dbIndex);
@@ -179,7 +197,21 @@ void CArtikelEditor::setSomethingHasChanged(bool somethingHasChanged)
     m_somethingHasChanged = somethingHasChanged;
 }
 
+
 void CArtikelEditor::saveChangesInDB()
+{
+   if (m_Artikel.DBIndex()<0)
+   {
+       storeNewArtikel();
+   }
+   else
+   {
+       saveUpdate();
+   }
+
+}
+
+void CArtikelEditor::saveUpdate()
 {
     if (getSomethingHasChanged())
     {
@@ -187,5 +219,19 @@ void CArtikelEditor::saveChangesInDB()
         QString sqlRequest = m_Artikel.getArtikelAsSQLString(true);
         m_listen->updateInhalteTable(sqlRequest);
     }
+
+}
+
+void CArtikelEditor::storeNewArtikel()
+{
+    m_Artikel.setLastChange(QDateTime::currentDateTime());
+    int index = m_listen->addNewEmptyRowToInhalte();
+
+    if (index>=0)
+    {
+        m_Artikel.setDBIndex(index);
+        QString sqlRequest = m_Artikel.getArtikelAsSQLString(true);
+        m_listen->updateInhalteTable(sqlRequest);
+     }
 
 }

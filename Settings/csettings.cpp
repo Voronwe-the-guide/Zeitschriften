@@ -105,7 +105,7 @@ void CSettings::readDataFromJSONFormat(std::string &json)
 	readDataFromJSONFormat(stationInfoObject);
 }
 
-QString CSettings::currentDB() const
+QString CSettings::getCurrentDB() const
 {
 	return m_currentDB;
 }

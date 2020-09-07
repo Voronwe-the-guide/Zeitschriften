@@ -47,8 +47,13 @@ signals:
 public slots:
 
     void saveChangesInDB();
+    void setNewArtikel();
+    void saveAndNext();
     void setArtikelForUpdate(int dbIndex);
     void setArtikelForUpdate(CArtikel artikel);
+
+    void saveUpdate();
+    void storeNewArtikel();
 
     CArtikel getArtikel() const;
 

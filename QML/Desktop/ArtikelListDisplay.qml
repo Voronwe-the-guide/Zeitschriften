@@ -55,6 +55,10 @@ Item
                    Qt.createComponent("ArtikelWriter.qml").createObject(artikelListDisplay)// artikeleditor.visible = true;
                  //   editElement.active = true;
                 }
+                onDeleteButtonPressed:
+                {
+                    cListenController.deleteArtikel(model.dbindex);
+                }
 
             }
                Rectangle
@@ -83,7 +87,7 @@ Item
         {
             artikelList.positionViewAtBeginning()
         }
-        Tracer{}
+     //   Tracer{}
     }
 
 

@@ -79,9 +79,10 @@ TextEdit //Field //Input//Edit
     Rectangle
     {
         anchors.fill: parent
-        color: "transparent"
-        border.color: "red"
-        visible:readOnly?false : parent.focus
+        color: "lightgrey" //"transparent"
+        border.color: parent.focus?"red":"transparent"
+        visible:!readOnly//?false : parent.focus
+        z: -2
     }
 
  /*   onFocusChanged:
