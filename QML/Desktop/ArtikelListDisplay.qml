@@ -18,7 +18,7 @@ Item
     Connections
     {
         target: cArtikelList
-        onListEmpty:
+        function onListEmpty()
         {
             artikelList.positionViewAtIndex(0,ListView.Beginning);
         }
@@ -83,7 +83,7 @@ Item
         {
             artikelList.positionViewAtBeginning()
         }
-
+        Tracer{}
     }
 
 

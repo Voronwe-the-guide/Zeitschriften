@@ -21,7 +21,7 @@ ApplicationWindow
     Connections
     {
         target: cErrorDisplay
-        onDisplayError:
+        function onDisplayError(error)
         {
             Qt.createComponent("MessageDisplay.qml").createObject(mainWindow, {text:error})// artikeleditor.visible = true;
         }
@@ -150,7 +150,7 @@ ApplicationWindow
     {
         id: listDisplayArea
         width: parent.width
-        height: parent.height-searchArea.height
+        height: parent.height-searchArea.height-zeitschriftenArea.height
         clip: true
         anchors.top: zeitschriftenArea.bottom
 
@@ -166,6 +166,7 @@ ApplicationWindow
             id: artikel
             anchors.left: jahre.right
              width: parent.width - jahre.width
+             height: parent.height
         }
     }
 

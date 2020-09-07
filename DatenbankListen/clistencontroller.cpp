@@ -216,7 +216,13 @@ void CListenController::getJahreForZeitschrift(QStringList zeitschriften)
         searchForString = QString("AND (")+searchForString+QString(") ");
     }
 
-    QString request = QString("SELECT Jahr,Zeitschrift FROM Inhalte WHERE %1 %2 ORDER BY Jahr ASC").arg(zeitschriftenSearch).arg(searchForString);
+    QString whereRequest;
+    if ((!(searchForString.isEmpty())) || (!(zeitschriftenSearch.isEmpty())))
+    {
+        whereRequest = QString(" WHERE %1 %2").arg(zeitschriftenSearch).arg(searchForString);
+    }
+
+    QString request = QString("SELECT Jahr,Zeitschrift FROM Inhalte %1 ORDER BY Jahr ASC").arg(whereRequest);
 
 	int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt,"getJahreForZeitschrift");
 
@@ -300,6 +306,8 @@ int CListenController::getZeitschriftenForJahr(int jahr)
           m_artikelDisplay->AddElement(artikel);
           m_zeitschriftenForJahrDisplay->AddElement(zeitschrift);
       }
+
+    sqlite3_finalize(stmt);
     return m_zeitschriftenForJahrDisplay->rowCount();
 }
 
@@ -463,7 +471,7 @@ void CListenController::updateInhalteTable(QString sqlElements)
         qDebug()<<"SqLite request returned OK for "<<request;
 
     }
-  //  sqlite3_finalize(stmt);
+ //   sqlite3_finalize(stmt);
     return;
 }
 

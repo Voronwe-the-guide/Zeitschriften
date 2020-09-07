@@ -15,7 +15,7 @@ Item
     Connections
     {
         target:cZeitschriftenForJahr
-        onListEmpty:
+        function onListEmpty()
         {
             currentZeitschrift = -1;
         }
@@ -29,7 +29,7 @@ Item
         Item
         {
             id: zeitschriftArea
-            width: parent.width
+            width:zeitschriftenDisplay.width
             height: zeitschriftButton.height + ausgabenDisplay.height
             Rectangle
             {

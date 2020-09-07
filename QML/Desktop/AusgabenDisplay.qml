@@ -14,7 +14,7 @@ Item
     Connections
     {
         target: cAusgabenList
-        onListEmpty:
+        function onListEmpty()
         {
             currentAusgabe = -1;
         }
@@ -26,7 +26,7 @@ Item
         Rectangle
         {
             id: ausgabeElement
-            width: parent.width
+            width: ausgabenDisplay.width
             height: 30
 
             color: model.index === currentAusgabe?"lightblue":"transparent"

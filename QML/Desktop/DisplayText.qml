@@ -81,7 +81,7 @@ TextEdit //Field //Input//Edit
         anchors.fill: parent
         color: "transparent"
         border.color: "red"
-        visible: parent.focus
+        visible:readOnly?false : parent.focus
     }
 
  /*   onFocusChanged:

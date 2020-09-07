@@ -7,6 +7,7 @@ Item
     property int fontSize: 20
     height: 50
     width: parent.width
+  //  Tracer {}
     Component
     {
         id: zeitschriftenComponent
@@ -14,7 +15,9 @@ Item
         {
             id: zeitschriftenArea
             width: zeitschriftButton.width+10
-            height: parent.height
+            height: zeitschriftenDisplay.height
+            Tracer {}
+
 
             Rectangle
             {
@@ -34,7 +37,6 @@ Item
                      horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     font.pixelSize:  zeitschriftenDisplay.fontSize
-
 
                 }
 

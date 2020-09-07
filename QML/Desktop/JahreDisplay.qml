@@ -14,7 +14,7 @@ Item
     Connections
     {
         target: cJahreList
-        onListEmpty:
+        function onListEmpty()
         {
             currentJahr = -1;
         }
@@ -26,7 +26,7 @@ Item
         Item
         {
             id: jahrArea
-            width: parent.width
+            width: jahreDisplay.width
             height: jahrButton.height + zeitschriftenDisplay.height// + ausgabenDisplay.height
 
             Rectangle

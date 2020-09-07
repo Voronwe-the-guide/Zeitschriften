@@ -83,7 +83,7 @@ Window
           Connections
           {
               target:cArtikelEditor
-              onArtikelDisplayUpdated:
+              function onArtikelDisplayUpdated()
               {
                   artikel.zeitschrift = cArtikelEditor.getZeitschrift()
                   artikel.jahrgang=cArtikelEditor.getJahr()
