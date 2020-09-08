@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.9
+import QtQuick.Layouts 1.3
 Item
 {
     id: artikelListDisplay
@@ -20,7 +21,9 @@ Item
         target: cArtikelList
         function onListEmpty()
         {
-            artikelList.positionViewAtIndex(0,ListView.Beginning);
+        //    artikelList.positionViewAtIndex(0,ListView.Beginning);
+            artikelList.positionViewAtBeginning()
+            console.log("Go to 0");
         }
     }
 
@@ -30,7 +33,7 @@ Item
         Item
         {
             id: showArtikel
-            width: artikelListDisplay.width
+            width: artikelListDisplay.width-50
             height: artikelDisplay.height+artikelSeperator.height
             Artikel
             {
@@ -87,7 +90,14 @@ Item
         {
             artikelList.positionViewAtBeginning()
         }
-     //   Tracer{}
+        Tracer{}
+
+        flickableDirection: Flickable.VerticalFlick
+         boundsBehavior: Flickable.StopAtBounds
+         Layout.fillWidth: true
+          Layout.fillHeight: true
+
+        ScrollBar.vertical: ScrollBar { width: 30}
     }
 
 

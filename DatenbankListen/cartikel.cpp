@@ -25,7 +25,8 @@ bool CArtikel::setDBElement(QString columnName, QString columnEntry)
     else if (columnName == "Schlagworte") {m_artikelMap[columnName] = columnEntry; setSchlagworte(columnEntry); return true;}
     else if (columnName == "Zeitschrift") {m_artikelMap[columnName] = columnEntry;setZeitschrift(columnEntry); return true;}
     else if (columnName == "Land") {m_artikelMap[columnName] = columnEntry;setLand(columnEntry); return true;}
-    else if (columnName == "Koordinate") {m_artikelMap[columnName] = columnEntry;setKoordinate(columnEntry); return true;}
+    else if (columnName == "Koord_Laenge") {m_artikelMap[columnName] = columnEntry;setKoordinate(columnName,columnEntry); return true;}
+    else if (columnName == "Koord_Breite") {m_artikelMap[columnName] = columnEntry;setKoordinate(columnName,columnEntry); return true;}
     else if (columnName == "Aenderungszeit") {m_artikelMap[columnName] = columnEntry;setLastChange(columnEntry); return true;}
     else if (columnName == "UniqueIndex") {m_artikelMap[columnName] = columnEntry;setDBIndex(columnEntry.toInt()); return true;}
 
@@ -170,25 +171,19 @@ void CArtikel::setKoordinate(const QGeoCoordinate &koordinate)
 {
     m_Koordinate = koordinate;
 }
-void CArtikel::setKoordinate(const QString &koordinate)
+void CArtikel::setKoordinate(const QString& whichOne, const QString &partOfkoordinate)
 {
-    QStringList coordinates = koordinate.split(",");
-    if (coordinates.size()>=2)
-    {
-        QString latitude = coordinates.at(0);
-        QString longitude = coordinates.at(1);
-        latitude.remove("°");
-        longitude.remove("°");
-        QGeoCoordinate coord;
-        bool latOk = true;
-        bool longOk = true;
-        coord.setLatitude(latitude.toDouble(&latOk));
-        coord.setLongitude(longitude.toDouble(&longOk));
-        if (coord.isValid())
-        {
-            setKoordinate(coord);
-        }
-    }
+   if (partOfkoordinate != "")
+   {
+      if (whichOne == "Koord_Laenge")
+      {
+          m_Koordinate.setLongitude(partOfkoordinate.toDouble());
+      }
+      else if (whichOne == "Koord_Breite")
+      {
+          m_Koordinate.setLatitude(partOfkoordinate.toDouble());
+      }
+   }
 }
 
 QDateTime CArtikel::lastChange() const
@@ -249,7 +244,17 @@ QString CArtikel::getArtikelAsSQLString(bool include_whereID)
     artikel +=QString(" Schlagworte = '%1',").arg(Schlagworte());
     artikel +=QString(" Zeitschrift = '%1',").arg(Zeitschrift());
     artikel +=QString(" Land = '%1',").arg(Land());
-    artikel +=QString(" Koordinate = '%1',").arg(KoordinateAsString());
+    if (Koordinate().isValid())
+    {
+        artikel +=QString(" Koord_Laenge = '%1',").arg(Koordinate().longitude());
+        artikel +=QString(" Koord_Breite = '%1',").arg(Koordinate().latitude());
+    }
+    else
+    {
+        artikel +=QString(" Koord_Laenge = '',");
+        artikel +=QString(" Koord_Breite = '',");
+
+    }
     artikel +=QString(" Aenderungszeit = '%1'").arg(lastChangeAsString());
 
     if (include_whereID)

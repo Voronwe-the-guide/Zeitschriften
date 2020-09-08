@@ -120,7 +120,7 @@ Window
                   artikel.land=cArtikelEditor.getLand()
               }
           }
-          onZeitschriftEdit:{console.log("Zeitschrift edit to"+newText);cArtikelEditor.setZeitschrift(newText)}
+          onZeitschriftEdit:{cArtikelEditor.setZeitschrift(newText)}
           onJahrgangEdit:{cArtikelEditor.setJahr(newText)}
           onAusgabeEdit:{cArtikelEditor.setAusgabe(newText)}
           onSeiteEdit:{cArtikelEditor.setSeite(newText)}

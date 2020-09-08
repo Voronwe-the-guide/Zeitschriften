@@ -94,6 +94,10 @@ void CArtikelDisplayList::AddElement(CArtikel &artikel)
 	beginInsertRows(QModelIndex(),rowCount(),rowCount());//This is to keep the list in QML updated
 	m_ArtikelList << artikel;
 	endInsertRows();
+    if (m_ArtikelList.count() == 1)
+    {
+        emit listEmpty();
+    }
 
 }
 

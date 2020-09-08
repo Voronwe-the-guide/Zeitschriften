@@ -43,6 +43,7 @@ public slots:
     int addNewEmptyRowToInhalte();
 
     void deleteArtikel(int index);
+   // void setSearchString(QString string);
 
     /*!
      * \brief getArtikelByIndex

@@ -103,14 +103,7 @@ ApplicationWindow
                             onAccepted:
                             {
                                // searchButton.click();
-                                if (text == "")
-                                {
-                                    cListenController.getOverview();
-                                }
-                                else
-                                {
-                                    cListenController.searchArtikel(text);
-                                }
+                               cListenController.searchArtikel(text);
 
                             }
                         }
@@ -126,7 +119,8 @@ ApplicationWindow
                        onClicked:
                        {
                            searchText.text="";
-                           cListenController.getOverview();
+                          // cListenController.getOverview();
+                           cListenController.searchArtikel("");
 
                        }
                        anchors.verticalCenter: parent.verticalCenter

@@ -71,7 +71,7 @@ Item
                     iconSource: "qrc:/Images/magazin.svg" //"png"
                     toolTip: qsTr("Magazin")
                     readOnly: artikelDisplay.readOnlyMode
-                    onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.zeitschriftEdit(newText)}
+                    onTextWasEdited:{artikelDisplay.zeitschriftEdit(newText)}
                     onNextPressed: {yearArea.focus = true}
                     onPreviousPressed: { schlagworte.focus = true} //artikelDisplay.previousPressed()}
 
@@ -83,7 +83,7 @@ Item
                     iconSource: "qrc:/Images/year.svg"//.png"
                     toolTip: qsTr("Jahr")
                     readOnly: artikelDisplay.readOnlyMode
-                    onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.jahrgangEdit(newText)}
+                    onTextWasEdited:{ artikelDisplay.jahrgangEdit(newText)}
                     onNextPressed: {editionArea.focus = true}
                     onPreviousPressed: {magazinArea.focus = true}
                  }
@@ -95,7 +95,7 @@ Item
                    iconSource: "qrc:/Images/edition.svg"  //.png"
                    toolTip: qsTr("Ausgabe")
                    readOnly: artikelDisplay.readOnlyMode
-                   onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.ausgabeEdit(newText)}
+                   onTextWasEdited:{ artikelDisplay.ausgabeEdit(newText)}
                    onNextPressed: {pageArea.focus = true}
                    onPreviousPressed: {yearArea.focus = true}
                 }
@@ -106,7 +106,7 @@ Item
                    iconSource: "qrc:/Images/page.svg"  //.png"
                    toolTip: qsTr("Seite")
                    readOnly: artikelDisplay.readOnlyMode
-                   onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.seiteEdit(newText)}
+                   onTextWasEdited:{ artikelDisplay.seiteEdit(newText)}
                    onNextPressed: {rubrikArea.focus = true}
                    onPreviousPressed: {editionArea.focus = true}
                 }
@@ -117,7 +117,7 @@ Item
                    iconSource: "qrc:/Images/rubrik.svg" //.png"
                    toolTip: qsTr("Rubrik")
                    readOnly: artikelDisplay.readOnlyMode
-                   onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.rubrikEdit(newText)}
+                   onTextWasEdited:{ artikelDisplay.rubrikEdit(newText)}
                    onNextPressed: {countryArea.focus = true}
                    onPreviousPressed: {pageArea.focus = true}
                 }
@@ -135,7 +135,7 @@ Item
                 iconSource:  "qrc:/Images/land.svg" //png"
                 toolTip: qsTr("Land")
                 readOnly: artikelDisplay.readOnlyMode
-                onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.landEdit(newText)}
+                onTextWasEdited:{ artikelDisplay.landEdit(newText)}
                 onNextPressed: {authorArea.focus = true}
                 onPreviousPressed: {rubrikArea.focus = true}
             }
@@ -160,7 +160,7 @@ Item
                     toolTip: qsTr("Text von")
 
                     readOnly: artikelDisplay.readOnlyMode
-                    onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.authorEdit(newText)}
+                    onTextWasEdited:{ artikelDisplay.authorEdit(newText)}
                     onNextPressed: {photoArea.focus = true}
                     onPreviousPressed: {countryArea.focus = true}
                 }
@@ -172,7 +172,7 @@ Item
                     iconSource:  "qrc:/Images/foto.svg" //.png"
                     toolTip: qsTr("Fotos von")
                     readOnly: artikelDisplay.readOnlyMode
-                    onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.fotosEdit(newText)}
+                    onTextWasEdited:{ artikelDisplay.fotosEdit(newText)}
                     onNextPressed: {kurzText.focus = true}
                     onPreviousPressed: {authorArea.focus = true}
 
@@ -211,7 +211,7 @@ Item
             //        property string trenner: ((artikelDisplay.kurztext!="") && (artikelDisplay.ueberschrift!=""))?": ":""
                     text: artikelDisplay.kurztext //+trenner+artikelDisplay.ueberschrift
                     readOnly: artikelDisplay.readOnlyMode
-                    onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.kurztextEdit(newText)}
+                    onTextWasEdited:{ artikelDisplay.kurztextEdit(newText)}
                     onNextPressed: {ueberschrift.focus = true}
                     onPreviousPressed: {photoArea.focus = true}
 
@@ -241,7 +241,7 @@ Item
                 //  property string trenner: ((artikelDisplay.kurztext!="") && (artikelDisplay.ueberschrift!=""))?": ":""
                   text: /*artikelDisplay.kurztext+trenner+*/artikelDisplay.ueberschrift
                   readOnly: artikelDisplay.readOnlyMode
-                  onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.ueberschriftEdit(newText)}
+                  onTextWasEdited:{ artikelDisplay.ueberschriftEdit(newText)}
                   onNextPressed: {zusammenfassung.focus = true}
                   onPreviousPressed: {kurzText.focus = true}
                   anchors.left: trenner.right
@@ -254,7 +254,7 @@ Item
         {
             id: detail
             width: parent.width
-            height: zusammenfassung.height
+            height: zusammenfassung.height > schlagworte.height?zusammenfassung.height:schlagworte.height
            Row
            {
             anchors.fill: parent
@@ -271,13 +271,16 @@ Item
 
 
                     width: parent.width-6
-                    anchors.centerIn: parent
+                  //  anchors.centerIn: parent
                     text: artikelDisplay.zusammenfassung
                     wrapMode: Text.Wrap
                     verticalAlignment: Text.AlignTop
-                    clip: true
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.top: parent.top
+                    anchors.topMargin: 2
+                     clip: true
                     readOnly: artikelDisplay.readOnlyMode
-                    onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.zusammenfassungEdit(newText)}
+                    onTextWasEdited:{ artikelDisplay.zusammenfassungEdit(newText)}
                     onNextPressed: {schlagworte.focus = true}
                     onPreviousPressed: {ueberschrift.focus = true}
 
@@ -298,15 +301,20 @@ Item
                 DisplayText
                 {
                     id: schlagworte
-                    height: parent.height-6
+                    height: schlagworte.contentHeight + 20 //parent.height-6
                     width: parent.width-6
-                    anchors.centerIn: parent
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.top: parent.top
+                    anchors.topMargin: 2
+
+                  //  anchors.centerIn: parent
                      text: artikelDisplay.stichworte
                     wrapMode: Text.Wrap
                     verticalAlignment: Text.AlignTop
+
                     clip: true
                     readOnly: artikelDisplay.readOnlyMode
-                    onTextWasEdited:{console.log("Artikel  edit to "+newText); artikelDisplay.stichworteEdit(newText)}
+                    onTextWasEdited:{ artikelDisplay.stichworteEdit(newText)}
                     onPreviousPressed: {zusammenfassung.focus = true}
                     onNextPressed: {magazinArea.focus = true}//artikelDisplay.nextPressed()}
                   }

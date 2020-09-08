@@ -54,7 +54,7 @@ Item
             text: textArea.text
             readOnly: textArea.readOnly
             focus: textArea.focus
-            onTextWasEdited:{console.log("IconWText edit to "+newText); textArea.textWasEdited(newText)}
+            onTextWasEdited:{ textArea.textWasEdited(newText)}
             onNextPressed: {textArea.nextPressed();}
             onPreviousPressed: {textArea.previousPressed();}
             additionToFont: textArea.additionToFont

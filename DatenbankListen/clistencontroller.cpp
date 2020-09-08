@@ -143,11 +143,13 @@ void CListenController::getOverview()
     sqlite3_stmt *stmt;
     QString select ="Jahr";
 
-    QString searchForString = setSearchStringAsSQL();
+    m_searchElement = "";
+   QString searchForString = setSearchStringAsSQL();
     if (!(searchForString.isEmpty()))
     {
         searchForString = QString("WHERE (")+searchForString+QString(") ");
     }
+
     QString request = QString("SELECT %1 FROM Inhalte %2 ORDER BY Jahr ASC").arg(select).arg(searchForString);
 	int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt,"getOverview");
      if (rc != SQLITE_OK)

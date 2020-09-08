@@ -60,7 +60,7 @@ public:
 	QGeoCoordinate Koordinate() const;
     QString KoordinateAsString() const;
 	void setKoordinate(const QGeoCoordinate &Koordinate);
-    void setKoordinate(const QString &Koordinate);
+    void setKoordinate(const QString& whichOne, const QString &partOfkoordinate);
 
     QDateTime lastChange() const;
     QString lastChangeAsString() const;
