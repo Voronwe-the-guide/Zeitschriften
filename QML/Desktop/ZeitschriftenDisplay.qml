@@ -7,7 +7,6 @@ Item
     property int fontSize: 20
     height: 50
     width: parent.width
-  //  Tracer {}
     Component
     {
         id: zeitschriftenComponent
@@ -16,7 +15,6 @@ Item
             id: zeitschriftenArea
             width: zeitschriftButton.width+10
             height: zeitschriftenDisplay.height
-       //     Tracer {}
 
 
             Rectangle
@@ -108,7 +106,6 @@ Item
         model: cZeitschriftenList
         delegate: zeitschriftenComponent
         orientation: zeitschriftenDisplay.horizontal?ListView.Horizontal:ListView.Vertical
-     //   Tracer{}
     }
 
 }

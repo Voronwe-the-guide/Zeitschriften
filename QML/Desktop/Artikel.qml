@@ -190,7 +190,6 @@ Item
 
             }
 */
-          //  Tracer{}
             Item //Row
             {
               // anchors.fill: parent
@@ -198,7 +197,7 @@ Item
                width: parent.width
                anchors.verticalCenter: parent.verticalCenter
              //  spacing: 4
-              // Tracer{bc: "green"}
+
                 IconWithText//DisplayText
                 {
                     id: kurzText

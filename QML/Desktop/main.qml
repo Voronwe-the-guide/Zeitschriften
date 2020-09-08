@@ -2,6 +2,8 @@ import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Dialogs 1.3
 import QtQuick.Controls 2.12
+import QtLocation 5.15
+import QtPositioning 5.6
 //import Qt.labs.folderlistmodel 2.1
 //import Qt.labs.settings 1.0
 
@@ -11,7 +13,7 @@ ApplicationWindow
    id: mainWindow
     visible: true
     minimumHeight: 400
-    minimumWidth: 650
+    minimumWidth: 800
     width:cSettings.getWindowSize().width
     height: cSettings.getWindowSize().height
     title: qsTr("Zeitschriften DB: "+width+"x"+height+" "+cSettings.currentDB)
@@ -69,7 +71,6 @@ ApplicationWindow
                 width: 500
                 //anchors.left: dbLoadButton.right
                 height: parent.height
-               // Tracer {}
                 color: "lightgrey"
                 Row
                 {
@@ -86,13 +87,11 @@ ApplicationWindow
                        ///anchors.leftMargin: 10
 
                         anchors.verticalCenter: parent.verticalCenter
-                     //   Tracer {bc: "green"}
 
                         TextInput
                         {
                             id: searchText
                            font.pixelSize: 15
-                        //    Tracer{bc: "green"}
                             width: parent.width-10
                             anchors.left:parent.left
                             anchors.leftMargin: 5
@@ -239,6 +238,35 @@ ApplicationWindow
    //     Component.onCompleted: visible = true
     }
 
+   Window {
+       width: Qt.platform.os == "android" ? Screen.width : 512
+       height: Qt.platform.os == "android" ? Screen.height : 512
+       visible: true
+
+       Plugin {
+           id: mapPlugin
+           name: "osm" // "mapboxgl", "esri", ...
+           // specify plugin parameters if necessary
+           // PluginParameter {
+           //     name:
+           //     value:
+           // }
+       }
+
+       Map {
+           id: map
+           anchors.fill: parent
+           plugin: mapPlugin
+           center: QtPositioning.coordinate(59.91, 10.75) // Oslo
+           zoomLevel: 14
+
+           MouseArea
+                   {   anchors.fill: parent
+                       onClicked: console.log('latitude = '+ (map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude),
+                                              'longitude = '+ (map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude));
+                   }
+       }
+   }
 
 }
 

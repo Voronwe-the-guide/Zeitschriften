@@ -133,10 +133,7 @@ QString CArtikelDisplayList::HighlightSearchElement(QString inputString) const
    QString startNormal = "<font color="+m_fontColor_normal+">";
    QString end = "</font>";
    QString startHighlight =  "<font color="+m_fontColor_highlight+">";
-   int startNormalSize = startNormal.size();
-   int endSize = end.size();
-   int startHighlightSize = startHighlight.size();
-  //find the first one
+//find the first one
    indexOfElement = parsedString.indexOf(m_searchElement,indexOfElement,Qt::CaseInsensitive);
    if (indexOfElement<0)
    {

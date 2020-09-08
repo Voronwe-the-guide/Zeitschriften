@@ -90,7 +90,7 @@ Item
         {
             artikelList.positionViewAtBeginning()
         }
-        Tracer{}
+
 
         flickableDirection: Flickable.VerticalFlick
          boundsBehavior: Flickable.StopAtBounds

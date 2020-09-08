@@ -41,13 +41,13 @@ TextEdit //Field //Input//Edit
 
    Keys.onTabPressed:
    {
-       console.log("Tab2 pressed");
+ //      console.log("Tab2 pressed");
       // textDisplay.focus= false;
         textdisplay.nextPressed();
    }
    Keys.onBacktabPressed:
    {
-       console.log("Tab2 pressed");
+     //  console.log("Tab2 pressed");
       // textDisplay.focus= false;
         textdisplay.previousPressed();
 
@@ -55,8 +55,8 @@ TextEdit //Field //Input//Edit
 
    Keys.onReturnPressed:
    {
-       console.log("Tab2 pressed");
-       textDisplay.focus= false;
+   //    console.log("Tab2 pressed");
+   //    textDisplay.focus= false;
         textdisplay.nextPressed();
 
    }
@@ -72,7 +72,7 @@ TextEdit //Field //Input//Edit
         if (focus)
         {
             textWasEdited(text);
-            console.log("Send Text edit");
+        //    console.log("Send Text edit");
         }
     }
 

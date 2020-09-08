@@ -11,3 +11,9 @@ https://www.sqlite.org
 This Software uses graphics from Linearicons licensed under the CC BY-SA 4.0 license.
 https://linearicons.com 
 Linearicons where created by Perxis https://perxis.com
+
+-------
+
+This Software uses the OpenSSL-Libraries 1.1.1g released under OpenSSL-License
+https://www.openssl.org/ 
+
