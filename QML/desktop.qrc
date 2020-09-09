@@ -31,5 +31,9 @@
         <file>Desktop/ZeitschriftenForJahreDisplay.qml</file>
         <file>Desktop/ArtikelWriter.qml</file>
         <file>Desktop/MessageDisplay.qml</file>
+        <file>Desktop/DisplayMap.qml</file>
+        <file>Desktop/MapFlag.qml</file>
+        <file>Images/mapflag.svg</file>
+        <file>Desktop/ArtikelMap.qml</file>
     </qresource>
 </RCC>

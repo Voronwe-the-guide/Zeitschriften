@@ -2,8 +2,6 @@ import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Dialogs 1.3
 import QtQuick.Controls 2.12
-import QtLocation 5.15
-import QtPositioning 5.6
 //import Qt.labs.folderlistmodel 2.1
 //import Qt.labs.settings 1.0
 
@@ -215,6 +213,7 @@ ApplicationWindow
         text: "Zeitschriften DB Viewer "
               +"\n (c) by Thorsten Stapel"
               +"\n This Software is licensed under the GNU GENERAL PUBLIC LICENSE Version 3 "
+             +"\n with the additional exemption that compiling, linking, and/or using OpenSSL is allowed."
               +"\n\n"
         +"\nBeside this, I would like you to ask to use this software only in good mood"
         +"\n and not for purposes which could harm people, animals, magical creatures or the environment."
@@ -232,42 +231,37 @@ ApplicationWindow
        +"\n This Software uses graphics from Linearicons licensed under the CC BY-SA 4.0 license."
        +"\n https://linearicons.com "
        +"\n Linearicons where created by Perxis https://perxis.com"
-        onAccepted: {
+              +"\n  -------"
+               +"\n "
+              +"\n This Software uses the OpenSSL-Libraries 1.1.1g released under OpenSSL-License"
+              +"\n https://www.openssl.org/ "
+              +"\n Libraries where build by FireDaemon: https://kb.firedaemon.com/support/solutions/articles/4000121705"
+
+         onAccepted: {
             visible = false;
          }
    //     Component.onCompleted: visible = true
     }
 
-   Window {
-       width: Qt.platform.os == "android" ? Screen.width : 512
+/*   Window {
+       width: Qt.platform.os == "android" ? Screen.width :800
        height: Qt.platform.os == "android" ? Screen.height : 512
        visible: true
 
-       Plugin {
-           id: mapPlugin
-           name: "osm" // "mapboxgl", "esri", ...
-           // specify plugin parameters if necessary
-           // PluginParameter {
-           //     name:
-           //     value:
-           // }
-       }
-
-       Map {
-           id: map
+       DisplayMap
+       {
            anchors.fill: parent
-           plugin: mapPlugin
-           center: QtPositioning.coordinate(59.91, 10.75) // Oslo
-           zoomLevel: 14
-
-           MouseArea
-                   {   anchors.fill: parent
-                       onClicked: console.log('latitude = '+ (map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude),
-                                              'longitude = '+ (map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude));
-                   }
        }
-   }
 
+
+
+   }
+   */
+/*
+ArtikelWriter
+{
+}
+*/
 }
 
 

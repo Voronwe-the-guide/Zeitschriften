@@ -31,7 +31,12 @@ Item
     signal fotosEdit(var newText)
     property string land:""
     signal landEdit(var newText)
-    property bool   hasGPS: true
+
+    property string notizen:""
+    signal notizenEdit(var newText)
+
+   // property bool hasGPS: false
+    property string coordinates:""
 
     property bool readOnlyMode: true
     property bool isNewOne: false
@@ -53,7 +58,7 @@ Item
         id: showColumn
         spacing: 4
         width: parent.width
-        height: allgemeineInfo.height + headline.height + detail.height + textInfo.height + countryInfo.height
+        height: allgemeineInfo.height + headline.height + detail.height + textInfo.height
         property int basicHeight: 25
         Item
         {
@@ -121,9 +126,20 @@ Item
                    onNextPressed: {countryArea.focus = true}
                    onPreviousPressed: {pageArea.focus = true}
                 }
+                IconWithText
+                {
+                   id: gpsArea
+                   text: artikelDisplay.coordinates
+                   iconSource: "qrc:/Images/flag.svg" //.png"
+                   toolTip: qsTr("Koordinaten")
+                   readOnly: true //artikelDisplay.readOnlyMode
+                 //  onTextWasEdited:{ artikelDisplay.rubrikEdit(newText)}
+                 //  onNextPressed: {countryArea.focus = true}
+                 //  onPreviousPressed: {pageArea.focus = true}
+                }
             }
         }
-        Item
+   /*     Item
         {
             id: countryInfo
             width: parent.width
@@ -141,17 +157,30 @@ Item
             }
 
         }
-
+*/
         Item
         {
             id: textInfo
             width: parent.width
-            height: authorArea.height + photoArea.height
-            Column
+            height: authorArea.height // + photoArea.height
+            Row
             {
                anchors.fill: parent
                spacing: 4
                IconWithText
+               {
+                   id: countryArea
+                   text: artikelDisplay.land
+                   iconSource:  "qrc:/Images/land.svg" //png"
+                   toolTip: qsTr("Land")
+                   readOnly: artikelDisplay.readOnlyMode
+                   onTextWasEdited:{ artikelDisplay.landEdit(newText)}
+                   onNextPressed: {authorArea.focus = true}
+                   onPreviousPressed: {rubrikArea.focus = true}
+               }
+
+
+            IconWithText
                 {
                     id: authorArea
                      height: showColumn.basicHeight
@@ -324,6 +353,8 @@ Item
 
 
     }
+
+
     Button
     {
         id: editButton
@@ -342,6 +373,37 @@ Item
         visible:  artikelDisplay.readOnlyMode
         onClicked:  deleteButtonPressed();
 
+    }
+
+    BackgroundElement
+    {
+        id: notesArea
+        height: 100
+        width: 100
+        anchors.right: editButton.left
+        anchors.rightMargin: 20
+        color: "lightyellow"
+        DisplayText
+        {
+            id: notes
+            height: parent.height-6
+             width: parent.width-6
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
+            anchors.topMargin: 2
+
+          //  anchors.centerIn: parent
+             text: artikelDisplay.notizen
+            wrapMode: Text.Wrap
+            verticalAlignment: Text.AlignTop
+
+            clip: true
+            readOnly: artikelDisplay.readOnlyMode
+            onTextWasEdited:{ artikelDisplay.notizenEdit(newText)}
+      //      onPreviousPressed: {zusammenfassung.focus = true}
+      //      onNextPressed: {magazinArea.focus = true}//artikelDisplay.nextPressed()}
+
+        }
     }
 
 }

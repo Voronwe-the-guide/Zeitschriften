@@ -23,10 +23,31 @@ public:
 
 signals:
 	void listEmpty();
+    void elementAdded(int index);
+
 
 public slots:
 	void deleteAll();
 	void AddElement(CArtikel &artikel);
+
+    CArtikel getArtikel(int index);
+    QString getZeitschrift(int index);
+    int getJahr(int index);				//!< Jahrgang der Zeitschrift
+    int getAusgabe(int index);				//!< Ausgabe der Zeitschrift, bezogen auf Jahrgang
+    int getSeite(int index);				//!< Seitennummer
+    QString getRubrik(int index);
+    QString getUeberschrift(int index);
+    QString getZusammenfassung(int index);
+    QString getKurztext(int index);
+    QString getAutor(int index);
+    QString getFotos(int index);
+    QString getSchlagworte(int index);
+    QString getLand(int index);
+    int getDBIndex(int index);
+    QString getNotizen(int index);
+    double getLatitude(int index);
+    double getLongitude(int index);
+
 
 
 protected:
@@ -56,6 +77,10 @@ private:
 	static const int  Role_Land;
 	static const int  Role_Koordinate;
     static const int  Role_Index;
+    static const int  Role_Notizen;
+    static const int  Role_Latitude;
+    static const int  Role_Longitude;
+
 };
 
 

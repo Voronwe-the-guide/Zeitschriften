@@ -29,7 +29,7 @@ bool CArtikel::setDBElement(QString columnName, QString columnEntry)
     else if (columnName == "Koord_Breite") {m_artikelMap[columnName] = columnEntry;setKoordinate(columnName,columnEntry); return true;}
     else if (columnName == "Aenderungszeit") {m_artikelMap[columnName] = columnEntry;setLastChange(columnEntry); return true;}
     else if (columnName == "UniqueIndex") {m_artikelMap[columnName] = columnEntry;setDBIndex(columnEntry.toInt()); return true;}
-
+    else if (columnName == "Notizen") {m_artikelMap[columnName] = columnEntry; setNotizen(columnEntry); return true;}
 	return false;
 }
 
@@ -232,30 +232,31 @@ void CArtikel::setDBIndex(int index)
 QString CArtikel::getArtikelAsSQLString(bool include_whereID)
 {
     QString artikel = "SET ";
-    artikel += QString(" Ausgabe = '%1',").arg(Ausgabe());
-    artikel +=QString(" Jahr = '%1',").arg(Jahr());
-    artikel +=QString(" Rubrik = '%1',").arg(Rubrik());
-    artikel +=QString(" Ueberschrift = '%1',").arg(Ueberschrift());
-    artikel +=QString(" Zusammenfassung = '%1',").arg(Zusammenfassung());
-    artikel +=QString(" Kurztext = '%1',").arg(Kurztext());
-    artikel +=QString(" Seite = '%1',").arg(Seite());
-    artikel +=QString(" Autor = '%1',").arg(Autor());
-    artikel +=QString(" Fotos = '%1',").arg(Fotos());
-    artikel +=QString(" Schlagworte = '%1',").arg(Schlagworte());
-    artikel +=QString(" Zeitschrift = '%1',").arg(Zeitschrift());
-    artikel +=QString(" Land = '%1',").arg(Land());
+    artikel += QString(" Ausgabe = '%1'").arg(Ausgabe());
+    artikel +=QString(", Jahr = '%1'").arg(Jahr());
+    artikel +=QString(", Rubrik = '%1'").arg(Rubrik());
+    artikel +=QString(", Ueberschrift = '%1'").arg(Ueberschrift());
+    artikel +=QString(", Zusammenfassung = '%1'").arg(Zusammenfassung());
+    artikel +=QString(", Kurztext = '%1'").arg(Kurztext());
+    artikel +=QString(", Seite = '%1'").arg(Seite());
+    artikel +=QString(", Autor = '%1'").arg(Autor());
+    artikel +=QString(", Fotos = '%1'").arg(Fotos());
+    artikel +=QString(", Schlagworte = '%1'").arg(Schlagworte());
+    artikel +=QString(", Zeitschrift = '%1'").arg(Zeitschrift());
+    artikel +=QString(", Land = '%1'").arg(Land());
     if (Koordinate().isValid())
     {
-        artikel +=QString(" Koord_Laenge = '%1',").arg(Koordinate().longitude());
-        artikel +=QString(" Koord_Breite = '%1',").arg(Koordinate().latitude());
+        artikel +=QString(", Koord_Laenge = '%1'").arg(Koordinate().longitude());
+        artikel +=QString(", Koord_Breite = '%1'").arg(Koordinate().latitude());
     }
     else
     {
-        artikel +=QString(" Koord_Laenge = '',");
-        artikel +=QString(" Koord_Breite = '',");
+        artikel +=QString(", Koord_Laenge = ''");
+        artikel +=QString(", Koord_Breite = ''");
 
     }
-    artikel +=QString(" Aenderungszeit = '%1'").arg(lastChangeAsString());
+    artikel +=QString(", Aenderungszeit = '%1'").arg(lastChangeAsString());
+    artikel +=QString(", Notizen = '%1'").arg(getNotizen());
 
     if (include_whereID)
     {
@@ -263,6 +264,16 @@ QString CArtikel::getArtikelAsSQLString(bool include_whereID)
     }
 
     return artikel;
+}
+
+QString CArtikel::getNotizen() const
+{
+    return m_Notizen;
+}
+
+void CArtikel::setNotizen(const QString &Notizen)
+{
+    m_Notizen = Notizen;
 }
 
 

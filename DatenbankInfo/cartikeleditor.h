@@ -20,6 +20,10 @@ class CArtikelEditor : public QObject
     Q_PROPERTY(QString fotos READ getFotos NOTIFY artikelDisplayUpdated)
     Q_PROPERTY(QString schlagworte READ getSchlagworte NOTIFY artikelDisplayUpdated)
     Q_PROPERTY(QString land READ getLand NOTIFY artikelDisplayUpdated)
+    Q_PROPERTY(QString notizen READ getNotizen NOTIFY artikelDisplayUpdated)
+    Q_PROPERTY(double currentLat READ getCurrentLat NOTIFY coordinateDisplayUpdated)
+    Q_PROPERTY(double currentLong READ getCurrentLong NOTIFY coordinateDisplayUpdated)
+    Q_PROPERTY(QString koordinaten READ getKoordinaten NOTIFY coordinateDisplayUpdated)
 
 public:
     explicit CArtikelEditor(CListenController *listen, QObject *parent = nullptr);
@@ -31,18 +35,20 @@ public:
 signals:
     void artikelDisplayUpdated();
     void artikelUpdated(CArtikel artikel);
-    void zeitschriftUpdated(QString Zeitschrift);
-    void jahrUpdated(int Jahr);
-    void ausgabeUpdated(int Ausgabe);
-    void seiteUpdated(int Seite);
-    void rubrikUpdated(QString Rubrik);
-    void ueberschriftUpdated(QString Ueberschrift);
-    void zusammenfassungUpdated(QString Zusammenfassung);
-    void kurztextUpdated(QString Kurztext);
-    void autorUpdated(QString Autor);
-    void fotosUpdated(QString Fotos);
-    void schlagworteUpdated(QString Schlagworte);
-    void landUpdated(QString Land);
+    void zeitschriftUpdated(QString zeitschrift);
+    void jahrUpdated(int jahr);
+    void ausgabeUpdated(int ausgabe);
+    void seiteUpdated(int seite);
+    void rubrikUpdated(QString rubrik);
+    void ueberschriftUpdated(QString ueberschrift);
+    void zusammenfassungUpdated(QString zusammenfassung);
+    void kurztextUpdated(QString kurztext);
+    void autorUpdated(QString autor);
+    void fotosUpdated(QString fotos);
+    void schlagworteUpdated(QString schlagworte);
+    void landUpdated(QString land);
+    void notizenUpdated(QString notizen);
+    void coordinateDisplayUpdated();
 
 public slots:
 
@@ -92,6 +98,17 @@ public slots:
 
     QString getLand() const;
     void setLand(const QString &Land);
+
+    QString getNotizen() const;
+    void setNotizen(const QString &Notizen);
+
+    double getCurrentLat() const;
+    double getCurrentLong() const;
+
+    QString getKoordinaten() const;
+
+    void setCurrentCoordinate(double lat, double longi);
+
 
 private:
     CArtikel m_Artikel;

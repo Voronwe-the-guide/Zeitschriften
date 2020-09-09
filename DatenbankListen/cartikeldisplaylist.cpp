@@ -16,6 +16,10 @@ const int  CArtikelDisplayList::Role_Schlagworte = Qt::UserRole+11;
 const int  CArtikelDisplayList::Role_Land = Qt::UserRole+12;
 const int  CArtikelDisplayList::Role_Koordinate = Qt::UserRole+13;
 const int  CArtikelDisplayList::Role_Index = Qt::UserRole+14;
+const int  CArtikelDisplayList::Role_Notizen = Qt::UserRole+15;
+const int  CArtikelDisplayList::Role_Latitude = Qt::UserRole+16;
+const int  CArtikelDisplayList::Role_Longitude = Qt::UserRole+17;
+
 
 
 
@@ -57,7 +61,7 @@ QVariant CArtikelDisplayList::data ( const QModelIndex & index, int role) const
 			case Role_Ausgabe: return temp.Ausgabe();				//!< Ausgabe der Zeitschrift, bezogen auf Jahrgang
 			case Role_Seite: return temp.Seite();				//!< Seitennummer
 			case Role_Rubrik: return temp.Rubrik();
-        case Role_Ueberschrift: return HighlightSearchElement(temp.Ueberschrift());
+            case Role_Ueberschrift: return HighlightSearchElement(temp.Ueberschrift());
             case Role_Zusammenfassung: return HighlightSearchElement(temp.Zusammenfassung());
             case Role_Kurztext: return HighlightSearchElement(temp.Kurztext());
             case Role_Autor: return HighlightSearchElement(temp.Autor());
@@ -65,8 +69,11 @@ QVariant CArtikelDisplayList::data ( const QModelIndex & index, int role) const
             case Role_Schlagworte: return HighlightSearchElement(temp.Schlagworte());
             case Role_Land: return HighlightSearchElement(temp.Land());
             case Role_Index: return temp.DBIndex();
-	//		case Role_Koordinate: return temp.Koordinate();
-		}
+            case Role_Notizen: return temp.getNotizen();
+            case Role_Koordinate: return temp.KoordinateAsString();
+            case Role_Latitude: return temp.Koordinate().latitude();
+            case Role_Longitude: return temp.Koordinate().longitude();
+        }
 	}
 
 	return ret;
@@ -94,10 +101,8 @@ void CArtikelDisplayList::AddElement(CArtikel &artikel)
 	beginInsertRows(QModelIndex(),rowCount(),rowCount());//This is to keep the list in QML updated
 	m_ArtikelList << artikel;
 	endInsertRows();
-    if (m_ArtikelList.count() == 1)
-    {
-        emit listEmpty();
-    }
+    emit elementAdded(m_ArtikelList.count()-1);
+
 
 }
 
@@ -119,9 +124,105 @@ QHash<int, QByteArray> CArtikelDisplayList::roleNames() const
 	roles[Role_Land] = "land";
 	roles[Role_Koordinate] = "koordinate";
     roles[Role_Index] = "dbindex";
+    roles[Role_Notizen] = "notizen";
+    roles[Role_Latitude] = "latitude";
+    roles[Role_Longitude] = "longitude";
+
 
     return roles;
 }
+
+
+CArtikel CArtikelDisplayList::getArtikel(int index)
+{
+    CArtikel artikel;
+    if ((index >= 0) && (index<m_ArtikelList.count()))
+    {
+       artikel = m_ArtikelList.at(index);
+    }
+
+    return artikel;
+}
+QString CArtikelDisplayList::getZeitschrift(int index)
+{
+    return getArtikel(index).Zeitschrift();
+}
+int CArtikelDisplayList::getJahr(int index)
+{
+    return getArtikel(index).Jahr();
+
+}
+int CArtikelDisplayList::getAusgabe(int index)
+{
+    return getArtikel(index).Ausgabe();
+
+}
+int CArtikelDisplayList::getSeite(int index)
+{
+    return getArtikel(index).Seite();
+
+}
+QString CArtikelDisplayList::getRubrik(int index)
+{
+    return getArtikel(index).Rubrik();
+
+}
+QString CArtikelDisplayList::getUeberschrift(int index)
+{
+    return getArtikel(index).Ueberschrift();
+
+}
+QString CArtikelDisplayList::getZusammenfassung(int index)
+{
+    return getArtikel(index).Zusammenfassung();
+
+}
+QString CArtikelDisplayList::getKurztext(int index)
+{
+    return getArtikel(index).Kurztext();
+
+}
+QString CArtikelDisplayList::getAutor(int index)
+{
+    return getArtikel(index).Autor();
+
+}
+QString CArtikelDisplayList::getFotos(int index)
+{
+    return getArtikel(index).Fotos();
+
+}
+QString CArtikelDisplayList::getSchlagworte(int index)
+{
+    return getArtikel(index).Schlagworte();
+
+}
+QString CArtikelDisplayList::getLand(int index)
+{
+    return getArtikel(index).Land();
+
+}
+int CArtikelDisplayList::getDBIndex(int index)
+{
+    return getArtikel(index).DBIndex();
+
+}
+QString CArtikelDisplayList::getNotizen(int index)
+{
+    return getArtikel(index).getNotizen();
+
+}
+double CArtikelDisplayList::getLatitude(int index)
+{
+    return getArtikel(index).Koordinate().latitude();
+
+}
+double CArtikelDisplayList::getLongitude(int index)
+{
+    return getArtikel(index).Koordinate().longitude();
+
+}
+
 QString CArtikelDisplayList::HighlightSearchElement(QString inputString) const
 {
    QString parsedString = inputString;

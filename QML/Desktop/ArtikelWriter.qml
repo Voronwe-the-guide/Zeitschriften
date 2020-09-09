@@ -5,7 +5,7 @@ Window
 {
     id: editWindow
     width: 1000
-    height: artikel.height+dialogButtons.height
+    height: artikel.height+dialogButtons.height+map.height
     visible: true
     property bool isNewOne: false;
     modality:Qt.ApplicationModal
@@ -29,12 +29,35 @@ Window
            | Qt.WindowTitleHint | Qt.WindowMinimizeButtonHint //| Qt.WindowCloseButtonHint
 //      |Qt.WindowCancelButtonHint
            | Qt.WindowMaximizeButtonHint// | Qt.WindowStaysOnTopHint
+   Column
+   {
+    height: parent.height
+    width: parent.width
+   DisplayMap
+    {
+        id: map
+        width: parent.width
+        height:300
+        currentLat: cArtikelEditor.currentLat
+        currentLong: cArtikelEditor.currentLong
+         magazin_text: cArtikelEditor.zeitschrift
+        jahr_text: cArtikelEditor.jahr
+        ausgabe_text: cArtikelEditor.ausgabe
+        seite_text: cArtikelEditor.seite
+
+        onCoordinatePressed:
+        {
+            console.log("got coordinate"+latitude+"/"+longitude);
+            cArtikelEditor.setCurrentCoordinate(latitude,longitude);
+        }
+    }
 
    DialogButtonBox
    {
        id: dialogButtons
        signal nextPressed()
        signal previousPressed()
+
 
        function focusFromStart(){saveButton.focus = true}
        function focusFromEnd(){cancelButton.focus = true}
@@ -83,8 +106,9 @@ Window
       Artikel
       {
 
+        //  id: artikelDisplay
           width: parent.width
-          anchors.top: dialogButtons.bottom
+         // anchors.top: map.bottom
           id: artikel
           isNewOne: editWindow.isNewOne
           readOnlyMode: false
@@ -100,6 +124,8 @@ Window
           author:cArtikelEditor.autor
           fotos:cArtikelEditor.fotos
           land:cArtikelEditor.land
+          notizen: cArtikelEditor.notizen
+          coordinates: cArtikelEditor.koordinaten
           Connections
           {
               target:cArtikelEditor
@@ -118,6 +144,8 @@ Window
                   artikel.author=cArtikelEditor.getAutor()
                   artikel.fotos=cArtikelEditor.getFotos()
                   artikel.land=cArtikelEditor.getLand()
+                  artikel.notizen = cArtikelEditor.getNotizen()
+                  artikel.coordinates = cArtikelEditor.getKoordinaten()
               }
           }
           onZeitschriftEdit:{cArtikelEditor.setZeitschrift(newText)}
@@ -132,11 +160,13 @@ Window
           onAuthorEdit:{cArtikelEditor.setAutor(newText)}
           onFotosEdit:{cArtikelEditor.setFotos(newText)}
           onLandEdit:{cArtikelEditor.setLand(newText)}
+          onNotizenEdit: {cArtikelEditor.setNotizen(newText)}
 
           onPreviousPressed: {dialogButtons.focusFromEnd()}
           onNextPressed: {dialogButtons.focusFromStart()}
        //   hasGPS: true
       }
+}
 
 
 //   standardButtons: StandardButton.Save | StandardButton.Cancel

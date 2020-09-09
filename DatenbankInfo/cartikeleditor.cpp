@@ -187,6 +187,50 @@ void CArtikelEditor::setLand(const QString &Land)
     emit landUpdated(Land);
 }
 
+QString  CArtikelEditor::getNotizen() const
+{
+    return m_Artikel.getNotizen();
+}
+void  CArtikelEditor::setNotizen(const QString &Notizen)
+{
+    m_Artikel.setNotizen(Notizen);
+    setSomethingHasChanged(true);
+    emit notizenUpdated(Notizen);
+}
+
+
+double CArtikelEditor::getCurrentLat() const
+{
+    if (m_Artikel.Koordinate().isValid())
+    {
+        return m_Artikel.Koordinate().latitude();
+    }
+    return 0;
+}
+double CArtikelEditor::getCurrentLong() const
+{
+    if (m_Artikel.Koordinate().isValid())
+    {
+        return m_Artikel.Koordinate().longitude();
+    }
+    return 0;
+}
+
+QString CArtikelEditor::getKoordinaten() const
+{
+    return m_Artikel.KoordinateAsString();
+}
+
+void CArtikelEditor::setCurrentCoordinate(double lat, double longi)
+{
+   QGeoCoordinate kord;
+   kord.setLatitude(lat);
+   kord.setLongitude(longi);
+    m_Artikel.setKoordinate(kord);
+    setSomethingHasChanged(true);
+    emit coordinateDisplayUpdated();
+}
+
 bool CArtikelEditor::getSomethingHasChanged() const
 {
     return m_somethingHasChanged;
@@ -195,6 +239,7 @@ bool CArtikelEditor::getSomethingHasChanged() const
 void CArtikelEditor::setSomethingHasChanged(bool somethingHasChanged)
 {
     m_somethingHasChanged = somethingHasChanged;
+  //  emit artikelDisplayUpdated();
 }
 
 

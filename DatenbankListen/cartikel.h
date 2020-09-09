@@ -57,7 +57,10 @@ public:
 	QString Land() const;
     void setLand(const QString &Land);
 
-	QGeoCoordinate Koordinate() const;
+    QString getNotizen() const;
+    void setNotizen(const QString &Notizen);
+
+    QGeoCoordinate Koordinate() const;
     QString KoordinateAsString() const;
 	void setKoordinate(const QGeoCoordinate &Koordinate);
     void setKoordinate(const QString& whichOne, const QString &partOfkoordinate);
@@ -71,6 +74,8 @@ public:
     void setDBIndex(int index);
 
     QString getArtikelAsSQLString(bool include_whereID);
+
+
 
 private:
 
@@ -87,6 +92,7 @@ private:
 	QString m_Fotos;
 	QString m_Schlagworte;
 	QString m_Land;
+    QString m_Notizen;
 	QGeoCoordinate m_Koordinate;
     QDateTime m_lastChange;
 
