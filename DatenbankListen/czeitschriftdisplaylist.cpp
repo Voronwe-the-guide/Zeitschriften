@@ -33,7 +33,7 @@ QVariant CZeitschriftDisplayList::data ( const QModelIndex & index, int role) co
         switch (role)
         {
             case Qt::DisplayRole:
-            case Role_Zeitschrift: return temp.Zeitschrift();					//!< Jahrgang der Zeitschrift
+			case Role_Zeitschrift: return temp.getZeitschrift();					//!< Jahrgang der Zeitschrift
         case Role_Selection: return temp.isSelected();
         }
     }
@@ -58,7 +58,7 @@ void CZeitschriftDisplayList::AddElement(CZeitschrift &zeitschrift)
 {
     for (int i=0; i<m_ZeitschriftenList.count(); i++)
     {
-        if (zeitschrift.Zeitschrift() ==m_ZeitschriftenList.at(i).Zeitschrift())
+		if (zeitschrift.getZeitschrift() == m_ZeitschriftenList.at(i).getZeitschrift())
         {
             //Allready there
             return;
@@ -110,7 +110,7 @@ QStringList CZeitschriftDisplayList::getSelectedElements()
     {
         if (m_ZeitschriftenList.at(i).isSelected())
         {
-            elements.append(m_ZeitschriftenList.at(i).Zeitschrift());
+			elements.append(m_ZeitschriftenList.at(i).getZeitschrift());
         }
     }
     return elements;

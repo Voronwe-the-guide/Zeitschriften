@@ -2,6 +2,12 @@
 #define CZEITSCHRIFT_H
 
 #include <QString>
+#include <QMap>
+
+#define ZEITSCHRIFT_TABELLE		"Zeitschrift"
+#define ZEITSCHRIFT_ZEITSCHRIFT "Zeitschrift"	//!< TEXT
+#define ZEITSCHRIFT_INDEX		"UniqueIndex"	//!< INTEGER
+#define ZEITSCHRIFT_LOGO		"Logo"			//!< BLOB
 
 class CZeitschrift
 {
@@ -14,17 +20,24 @@ public:
 
     virtual ~CZeitschrift() = default;
 
-    bool setDBElement(QString columnName, QString columnEntry);
+	bool setDBElement(const QString& columnName, const QByteArray& columnEntry);
 
-    QString Zeitschrift() const;
-    void setZeitschrift(QString zeitschrift);
+	QString getZeitschrift() const;
+	void setZeitschrift(const QString& zeitschrift);
 
     bool isSelected() const;
     void setIsSelected(bool isSelected);
 
+	QString getLogo() const;
+	void setLogo(const QString &logo);
+
+	int getUniqueIndex() const;
+	void setUniqueIndex(int uniqueIndex);
+
 private:
-    QString m_Zeitschrift;
-    bool m_isSelected;
+	bool m_isSelected;
+
+	 QMap<QString,QByteArray> m_ZeitschriftMap;
 };
 
 #endif // CZEITSCHRIFT_H

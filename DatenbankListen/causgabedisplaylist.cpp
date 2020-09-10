@@ -33,9 +33,9 @@ QVariant CAusgabeDisplayList::data ( const QModelIndex & index, int role) const
 		switch (role)
 		{
 			case Qt::DisplayRole:
-			case Role_Jahr: return temp.Jahr();
-			case Role_Ausgabe: return temp.Ausgabe();
-			case Role_Zeitschrift: return temp.Zeitschrift();
+			case Role_Jahr: return temp.getJahr();
+			case Role_Ausgabe: return temp.getAusgabe();
+			case Role_Zeitschrift: return temp.getZeitschrift();
 		}
 	}
 
@@ -64,7 +64,7 @@ void CAusgabeDisplayList::AddElement(CAusgabe &ausgabe)
 {
 	for (int i=0; i<m_AusgabenList.count(); i++)
 	{
-		if ((ausgabe.Jahr() == m_AusgabenList.at(i).Jahr()) && (ausgabe.Ausgabe() == m_AusgabenList.at(i).Ausgabe()))
+		if ((ausgabe.getJahr() == m_AusgabenList.at(i).getJahr()) && (ausgabe.getAusgabe() == m_AusgabenList.at(i).getAusgabe()))
 		{
 			//Allready there
 			return;

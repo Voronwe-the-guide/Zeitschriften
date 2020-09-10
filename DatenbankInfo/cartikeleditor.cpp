@@ -19,10 +19,10 @@ void CArtikelEditor::saveAndNext()
 {
     saveChangesInDB();
     CArtikel newOne;
-    newOne.setJahr(m_Artikel.Jahr());
-    newOne.setAusgabe(m_Artikel.Ausgabe());
-    newOne.setRubrik(m_Artikel.Rubrik());
-    newOne.setZeitschrift(m_Artikel.Zeitschrift());
+	newOne.setJahr(m_Artikel.getJahr());
+	newOne.setAusgabe(m_Artikel.getAusgabe());
+	newOne.setRubrik(m_Artikel.getRubrik());
+	newOne.setZeitschrift(m_Artikel.getZeitschrift());
     setArtikelForUpdate(newOne);
 
 }
@@ -47,7 +47,7 @@ CArtikel CArtikelEditor::getArtikel() const
 
 QString CArtikelEditor::getZeitschrift() const
 {
-    return m_Artikel.Zeitschrift();
+	return m_Artikel.getZeitschrift();
 }
 void CArtikelEditor::setZeitschrift(const QString &Zeitschrift)
 {
@@ -58,7 +58,7 @@ void CArtikelEditor::setZeitschrift(const QString &Zeitschrift)
 
 int CArtikelEditor::getJahr() const
 {
-    return m_Artikel.Jahr();
+	return m_Artikel.getJahr();
 }
 void CArtikelEditor::setJahr(int Jahr)
 {
@@ -69,7 +69,7 @@ void CArtikelEditor::setJahr(int Jahr)
 
 int CArtikelEditor::getAusgabe() const
 {
-    return m_Artikel.Ausgabe();
+	return m_Artikel.getAusgabe();
 }
 
 void CArtikelEditor::setAusgabe(int Ausgabe)
@@ -81,7 +81,7 @@ void CArtikelEditor::setAusgabe(int Ausgabe)
 
 int CArtikelEditor::getSeite() const
 {
-    return m_Artikel.Seite();
+	return m_Artikel.getSeite();
 }
 
 void CArtikelEditor::setSeite(int Seite)
@@ -93,7 +93,7 @@ void CArtikelEditor::setSeite(int Seite)
 
 QString CArtikelEditor::getRubrik() const
 {
-    return m_Artikel.Rubrik();
+	return m_Artikel.getRubrik();
 }
 
 void CArtikelEditor::setRubrik(const QString &Rubrik)
@@ -105,7 +105,7 @@ void CArtikelEditor::setRubrik(const QString &Rubrik)
 
 QString CArtikelEditor::getUeberschrift() const
 {
-    return m_Artikel.Ueberschrift();
+	return m_Artikel.getUeberschrift();
 }
 
 void CArtikelEditor::setUeberschrift(const QString &Ueberschrift)
@@ -117,7 +117,7 @@ void CArtikelEditor::setUeberschrift(const QString &Ueberschrift)
 
 QString CArtikelEditor::getZusammenfassung() const
 {
-    return m_Artikel.Zusammenfassung();
+	return m_Artikel.getZusammenfassung();
 }
 
 void CArtikelEditor::setZusammenfassung(const QString &Zusammenfassung)
@@ -129,7 +129,7 @@ void CArtikelEditor::setZusammenfassung(const QString &Zusammenfassung)
 
 QString CArtikelEditor::getKurztext() const
 {
-    return m_Artikel.Kurztext();
+	return m_Artikel.getKurztext();
 }
 
 void CArtikelEditor::setKurztext(const QString &Kurztext)
@@ -141,7 +141,7 @@ void CArtikelEditor::setKurztext(const QString &Kurztext)
 
 QString CArtikelEditor::getAutor() const
 {
-    return m_Artikel.Autor();
+	return m_Artikel.getAutor();
 }
 
 void CArtikelEditor::setAutor(const QString &Autor)
@@ -153,7 +153,7 @@ void CArtikelEditor::setAutor(const QString &Autor)
 
 QString CArtikelEditor::getFotos() const
 {
-    return m_Artikel.Fotos();
+	return m_Artikel.getFotos();
 }
 
 void CArtikelEditor::setFotos(const QString &Fotos)
@@ -165,7 +165,7 @@ void CArtikelEditor::setFotos(const QString &Fotos)
 
 QString CArtikelEditor::getSchlagworte() const
 {
-    return m_Artikel.Schlagworte();
+	return m_Artikel.getSchlagworte();
 }
 
 void CArtikelEditor::setSchlagworte(const QString &Schlagworte)
@@ -177,7 +177,7 @@ void CArtikelEditor::setSchlagworte(const QString &Schlagworte)
 
 QString CArtikelEditor::getLand() const
 {
-    return m_Artikel.Land();
+	return m_Artikel.getLand();
 }
 
 void CArtikelEditor::setLand(const QString &Land)
@@ -201,24 +201,24 @@ void  CArtikelEditor::setNotizen(const QString &Notizen)
 
 double CArtikelEditor::getCurrentLat() const
 {
-    if (m_Artikel.Koordinate().isValid())
+	if (m_Artikel.getKoordinate().isValid())
     {
-        return m_Artikel.Koordinate().latitude();
+		return m_Artikel.getKoordinate().latitude();
     }
     return 0;
 }
 double CArtikelEditor::getCurrentLong() const
 {
-    if (m_Artikel.Koordinate().isValid())
+	if (m_Artikel.getKoordinate().isValid())
     {
-        return m_Artikel.Koordinate().longitude();
+		return m_Artikel.getKoordinate().longitude();
     }
     return 0;
 }
 
 QString CArtikelEditor::getKoordinaten() const
 {
-    return m_Artikel.KoordinateAsString();
+	return m_Artikel.getKoordinateAsString();
 }
 
 void CArtikelEditor::setCurrentCoordinate(double lat, double longi)
@@ -245,7 +245,7 @@ void CArtikelEditor::setSomethingHasChanged(bool somethingHasChanged)
 
 void CArtikelEditor::saveChangesInDB()
 {
-   if (m_Artikel.DBIndex()<0)
+   if (m_Artikel.getDBIndex()<0)
    {
        storeNewArtikel();
    }

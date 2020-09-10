@@ -114,7 +114,7 @@ void CListenController::getListOfZeitschriften()
         {
 
             QString columnName(reinterpret_cast<const char*>(sqlite3_column_name(stmt,i)));
-            QString columnText(reinterpret_cast<const char*>(sqlite3_column_text(stmt,i)));
+			QByteArray columnText(reinterpret_cast<const char*>(sqlite3_column_text(stmt,i)));
             zeitschrift.setDBElement(columnName,columnText);
 
         }
@@ -298,7 +298,7 @@ int CListenController::getZeitschriftenForJahr(int jahr)
           {
 
               QString columnName(reinterpret_cast<const char*>(sqlite3_column_name(stmt,i)));
-              QString columnText(reinterpret_cast<const char*>(sqlite3_column_text(stmt,i)));
+			  QByteArray columnText(reinterpret_cast<const char*>(sqlite3_column_text(stmt,i)));
               zeitschrift.setDBElement(columnName,columnText);
               ausgabe.setDBElement(columnName,columnText);
               artikel.setDBElement(columnName,columnText);
@@ -349,7 +349,7 @@ void CListenController::getAusgabenForJahr(int jahr)
 		{
 
 			QString columnName(reinterpret_cast<const char*>(sqlite3_column_name(stmt,i)));
-			QString columnText(reinterpret_cast<const char*>(sqlite3_column_text(stmt,i)));
+			QByteArray columnText(reinterpret_cast<const char*>(sqlite3_column_text(stmt,i)));
 			ausgabe.setDBElement(columnName,columnText);
             artikel.setDBElement(columnName,columnText);
         }
@@ -395,8 +395,8 @@ void CListenController::getAusgabenForZeitschrift(QString zeitschrift, int jahr)
         for (int i=0; i<number; ++i)
         {
 
-            QString columnName(reinterpret_cast<const char*>(sqlite3_column_name(stmt,i)));
-            QString columnText(reinterpret_cast<const char*>(sqlite3_column_text(stmt,i)));
+			QString columnName(reinterpret_cast<const char*>(sqlite3_column_name(stmt,i)));
+			QByteArray columnText(reinterpret_cast<const char*>(sqlite3_column_text(stmt,i)));
             ausgabe.setDBElement(columnName,columnText);
             artikel.setDBElement(columnName,columnText);
         }
@@ -441,7 +441,7 @@ void  CListenController::getArtikelForAusgabe(QString zeitschrift, int jahr, int
         {
 
             QString columnName(reinterpret_cast<const char*>(sqlite3_column_name(stmt,i)));
-            QString columnText(reinterpret_cast<const char*>(sqlite3_column_text(stmt,i)));
+			QByteArray columnText(reinterpret_cast<const char*>(sqlite3_column_text(stmt,i)));
             artikel.setDBElement(columnName,columnText);
         }
 
@@ -573,7 +573,7 @@ CArtikel CListenController::getArtikelByIndex(int index)
         {
 
            QString columnName(reinterpret_cast<const char*>(sqlite3_column_name(stmt,i)));
-            QString columnText(reinterpret_cast<const char*>(sqlite3_column_text(stmt,i)));
+			QByteArray columnText(reinterpret_cast<const char*>(sqlite3_column_text(stmt,i)));
             artikel.setDBElement(columnName,columnText);
 
         }
@@ -729,7 +729,7 @@ void CListenController::searchArtikel(QString searchElement)
         {
 
             QString columnName(reinterpret_cast<const char*>(sqlite3_column_name(stmt,i)));
-            QString columnText(reinterpret_cast<const char*>(sqlite3_column_text(stmt,i)));
+			QByteArray columnText(reinterpret_cast<const char*>(sqlite3_column_text(stmt,i)));
             artikel.setDBElement(columnName,columnText);
             jahr.setDBElement(columnName,columnText);
         }

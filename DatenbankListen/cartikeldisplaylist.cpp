@@ -56,23 +56,23 @@ QVariant CArtikelDisplayList::data ( const QModelIndex & index, int role) const
 		switch (role)
 		{
 			case Qt::DisplayRole:
-			case Role_Zeitschrift:	return temp.Zeitschrift();
-			case Role_Jahr: return temp.Jahr();					//!< Jahrgang der Zeitschrift
-			case Role_Ausgabe: return temp.Ausgabe();				//!< Ausgabe der Zeitschrift, bezogen auf Jahrgang
-			case Role_Seite: return temp.Seite();				//!< Seitennummer
-			case Role_Rubrik: return temp.Rubrik();
-            case Role_Ueberschrift: return HighlightSearchElement(temp.Ueberschrift());
-            case Role_Zusammenfassung: return HighlightSearchElement(temp.Zusammenfassung());
-            case Role_Kurztext: return HighlightSearchElement(temp.Kurztext());
-            case Role_Autor: return HighlightSearchElement(temp.Autor());
-            case Role_Fotos: return HighlightSearchElement(temp.Fotos());
-            case Role_Schlagworte: return HighlightSearchElement(temp.Schlagworte());
-            case Role_Land: return HighlightSearchElement(temp.Land());
-            case Role_Index: return temp.DBIndex();
+			case Role_Zeitschrift:	return temp.getZeitschrift();
+			case Role_Jahr: return temp.getJahr();					//!< Jahrgang der Zeitschrift
+			case Role_Ausgabe: return temp.getAusgabe();				//!< Ausgabe der Zeitschrift, bezogen auf Jahrgang
+			case Role_Seite: return temp.getSeite();				//!< Seitennummer
+			case Role_Rubrik: return temp.getRubrik();
+			case Role_Ueberschrift: return HighlightSearchElement(temp.getUeberschrift());
+			case Role_Zusammenfassung: return HighlightSearchElement(temp.getZusammenfassung());
+			case Role_Kurztext: return HighlightSearchElement(temp.getKurztext());
+			case Role_Autor: return HighlightSearchElement(temp.getAutor());
+			case Role_Fotos: return HighlightSearchElement(temp.getFotos());
+			case Role_Schlagworte: return HighlightSearchElement(temp.getSchlagworte());
+			case Role_Land: return HighlightSearchElement(temp.getLand());
+			case Role_Index: return temp.getDBIndex();
             case Role_Notizen: return temp.getNotizen();
-            case Role_Koordinate: return temp.KoordinateAsString();
-            case Role_Latitude: return temp.Koordinate().latitude();
-            case Role_Longitude: return temp.Koordinate().longitude();
+			case Role_Koordinate: return temp.getKoordinateAsString();
+			case Role_Latitude: return temp.getKoordinate().latitude();
+			case Role_Longitude: return temp.getKoordinate().longitude();
         }
 	}
 
@@ -145,66 +145,66 @@ CArtikel CArtikelDisplayList::getArtikel(int index)
 }
 QString CArtikelDisplayList::getZeitschrift(int index)
 {
-    return getArtikel(index).Zeitschrift();
+	return getArtikel(index).getZeitschrift();
 }
 int CArtikelDisplayList::getJahr(int index)
 {
-    return getArtikel(index).Jahr();
+	return getArtikel(index).getJahr();
 
 }
 int CArtikelDisplayList::getAusgabe(int index)
 {
-    return getArtikel(index).Ausgabe();
+	return getArtikel(index).getAusgabe();
 
 }
 int CArtikelDisplayList::getSeite(int index)
 {
-    return getArtikel(index).Seite();
+	return getArtikel(index).getSeite();
 
 }
 QString CArtikelDisplayList::getRubrik(int index)
 {
-    return getArtikel(index).Rubrik();
+	return getArtikel(index).getRubrik();
 
 }
 QString CArtikelDisplayList::getUeberschrift(int index)
 {
-    return getArtikel(index).Ueberschrift();
+	return getArtikel(index).getUeberschrift();
 
 }
 QString CArtikelDisplayList::getZusammenfassung(int index)
 {
-    return getArtikel(index).Zusammenfassung();
+	return getArtikel(index).getZusammenfassung();
 
 }
 QString CArtikelDisplayList::getKurztext(int index)
 {
-    return getArtikel(index).Kurztext();
+	return getArtikel(index).getKurztext();
 
 }
 QString CArtikelDisplayList::getAutor(int index)
 {
-    return getArtikel(index).Autor();
+	return getArtikel(index).getAutor();
 
 }
 QString CArtikelDisplayList::getFotos(int index)
 {
-    return getArtikel(index).Fotos();
+	return getArtikel(index).getFotos();
 
 }
 QString CArtikelDisplayList::getSchlagworte(int index)
 {
-    return getArtikel(index).Schlagworte();
+	return getArtikel(index).getSchlagworte();
 
 }
 QString CArtikelDisplayList::getLand(int index)
 {
-    return getArtikel(index).Land();
+	return getArtikel(index).getLand();
 
 }
 int CArtikelDisplayList::getDBIndex(int index)
 {
-    return getArtikel(index).DBIndex();
+	return getArtikel(index).getDBIndex();
 
 }
 QString CArtikelDisplayList::getNotizen(int index)
@@ -214,12 +214,12 @@ QString CArtikelDisplayList::getNotizen(int index)
 }
 double CArtikelDisplayList::getLatitude(int index)
 {
-    return getArtikel(index).Koordinate().latitude();
+	return getArtikel(index).getKoordinate().latitude();
 
 }
 double CArtikelDisplayList::getLongitude(int index)
 {
-    return getArtikel(index).Koordinate().longitude();
+	return getArtikel(index).getKoordinate().longitude();
 
 }
 
