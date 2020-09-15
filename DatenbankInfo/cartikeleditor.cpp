@@ -62,6 +62,7 @@ int CArtikelEditor::getJahr() const
 }
 void CArtikelEditor::setJahr(int Jahr)
 {
+
     m_Artikel.setJahr(Jahr);
     setSomethingHasChanged(true);
     emit jahrUpdated(Jahr);
@@ -74,7 +75,7 @@ int CArtikelEditor::getAusgabe() const
 
 void CArtikelEditor::setAusgabe(int Ausgabe)
 {
-    m_Artikel.setAusgabe(Ausgabe);
+   m_Artikel.setAusgabe(Ausgabe);
     setSomethingHasChanged(true);
     emit ausgabeUpdated(Ausgabe);
 }

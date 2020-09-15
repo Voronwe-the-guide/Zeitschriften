@@ -1,4 +1,6 @@
 #include "cartikel.h"
+#include <QMapIterator>
+#include <QDebug>
 
 CArtikel::CArtikel()//:
  //   m_DBIndex(-1),
@@ -6,21 +8,21 @@ CArtikel::CArtikel()//:
  //   m_Ausgabe(0),
  //   m_Seite(0)
 {
-	m_artikelMap[ARTIKEL_INDEX].setNum(-1);
+    m_artikelMap[ARTIKEL_INDEX].setNum(-1);
 	m_artikelMap[ARTIKEL_ZEITSCHRIFT] ="";
-	m_artikelMap[ARTIKEL_AUSGABE].setNum(-1);
-	m_artikelMap[ARTIKEL_JAHR].setNum(-1);
+    m_artikelMap[ARTIKEL_AUSGABE]="";
+    m_artikelMap[ARTIKEL_JAHR]="";
 	m_artikelMap[ARTIKEL_RUBRIK] ="";
 	m_artikelMap[ARTIKEL_UEBERSCHRIFT] ="";
 	m_artikelMap[ARTIKEL_ZUSAMMENFASSUNG] ="";
 	m_artikelMap[ARTIKEL_KURZTEXT] ="";
-	m_artikelMap[ARTIKEL_SEITE].setNum(-1);
+    m_artikelMap[ARTIKEL_SEITE]="";
 	m_artikelMap[ARTIKEL_AUTOR] ="";
 	m_artikelMap[ARTIKEL_FOTOS] ="";
 	m_artikelMap[ARTIKEL_SCHLAGWORTE] ="";
 	m_artikelMap[ARTIKEL_LAND] ="";
 	m_artikelMap[ARTIKEL_NOTIZEN] ="";
-	m_artikelMap[ARTIKEL_LONGITUDE].setNum(0);
+    m_artikelMap[ARTIKEL_LONGITUDE].setNum(0);
 	m_artikelMap[ARTIKEL_LATITUDE].setNum(0);
 	m_artikelMap[ARTIKEL_AENDERUNGSZEIT] ="";
 }
@@ -107,6 +109,8 @@ int CArtikel::getJahr() const
 void CArtikel::setJahr(int Jahr)
 {
 	m_artikelMap[ARTIKEL_JAHR].setNum(Jahr);
+
+ //   qDebug()<<"Neues Jahr: "<<m_artikelMap[ARTIKEL_JAHR];
 }
 
 int CArtikel::getAusgabe() const
@@ -136,7 +140,7 @@ int CArtikel::getSeite() const
 
 void CArtikel::setSeite(int Seite)
 {
-	m_artikelMap[ARTIKEL_JAHR].setNum(Seite);
+    m_artikelMap[ARTIKEL_SEITE].setNum(Seite);
 }
 
 QString CArtikel::getRubrik() const
@@ -358,9 +362,9 @@ QString CArtikel::getLastChangeAsString() const
 void CArtikel::setLastChange(const QDateTime &lastChange)
 {
 	QString strChange;
-	if (getLastChange().isValid())
+    if (lastChange.isValid())
 	{
-		 strChange = getLastChange().toString(Qt::ISODate);
+         strChange = lastChange.toString(Qt::ISODate);
 	}
 	 setLastChange(strChange);
 
@@ -403,7 +407,18 @@ void CArtikel::setNotizen(const QString &Notizen)
 QString CArtikel::getArtikelAsSQLString(bool include_whereID)
 {
     QString artikel = "SET ";
-	artikel += QString(" Ausgabe = '%1'").arg(getAusgabe());
+
+ /*   QMapIterator<QString, QByteArray> i(m_artikelMap);
+    while (i.hasNext()) {
+        i.next();
+        if (i.key()!=ARTIKEL_INDEX)
+        {
+            artikel += QString(" %1 = '%2',").arg(i.key()).arg(i.value().toStdString()) ;
+        }
+//        cout << i.key() << ": " << i.value() << Qt::endl;
+    }
+*/
+    artikel +=QString(" Ausgabe = '%1'").arg(getAusgabe());
 	artikel +=QString(", Jahr = '%1'").arg(getJahr());
 	artikel +=QString(", Rubrik = '%1'").arg(getRubrik());
 	artikel +=QString(", Ueberschrift = '%1'").arg(getUeberschrift());
