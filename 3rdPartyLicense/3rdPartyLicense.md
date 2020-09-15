@@ -14,6 +14,8 @@ Linearicons where created by Perxis https://perxis.com
 
 -------
 
-This Software uses the OpenSSL-Libraries 1.1.1g released under OpenSSL-License
-https://www.openssl.org/ 
+This Software uses the OpenSSL-Libraries 1.1.1g released under the OpenSSL-License
+https://www.openssl.org/
+https://www.openssl.org/source/license.html 
+Libraries where Build by FireDeamon: https://kb.firedaemon.com/support/solutions/articles/4000121705
 
