@@ -89,7 +89,10 @@ Item {
     Button
     {
         id: zoomInButton
-        text:"+"
+        width: 50
+        height: 50
+        icon.source: "qrc:/Images/plus-circle.svg"
+   //     text:"+"
         anchors.bottom: zoomOutButton.top
         anchors.right: zoomOutButton.right
         onClicked:
@@ -100,7 +103,10 @@ Item {
     Button
     {
         id: zoomOutButton
-        text: "-"
+        width: 50
+        height: 50
+        icon.source: "qrc:/Images/minus-circle.svg"
+//        text: "-"
         anchors.bottom: parent.bottom
         anchors.right: parent.right
         onClicked:

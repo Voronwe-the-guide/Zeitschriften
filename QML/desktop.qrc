@@ -35,5 +35,11 @@
         <file>Desktop/MapFlag.qml</file>
         <file>Images/mapflag.svg</file>
         <file>Desktop/ArtikelMap.qml</file>
+        <file>Images/chevron-down.svg</file>
+        <file>Images/chevron-left.svg</file>
+        <file>Images/chevron-right.svg</file>
+        <file>Images/chevron-up.svg</file>
+        <file>Images/minus-circle.svg</file>
+        <file>Images/plus-circle.svg</file>
     </qresource>
 </RCC>

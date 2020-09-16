@@ -145,13 +145,19 @@ Item
         { id: scrollBar;
             width: 30
          policy: ScrollBar.AlwaysOn
-         topPadding: 16 + 2
-                     bottomPadding: 16 + 2
+         topPadding: 25 + 2
+                     bottomPadding: 25 + 2
 
                      Rectangle {
                          width: parent.width
-                         height: 16
-                         color: upButton.pressed ? "blue" : "red"
+                         height: 25
+                         color: upButton.pressed ? "lightblue" : "transparent"
+                         Image
+                         {
+                             anchors.fill: parent
+                             source:"qrc:/Images/chevron-up.svg"
+                         }
+
                         // opacity: vbar.contentItem.opacity
 
                          MouseArea {
@@ -181,10 +187,14 @@ Item
                      Rectangle {
                          y: parent.height - height
                          width: parent.width
-                         height: 16
-                         color: downButton.pressed ? "blue" : "red"
+                         height: 25
+                         color: downButton.pressed ? "lightblue" : "transparent"
                     //     opacity: vbar.contentItem.opacity
-
+                        Image
+                        {
+                            anchors.fill: parent
+                            source:"qrc:/Images/chevron-down.svg"
+                        }
                          MouseArea {
                              id: downButton
                              anchors.fill: parent

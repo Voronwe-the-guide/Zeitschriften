@@ -71,3 +71,4 @@ HEADERS += \
     Settings/csettings.h \
     sqlite/sqlite3.h \
     sqlite/sqlite3ext.h
+

@@ -273,11 +273,6 @@ bool CArtikelEditor::saveChangesInDB()
 {
 
 	bool dataIsValid =true;
-	bool z = isZeitschriftValid();
-	bool j = isJahrValid();
-	bool a = isAusgabeValid();
-	bool s = isSeiteValid();
-//	if (isZeitschriftValid())
 
 	dataIsValid = dataIsValid && isZeitschriftValid();
 	dataIsValid = dataIsValid && isJahrValid();
