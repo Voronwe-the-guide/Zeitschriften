@@ -61,6 +61,7 @@ public:
 	void setNotizen(const QString &Notizen);
 
 private:
+	void setText(QString key, QString text);
 
 	QMap<QString,QByteArray> m_AusgabenMap;
 

@@ -99,6 +99,9 @@ public:
 
 private:
 
+	void setText(QString key, QString text);
+
+
  /*   int m_DBIndex;
     QString m_Zeitschrift;		//!< Name der Zeitschrift
     int m_Jahr;					//!< Jahrgang der Zeitschrift

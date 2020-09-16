@@ -1,5 +1,5 @@
 #include "causgabe.h"
-
+#include <Helper/helper.h>
 CAusgabe::CAusgabe()
 
 
@@ -89,7 +89,7 @@ QString CAusgabe::getZeitschrift() const
 
 void CAusgabe::setZeitschrift(const QString &Zeitschrift)
 {
-	  m_AusgabenMap[AUSGABE_ZEITSCHRIFT] = Zeitschrift.toUtf8();
+	  setText(AUSGABE_ZEITSCHRIFT,Zeitschrift);
 }
 
 int CAusgabe::getUniqueIndex() const
@@ -150,7 +150,7 @@ QString CAusgabe::getWaehrung() const
 
 void CAusgabe::setWaehrung(const QString &Waehrung)
 {
-	m_AusgabenMap[AUSGABE_WAEHRUNG] = Waehrung.toUtf8();
+	setText(AUSGABE_WAEHRUNG,Waehrung);
 
 }
 
@@ -182,7 +182,7 @@ QString CAusgabe::getChefredakteur() const
 
 void CAusgabe::setChefredakteur(const QString &Chefredakteur)
 {
-	m_AusgabenMap[AUSGABE_CHEFREDAKTEUR] = Chefredakteur.toUtf8();
+	setText(AUSGABE_CHEFREDAKTEUR,Chefredakteur);
 
 }
 
@@ -198,6 +198,13 @@ QString CAusgabe::getNotizen() const
 
 void CAusgabe::setNotizen(const QString &Notizen)
 {
-	m_AusgabenMap[AUSGABE_NOTIZEN] = Notizen.toUtf8();
+	setText(AUSGABE_NOTIZEN,Notizen);
 
+}
+
+
+void CAusgabe::setText(QString key, QString text)
+{
+	//text = fixSpecialCharacters(text);
+	m_AusgabenMap[key]=text.toUtf8();
 }

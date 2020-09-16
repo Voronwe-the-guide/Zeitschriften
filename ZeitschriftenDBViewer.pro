@@ -32,6 +32,7 @@ SOURCES += \
         DatenbankListen/czeitschrift.cpp \
         DatenbankListen/czeitschriftdisplaylist.cpp \
         Helper/cerrordisplay.cpp \
+        Helper/helper.cpp \
         Settings/csettings.cpp \
         main.cpp \
         sqlite/sqlite3.c
@@ -66,6 +67,7 @@ HEADERS += \
     DatenbankListen/czeitschrift.h \
     DatenbankListen/czeitschriftdisplaylist.h \
     Helper/cerrordisplay.h \
+    Helper/helper.h \
     Settings/csettings.h \
     sqlite/sqlite3.h \
     sqlite/sqlite3ext.h

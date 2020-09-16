@@ -1,5 +1,5 @@
 #include "czeitschrift.h"
-
+#include <Helper/helper.h>
 
 CZeitschrift::CZeitschrift():
     m_isSelected(false)
@@ -52,7 +52,7 @@ QString CZeitschrift::getZeitschrift() const
 }
 void CZeitschrift::setZeitschrift(const QString& zeitschrift)
 {
-   m_ZeitschriftMap[ZEITSCHRIFT_ZEITSCHRIFT] = zeitschrift.toUtf8();
+   setText(ZEITSCHRIFT_ZEITSCHRIFT,zeitschrift);
 }
 
 
@@ -84,5 +84,11 @@ int CZeitschrift::getUniqueIndex() const
 void CZeitschrift::setUniqueIndex(int uniqueIndex)
 {
 	 m_ZeitschriftMap[ZEITSCHRIFT_INDEX].setNum(uniqueIndex);
+}
+
+void CZeitschrift::setText(QString key, QString text)
+{
+	//text = fixSpecialCharacters(text);
+	m_ZeitschriftMap[key]=text.toUtf8();
 }
 

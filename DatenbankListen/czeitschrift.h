@@ -35,6 +35,7 @@ public:
 	void setUniqueIndex(int uniqueIndex);
 
 private:
+	void setText(QString key, QString text);
 	bool m_isSelected;
 
 	 QMap<QString,QByteArray> m_ZeitschriftMap;

@@ -1,6 +1,7 @@
 #include "cartikel.h"
 #include <QMapIterator>
 #include <QDebug>
+#include <Helper/helper.h>
 
 CArtikel::CArtikel()//:
  //   m_DBIndex(-1),
@@ -93,7 +94,7 @@ QString CArtikel::getZeitschrift() const
 
 void CArtikel::setZeitschrift(const QString &Zeitschrift)
 {
-   m_artikelMap[ARTIKEL_ZEITSCHRIFT] = Zeitschrift.toUtf8();
+   setText(ARTIKEL_ZEITSCHRIFT,Zeitschrift);// m_artikelMap[ARTIKEL_ZEITSCHRIFT] = Zeitschrift.toUtf8();
 }
 
 int CArtikel::getJahr() const
@@ -155,7 +156,7 @@ QString CArtikel::getRubrik() const
 
 void CArtikel::setRubrik(const QString &Rubrik)
 {
-	m_artikelMap[ARTIKEL_RUBRIK] = Rubrik.toUtf8();
+	setText(ARTIKEL_RUBRIK,Rubrik);// m_artikelMap[ARTIKEL_RUBRIK] = Rubrik.toUtf8();
 
 }
 
@@ -171,7 +172,7 @@ QString CArtikel::getUeberschrift() const
 
 void CArtikel::setUeberschrift(const QString &Ueberschrift)
 {
-	m_artikelMap[ARTIKEL_UEBERSCHRIFT] = Ueberschrift.toUtf8();
+	setText(ARTIKEL_UEBERSCHRIFT,Ueberschrift); // m_artikelMap[ARTIKEL_UEBERSCHRIFT] = Ueberschrift.toUtf8();
 
 }
 
@@ -187,7 +188,7 @@ QString CArtikel::getZusammenfassung() const
 
 void CArtikel::setZusammenfassung(const QString &Zusammenfassung)
 {
-	m_artikelMap[ARTIKEL_ZUSAMMENFASSUNG] = Zusammenfassung.toUtf8();
+	setText(ARTIKEL_ZUSAMMENFASSUNG,Zusammenfassung); m_artikelMap[ARTIKEL_ZUSAMMENFASSUNG] = Zusammenfassung.toUtf8();
 
 }
 
@@ -203,7 +204,7 @@ QString CArtikel::getKurztext() const
 
 void CArtikel::setKurztext(const QString &Kurztext)
 {
-	m_artikelMap[ARTIKEL_KURZTEXT] = Kurztext.toUtf8();
+	setText(ARTIKEL_KURZTEXT,Kurztext);// m_artikelMap[ARTIKEL_KURZTEXT] = Kurztext.toUtf8();
 
 }
 
@@ -219,7 +220,7 @@ QString CArtikel::getAutor() const
 
 void CArtikel::setAutor(const QString &Autor)
 {
-	m_artikelMap[ARTIKEL_AUTOR] = Autor.toUtf8();
+	setText(ARTIKEL_AUTOR,Autor);// m_artikelMap[ARTIKEL_AUTOR] = Autor.toUtf8();
 
 }
 
@@ -235,7 +236,7 @@ QString CArtikel::getFotos() const
 
 void CArtikel::setFotos(const QString &Fotos)
 {
-	m_artikelMap[ARTIKEL_FOTOS] = Fotos.toUtf8();
+	setText(ARTIKEL_FOTOS,Fotos);// m_artikelMap[ARTIKEL_FOTOS] = Fotos.toUtf8();
 
 }
 
@@ -251,7 +252,7 @@ QString CArtikel::getSchlagworte() const
 
 void CArtikel::setSchlagworte(const QString &Schlagworte)
 {
-	m_artikelMap[ARTIKEL_SCHLAGWORTE] = Schlagworte.toUtf8();
+	setText(ARTIKEL_SCHLAGWORTE,Schlagworte);//  m_artikelMap[ARTIKEL_SCHLAGWORTE] = Schlagworte.toUtf8();
 
 }
 
@@ -267,7 +268,7 @@ QString CArtikel::getLand() const
 
 void CArtikel::setLand(const QString &Land)
 {
-	m_artikelMap[ARTIKEL_LAND] = Land.toUtf8();
+	setText(ARTIKEL_LAND,Land);   //m_artikelMap[ARTIKEL_LAND] = Land.toUtf8();
 
 }
 
@@ -401,7 +402,7 @@ QString CArtikel::getNotizen() const
 
 void CArtikel::setNotizen(const QString &Notizen)
 {
-	m_artikelMap[ARTIKEL_NOTIZEN] = Notizen.toUtf8();
+	setText(ARTIKEL_NOTIZEN,Notizen);// m_artikelMap[ARTIKEL_NOTIZEN] = Notizen.toUtf8();
 
 }
 QString CArtikel::getArtikelAsSQLString(bool include_whereID)
@@ -418,18 +419,19 @@ QString CArtikel::getArtikelAsSQLString(bool include_whereID)
 //        cout << i.key() << ": " << i.value() << Qt::endl;
     }
 */
-    artikel +=QString(" Ausgabe = '%1'").arg(getAusgabe());
-	artikel +=QString(", Jahr = '%1'").arg(getJahr());
-	artikel +=QString(", Rubrik = '%1'").arg(getRubrik());
-	artikel +=QString(", Ueberschrift = '%1'").arg(getUeberschrift());
-	artikel +=QString(", Zusammenfassung = '%1'").arg(getZusammenfassung());
-	artikel +=QString(", Kurztext = '%1'").arg(getKurztext());
-	artikel +=QString(", Seite = '%1'").arg(getSeite());
-	artikel +=QString(", Autor = '%1'").arg(getAutor());
-	artikel +=QString(", Fotos = '%1'").arg(getFotos());
-	artikel +=QString(", Schlagworte = '%1'").arg(getSchlagworte());
-	artikel +=QString(", Zeitschrift = '%1'").arg(getZeitschrift());
-	artikel +=QString(", Land = '%1'").arg(getLand());
+	Helper helper;
+	artikel +=QString(" Ausgabe = '%1'").arg(helper.fixSpecialCharacters(getAusgabe()));
+	artikel +=QString(", Jahr = '%1'").arg(helper.fixSpecialCharacters(getJahr()));
+	artikel +=QString(", Rubrik = '%1'").arg(helper.fixSpecialCharacters(getRubrik()));
+	artikel +=QString(", Ueberschrift = '%1'").arg(helper.fixSpecialCharacters(getUeberschrift()));
+	artikel +=QString(", Zusammenfassung = '%1'").arg(helper.fixSpecialCharacters(getZusammenfassung()));
+	artikel +=QString(", Kurztext = '%1'").arg(helper.fixSpecialCharacters(getKurztext()));
+	artikel +=QString(", Seite = '%1'").arg(helper.fixSpecialCharacters(getSeite()));
+	artikel +=QString(", Autor = '%1'").arg(helper.fixSpecialCharacters(getAutor()));
+	artikel +=QString(", Fotos = '%1'").arg(helper.fixSpecialCharacters(getFotos()));
+	artikel +=QString(", Schlagworte = '%1'").arg(helper.fixSpecialCharacters(getSchlagworte()));
+	artikel +=QString(", Zeitschrift = '%1'").arg(helper.fixSpecialCharacters(getZeitschrift()));
+	artikel +=QString(", Land = '%1'").arg(helper.fixSpecialCharacters(getLand()));
 	if (getKoordinate().isValid())
     {
 		artikel +=QString(", Koord_Laenge = '%1'").arg(getKoordinate().longitude());
@@ -441,15 +443,21 @@ QString CArtikel::getArtikelAsSQLString(bool include_whereID)
         artikel +=QString(", Koord_Breite = ''");
 
     }
-	artikel +=QString(", Aenderungszeit = '%1'").arg(getLastChangeAsString());
-    artikel +=QString(", Notizen = '%1'").arg(getNotizen());
+	artikel +=QString(", Aenderungszeit = '%1'").arg(helper.fixSpecialCharacters(getLastChangeAsString()));
+	artikel +=QString(", Notizen = '%1'").arg(helper.fixSpecialCharacters(getNotizen()));
 
     if (include_whereID)
     {
 	   artikel += QString(" WHERE UniqueIndex='%1'").arg(getDBIndex());
     }
 
-    return artikel;
+	return artikel;
+}
+
+void CArtikel::setText(QString key, QString text)
+{
+	//text = fixSpecialCharacters(text);
+	m_artikelMap[key]=text.toUtf8();
 }
 
 

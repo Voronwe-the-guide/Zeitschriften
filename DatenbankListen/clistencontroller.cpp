@@ -1,4 +1,5 @@
 #include "clistencontroller.h"
+#include <Helper/helper.h>
 #include <QDebug>
 
 CListenController::CListenController( QObject *parent) : QObject(parent)
@@ -203,9 +204,10 @@ void CListenController::getJahreForZeitschrift(QStringList zeitschriften)
     if (zeitschriften.count()>0)
     {
         zeitschriftenSearch += QString(" ( ");
+		Helper helper;
         for (int i=0;i<zeitschriften.count();i++)
         {
-            zeitschriftenSearch += QString("Zeitschrift='%1' OR ").arg(zeitschriften.at(i));
+			zeitschriftenSearch += QString("Zeitschrift='%1' OR ").arg(helper.fixSpecialCharacters(zeitschriften.at(i)));
         }
         int lastOR = zeitschriftenSearch.lastIndexOf("OR");
         zeitschriftenSearch = zeitschriftenSearch.remove(lastOR, 20);
@@ -378,8 +380,8 @@ void CListenController::getAusgabenForZeitschrift(QString zeitschrift, int jahr)
     {
         searchForString = QString("AND (")+searchForString+QString(") ");
     }
-
-    QString request = QString("SELECT * FROM Inhalte WHERE Jahr='%1' AND Zeitschrift='%2' %3 ORDER BY Jahr ASC,Ausgabe ASC,Seite ASC").arg(jahr).arg(zeitschrift).arg(searchForString);
+	Helper helper;
+	QString request = QString("SELECT * FROM Inhalte WHERE Jahr='%1' AND Zeitschrift='%2' %3 ORDER BY Jahr ASC,Ausgabe ASC,Seite ASC").arg(jahr).arg(helper.fixSpecialCharacters(zeitschrift)).arg(searchForString);
 //    qDebug()<<request;
 	int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt,"getAusgabenForZeitschrift");
 //	int rc = sqlite3_prepare_v2(m_db, request.toStdString().c_str(), -1, &stmt, nullptr);
@@ -424,7 +426,8 @@ void  CListenController::getArtikelForAusgabe(QString zeitschrift, int jahr, int
         searchForString = QString("AND (")+searchForString+QString(") ");
     }
 
-    QString request = QString("SELECT * FROM Inhalte WHERE Jahr='%1' AND Ausgabe='%2' AND Zeitschrift='%3' %4 ORDER BY Zeitschrift ASC, Jahr ASC,Ausgabe ASC,Seite ASC").arg(jahr).arg(ausgabe).arg(zeitschrift).arg(searchForString);
+	Helper helper;
+	QString request = QString("SELECT * FROM Inhalte WHERE Jahr='%1' AND Ausgabe='%2' AND Zeitschrift='%3' %4 ORDER BY Zeitschrift ASC, Jahr ASC,Ausgabe ASC,Seite ASC").arg(jahr).arg(ausgabe).arg(helper.fixSpecialCharacters(zeitschrift)).arg(searchForString);
  //   qDebug()<<request;
 	int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt,"getArtikelForAusgabe");
 
@@ -627,17 +630,19 @@ void CListenController::setSearchElement(const QString &searchElement)
 
 QString CListenController::setSearchStringAsSQL()
 {
-    QString searchString;
+   QString searchString;
     if (m_searchElement.isEmpty())
     {
         return "";
     }
+	Helper helper;
+	QString searchElement = helper.fixSpecialCharacters(m_searchElement);
     QMapIterator<QString, CColumn> i(m_searchTables);
     while (i.hasNext()) {
         i.next();
         if (i.value().searchable())
         {
-            searchString += QString(" %1 LIKE '%%2%' OR ").arg(i.key()).arg(m_searchElement);
+			searchString += QString(" %1 LIKE '%%2%' OR ").arg(i.key()).arg(searchElement);
         }
     }
     int lastOR = searchString.lastIndexOf("OR");
@@ -655,9 +660,10 @@ QString CListenController::setZeitschriftenAsSQL()
     if (zeitschriften.count()>0)
     {
   //      zeitschriftenSearch+= " ( ";
+		Helper helper;
         for (int i=0;i<zeitschriften.count();i++)
         {
-            zeitschriftenSearch += QString("Zeitschrift='%1' OR ").arg(zeitschriften.at(i));
+			zeitschriftenSearch += QString("Zeitschrift='%1' OR ").arg(helper.fixSpecialCharacters(zeitschriften.at(i)));
         }
         int lastOR = zeitschriftenSearch.lastIndexOf("OR");
         zeitschriftenSearch = zeitschriftenSearch.remove(lastOR, 20);
