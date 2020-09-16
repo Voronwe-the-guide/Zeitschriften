@@ -19,6 +19,7 @@ TextEdit //Field //Input//Edit
    wrapMode: Text.NoWrap
     readOnly: true
     selectByMouse: true
+    property bool hasValidData: true
  //   backgroundVisible: false
     textMargin: 0
 
@@ -79,8 +80,10 @@ TextEdit //Field //Input//Edit
     Rectangle
     {
         anchors.fill: parent
-        color: "lightgrey" //"transparent"
-        border.color: parent.focus?"red":"transparent"
+        color: textdisplay.hasValidData? "lightgrey":"red" //"transparent"
+        opacity: 0.6
+        border.color: parent.focus?"blue":"transparent"
+        border.width: 3
         visible:!readOnly//?false : parent.focus
         z: -2
     }

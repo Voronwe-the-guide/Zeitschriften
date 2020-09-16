@@ -93,7 +93,7 @@ public:
 	int getDBIndex() const;
     void setDBIndex(int index);
 
-    QString getArtikelAsSQLString(bool include_whereID);
+	QString getArtikelAsSQLString(bool include_whereID) const;
 
 
 

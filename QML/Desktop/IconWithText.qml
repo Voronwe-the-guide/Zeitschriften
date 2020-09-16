@@ -11,6 +11,7 @@ Item
     property bool readOnly: true
     property int additionToFont: 0
     property int  font_weight: Font.Normal
+    property bool hasValidData: true
 
     signal textWasEdited(var newText)
     signal nextPressed()
@@ -22,6 +23,8 @@ Item
       id: displayRow
        height: parent.height
        width: imageDisplay.width + textDisplay.width + seperator.width
+
+
        Image
        {
             id: imageDisplay
@@ -59,6 +62,7 @@ Item
             onPreviousPressed: {textArea.previousPressed();}
             additionToFont: textArea.additionToFont
             font.weight: textArea.font_weight
+            hasValidData: textArea.hasValidData
         }
     }
 

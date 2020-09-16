@@ -508,7 +508,7 @@ void CListenController::deleteArtikel(int index)
  //   sqlite3_finalize(stmt);
     return ;
 }
-void CListenController::updateInhalteTable(QString sqlElements)
+void CListenController::updateInhalteTable(const CArtikel &Artikel)// QString sqlElements)
 {
     if (m_db == nullptr)
     {
@@ -517,7 +517,7 @@ void CListenController::updateInhalteTable(QString sqlElements)
     }
  //   sqlite3_stmt *stmt;
     char *zErrMsg;
-
+	QString sqlElements = Artikel.getArtikelAsSQLString(true);
     QString request = QString("UPDATE Inhalte %1").arg(sqlElements);
     int rc = sqlite3_exec(m_db,request.toStdString().c_str(),nullptr,nullptr,&zErrMsg);
 //    int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt);
@@ -531,6 +531,8 @@ void CListenController::updateInhalteTable(QString sqlElements)
 
     }
  //   sqlite3_finalize(stmt);
+
+	getListOfZeitschriften();
     return;
 }
 

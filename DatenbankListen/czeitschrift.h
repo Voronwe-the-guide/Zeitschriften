@@ -39,6 +39,7 @@ private:
 	bool m_isSelected;
 
 	 QMap<QString,QByteArray> m_ZeitschriftMap;
+//	 QList <QString> m_rubrikList;
 };
 
 #endif // CZEITSCHRIFT_H

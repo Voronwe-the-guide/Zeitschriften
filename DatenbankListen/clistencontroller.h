@@ -39,7 +39,7 @@ public slots:
 
     void getArtikelForAusgabe(QString zeitschrift,int jahr, int ausgabe);
 
-    void updateInhalteTable(QString sqlElements);
+	void updateInhalteTable(const CArtikel &Artikel);
     int addNewEmptyRowToInhalte();
 
     void deleteArtikel(int index);
@@ -66,7 +66,6 @@ private:
     QString setZeitschriftenAsSQL();
     void getTableNamesFromDB();
 	int makeSQLiteSearch(const QString& request, sqlite3_stmt **stmt,QString callingFunction);
-
     sqlite3 *m_db;
 	CJahrDisplayList *m_jahrgaengeDisplay;
     CAusgabeDisplayList *m_ausgabenDisplay;

@@ -66,7 +66,19 @@ Window
            id: saveButton
            text: qsTr("Speichern")
              DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
-             onClicked: {cArtikelEditor.saveChangesInDB(); editWindow.close()}
+             onClicked:
+             {
+                var retVal= cArtikelEditor.saveChangesInDB();
+                 if (retVal)
+                 {
+                    editWindow.close()
+                 }
+                 else
+                 {
+                     Qt.createComponent("MessageDisplay.qml").createObject(editWindow, {text:qsTr("Daten nicht korrekt!")})// artikeleditor.visible = true;
+
+                 }
+             }
  //            Keys.onTabPressed:{cancelButton.focus = true;}
  //            Keys.onBacktabPressed:{dialogButtons.previousPressed()}
  //            Keys.onReturnPressed:{ cArtikelEditor.saveChangesInDB(); editWindow.close()}
@@ -91,9 +103,17 @@ Window
              text: qsTr("Speichern und Nächster")
              onClicked:
              {
-                cArtikelEditor.saveAndNext();
-                 editWindow.close();
-                 editWindow.nextButtonPressed();
+                var retVal = cArtikelEditor.saveAndNext();
+                if (retVal)
+                {
+                    editWindow.close();
+                    editWindow.nextButtonPressed();
+                }
+                else
+                {
+                    Qt.createComponent("MessageDisplay.qml").createObject(editWindow, {text:qsTr("Daten nicht korrekt!")})// artikeleditor.visible = true;
+
+                }
 
              }
          }
@@ -126,6 +146,12 @@ Window
           land:cArtikelEditor.land
           notizen: cArtikelEditor.notizen
           coordinates: cArtikelEditor.koordinaten
+
+          zeitschriftValid: cArtikelEditor.zeitschriftValid;
+          jahrValid: cArtikelEditor.jahrValid;
+          ausgabeValid: cArtikelEditor.ausgabeValid;
+          seiteValid: cArtikelEditor.seiteValid;
+
           Connections
           {
               target:cArtikelEditor

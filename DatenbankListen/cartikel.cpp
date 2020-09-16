@@ -405,7 +405,7 @@ void CArtikel::setNotizen(const QString &Notizen)
 	setText(ARTIKEL_NOTIZEN,Notizen);// m_artikelMap[ARTIKEL_NOTIZEN] = Notizen.toUtf8();
 
 }
-QString CArtikel::getArtikelAsSQLString(bool include_whereID)
+QString CArtikel::getArtikelAsSQLString(bool include_whereID) const
 {
     QString artikel = "SET ";
 

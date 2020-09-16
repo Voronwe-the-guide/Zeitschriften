@@ -10,7 +10,7 @@ class CArtikelEditor : public QObject
     Q_OBJECT
     Q_PROPERTY(QString zeitschrift READ getZeitschrift NOTIFY artikelDisplayUpdated)
     Q_PROPERTY(int jahr	 READ getJahr NOTIFY artikelDisplayUpdated)
-    Q_PROPERTY(int ausgabe	 READ getAusgabe NOTIFY artikelDisplayUpdated)
+	Q_PROPERTY(int ausgabe	 READ getAusgabe NOTIFY artikelDisplayUpdated)
     Q_PROPERTY(int seite READ getSeite NOTIFY artikelDisplayUpdated)
     Q_PROPERTY(QString rubrik READ getRubrik NOTIFY artikelDisplayUpdated)
     Q_PROPERTY(QString ueberschrift READ getUeberschrift NOTIFY artikelDisplayUpdated)
@@ -24,6 +24,12 @@ class CArtikelEditor : public QObject
     Q_PROPERTY(double currentLat READ getCurrentLat NOTIFY coordinateDisplayUpdated)
     Q_PROPERTY(double currentLong READ getCurrentLong NOTIFY coordinateDisplayUpdated)
     Q_PROPERTY(QString koordinaten READ getKoordinaten NOTIFY coordinateDisplayUpdated)
+
+	Q_PROPERTY(bool zeitschriftValid READ isZeitschriftValid NOTIFY zeitschriftUpdated)
+	Q_PROPERTY(bool jahrValid READ isJahrValid NOTIFY jahrUpdated)
+	Q_PROPERTY(bool ausgabeValid READ isAusgabeValid NOTIFY ausgabeUpdated)
+	Q_PROPERTY(bool seiteValid READ isSeiteValid NOTIFY seiteUpdated)
+
 
 public:
     explicit CArtikelEditor(CListenController *listen, QObject *parent = nullptr);
@@ -50,11 +56,13 @@ signals:
     void notizenUpdated(QString notizen);
     void coordinateDisplayUpdated();
 
+	void entryIsNotValid(); //Will be send back before sendig data to SQL
+
 public slots:
 
-    void saveChangesInDB();
+	bool saveChangesInDB();
     void setNewArtikel();
-    void saveAndNext();
+	bool saveAndNext();
     void setArtikelForUpdate(int dbIndex);
     void setArtikelForUpdate(CArtikel artikel);
 
@@ -62,6 +70,11 @@ public slots:
     void storeNewArtikel();
 
     CArtikel getArtikel() const;
+
+	bool isZeitschriftValid() const;
+	bool isJahrValid() const;
+	bool isAusgabeValid() const;
+	bool isSeiteValid() const;
 
     QString getZeitschrift() const;
     void setZeitschrift(const QString &Zeitschrift);

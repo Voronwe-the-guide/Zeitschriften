@@ -15,15 +15,21 @@ void CArtikelEditor::setNewArtikel()
 
 }
 
-void CArtikelEditor::saveAndNext()
+bool CArtikelEditor::saveAndNext()
 {
-    saveChangesInDB();
+	bool retVal = true;
+	retVal = saveChangesInDB();
+	if(!retVal)
+	{
+		return false;
+	}
     CArtikel newOne;
 	newOne.setJahr(m_Artikel.getJahr());
 	newOne.setAusgabe(m_Artikel.getAusgabe());
 	newOne.setRubrik(m_Artikel.getRubrik());
 	newOne.setZeitschrift(m_Artikel.getZeitschrift());
     setArtikelForUpdate(newOne);
+	return true;
 
 }
 void CArtikelEditor::setArtikelForUpdate(int dbIndex)
@@ -43,6 +49,25 @@ void CArtikelEditor::setArtikelForUpdate(CArtikel artikel)
 CArtikel CArtikelEditor::getArtikel() const
 {
     return m_Artikel;
+}
+
+bool CArtikelEditor::isZeitschriftValid() const
+{
+	return !getZeitschrift().isEmpty();
+}
+bool CArtikelEditor::isJahrValid() const
+{
+	return (getJahr()>0);
+}
+bool CArtikelEditor::isAusgabeValid() const
+{
+	return (getAusgabe()>0);
+
+}
+bool CArtikelEditor::isSeiteValid() const
+{
+	return (getSeite()>0);
+
 }
 
 QString CArtikelEditor::getZeitschrift() const
@@ -244,8 +269,25 @@ void CArtikelEditor::setSomethingHasChanged(bool somethingHasChanged)
 }
 
 
-void CArtikelEditor::saveChangesInDB()
+bool CArtikelEditor::saveChangesInDB()
 {
+
+	bool dataIsValid =true;
+	bool z = isZeitschriftValid();
+	bool j = isJahrValid();
+	bool a = isAusgabeValid();
+	bool s = isSeiteValid();
+//	if (isZeitschriftValid())
+
+	dataIsValid = dataIsValid && isZeitschriftValid();
+	dataIsValid = dataIsValid && isJahrValid();
+	dataIsValid = dataIsValid && isAusgabeValid();
+	dataIsValid = dataIsValid && isSeiteValid();
+	if (!dataIsValid)
+	{
+		emit entryIsNotValid();
+		return false;
+	}
    if (m_Artikel.getDBIndex()<0)
    {
        storeNewArtikel();
@@ -255,6 +297,8 @@ void CArtikelEditor::saveChangesInDB()
        saveUpdate();
    }
 
+   return true;
+
 }
 
 void CArtikelEditor::saveUpdate()
@@ -262,8 +306,8 @@ void CArtikelEditor::saveUpdate()
     if (getSomethingHasChanged())
     {
         m_Artikel.setLastChange(QDateTime::currentDateTime());
-        QString sqlRequest = m_Artikel.getArtikelAsSQLString(true);
-        m_listen->updateInhalteTable(sqlRequest);
+	  //  QString sqlRequest = m_Artikel.getArtikelAsSQLString(true);
+		m_listen->updateInhalteTable(m_Artikel);
     }
 
 }
@@ -277,7 +321,8 @@ void CArtikelEditor::storeNewArtikel()
     {
         m_Artikel.setDBIndex(index);
         QString sqlRequest = m_Artikel.getArtikelAsSQLString(true);
-        m_listen->updateInhalteTable(sqlRequest);
+		m_listen->updateInhalteTable(m_Artikel);
      }
 
 }
+

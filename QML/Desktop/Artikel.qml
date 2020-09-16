@@ -35,6 +35,12 @@ Item
     property string notizen:""
     signal notizenEdit(var newText)
 
+    property bool zeitschriftValid: true;
+    property bool jahrValid: true;
+    property bool ausgabeValid: true;
+    property bool seiteValid: true;
+
+
    // property bool hasGPS: false
     property string coordinates:""
 
@@ -79,7 +85,7 @@ Item
                     onTextWasEdited:{artikelDisplay.zeitschriftEdit(newText)}
                     onNextPressed: {yearArea.focus = true}
                     onPreviousPressed: { schlagworte.focus = true} //artikelDisplay.previousPressed()}
-
+                    hasValidData: artikelDisplay.zeitschriftValid
                 }
                 IconWithText
                 {
@@ -91,6 +97,7 @@ Item
                     onTextWasEdited:{ artikelDisplay.jahrgangEdit(newText)}
                     onNextPressed: {editionArea.focus = true}
                     onPreviousPressed: {magazinArea.focus = true}
+                    hasValidData:  artikelDisplay.jahrValid
                  }
 
                 IconWithText
@@ -103,6 +110,7 @@ Item
                    onTextWasEdited:{ artikelDisplay.ausgabeEdit(newText)}
                    onNextPressed: {pageArea.focus = true}
                    onPreviousPressed: {yearArea.focus = true}
+                   hasValidData: artikelDisplay.ausgabeValid
                 }
                 IconWithText
                 {
@@ -114,6 +122,7 @@ Item
                    onTextWasEdited:{ artikelDisplay.seiteEdit(newText)}
                    onNextPressed: {rubrikArea.focus = true}
                    onPreviousPressed: {editionArea.focus = true}
+                   hasValidData:  artikelDisplay.seiteValid
                 }
                 IconWithText
                 {
