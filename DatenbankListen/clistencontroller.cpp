@@ -101,7 +101,7 @@ void CListenController::getListOfZeitschriften()
     }
     sqlite3_stmt *stmt;
 
-    QString request = QString("SELECT Zeitschrift FROM Inhalte  ORDER BY Zeitschrift ASC");
+	QString request = QString("SELECT Zeitschrift, Rubrik FROM Inhalte  ORDER BY Zeitschrift ASC, Rubrik ASC");
 	int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt,"getListOfZeitschriften");
     if (rc != SQLITE_OK)
     {
@@ -111,16 +111,22 @@ void CListenController::getListOfZeitschriften()
     {
         int number = sqlite3_column_count(stmt);
         CZeitschrift zeitschrift;
+		QString rubrik;
         for (int i=0; i<number; ++i)
         {
 
-            QString columnName(reinterpret_cast<const char*>(sqlite3_column_name(stmt,i)));
+			QString columnName(reinterpret_cast<const char*>(sqlite3_column_name(stmt,i)));
 			QByteArray columnText(reinterpret_cast<const char*>(sqlite3_column_text(stmt,i)));
             zeitschrift.setDBElement(columnName,columnText);
+			if (columnName == ARTIKEL_RUBRIK)
+			{
+				rubrik = columnText;
+			}
 
         }
 
          m_zeitschriftenDisplay->AddElement(zeitschrift);
+		 m_zeitschriftenDisplay->AddRubrikToZeitschrift(zeitschrift.getZeitschrift(),rubrik);
     }
 
     sqlite3_finalize(stmt);

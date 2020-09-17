@@ -23,6 +23,9 @@ signals:
 public slots:
     void deleteAll();
     void AddElement(CZeitschrift &zeitschrift);
+	CZeitschrift getZeitschrift (const QString& Zeitschrift,int &listIndex);
+	CZeitschrift getZeitschrift (int listIndex);
+	void AddRubrikToZeitschrift(const QString& zeitschrift, const QString& rubrik);
     void ToggleSelection(int index);
     void deselectAll();
     void deselect(int theIndex);

@@ -1,10 +1,11 @@
-import QtQuick 2.0
+import QtQuick 2.15
 import QtQuick.Controls 2.12
 Item
 {
     id: textArea
     height: parent.height
     width: displayRow.width
+ //   focus: textDisplay.focus
     property string text:""
     property string iconSource:""
     property string toolTip:""
@@ -12,11 +13,16 @@ Item
     property int additionToFont: 0
     property int  font_weight: Font.Normal
     property bool hasValidData: true
-
+//   activeFocusOnTab: true;
     signal textWasEdited(var newText)
     signal nextPressed()
     signal previousPressed()
+    property bool hasFocus: textDisplay.focus
 
+    function setFocus(toFocus)
+    {
+       // textDisplay.setFocus(toFocus);
+    }
 
     Row
     {

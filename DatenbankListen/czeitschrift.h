@@ -18,7 +18,7 @@ public:
     CZeitschrift ( CZeitschrift&&) = default;
     CZeitschrift& operator=( CZeitschrift&&) = default;
 
-    virtual ~CZeitschrift() = default;
+	virtual ~CZeitschrift();
 
 	bool setDBElement(const QString& columnName, const QByteArray& columnEntry);
 
@@ -34,12 +34,15 @@ public:
 	int getUniqueIndex() const;
 	void setUniqueIndex(int uniqueIndex);
 
+	void AddElementToRubrikList(QString rubrik);
+	QList <QString> getRubrikList();
+
 private:
 	void setText(QString key, QString text);
 	bool m_isSelected;
 
 	 QMap<QString,QByteArray> m_ZeitschriftMap;
-//	 QList <QString> m_rubrikList;
+	 QList <QString> m_rubrikList;
 };
 
 #endif // CZEITSCHRIFT_H

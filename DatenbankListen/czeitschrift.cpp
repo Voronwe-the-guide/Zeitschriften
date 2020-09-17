@@ -9,6 +9,12 @@ CZeitschrift::CZeitschrift():
 	m_ZeitschriftMap[ZEITSCHRIFT_LOGO] = "";
 
 }
+CZeitschrift::~CZeitschrift()
+{
+	m_ZeitschriftMap.clear();
+	m_rubrikList.clear();
+}
+
 
 bool CZeitschrift::setDBElement(const QString& columnName, const QByteArray& columnEntry)
 {
@@ -90,5 +96,29 @@ void CZeitschrift::setText(QString key, QString text)
 {
 	//text = fixSpecialCharacters(text);
 	m_ZeitschriftMap[key]=text.toUtf8();
+}
+
+void CZeitschrift::AddElementToRubrikList(QString rubrik)
+{
+	if (rubrik.isEmpty())
+	{
+		return;
+	}
+
+	for (int i=0; i<m_rubrikList.count(); i++)
+	{
+		if (m_rubrikList.at(i) == rubrik)
+		{
+			//Allready there
+			return;
+		}
+	}
+ //   beginInsertRows(QModelIndex(),rowCount(),rowCount());//This is to keep the list in QML updated
+	m_rubrikList << rubrik;
+ //   endInsertRows();
+}
+QList <QString> CZeitschrift::getRubrikList()
+{
+	return m_rubrikList;
 }
 

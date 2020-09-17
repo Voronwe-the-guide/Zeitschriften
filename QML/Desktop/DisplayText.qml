@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.15
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 
@@ -20,6 +20,11 @@ TextEdit //Field //Input//Edit
     readOnly: true
     selectByMouse: true
     property bool hasValidData: true
+  //  activeFocusOnTab: true;
+    function setFocus(toFocus)
+    {
+        textdisplay.focus = toFocus;
+    }
  //   backgroundVisible: false
     textMargin: 0
 

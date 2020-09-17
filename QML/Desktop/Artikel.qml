@@ -55,7 +55,7 @@ Item
 
     function startFocus()
     {
-        magazinArea.focus = true;
+        magazinArea.focus = true; //.setFocus(true);
     }
 
 
@@ -71,6 +71,8 @@ Item
             id: allgemeineInfo
             width: parent.width
             height: showColumn.basicHeight
+            z:10
+
             Row
             {
                 spacing: 4
@@ -83,8 +85,8 @@ Item
                     toolTip: qsTr("Magazin")
                     readOnly: artikelDisplay.readOnlyMode
                     onTextWasEdited:{artikelDisplay.zeitschriftEdit(newText)}
-                    onNextPressed: {yearArea.focus = true}
-                    onPreviousPressed: { schlagworte.focus = true} //artikelDisplay.previousPressed()}
+                    onNextPressed: {yearArea.focus = true} //setFocus(true)}
+                    onPreviousPressed: { schlagworte.focus = true}//setFocus(true)} //artikelDisplay.previousPressed()}
                     hasValidData: artikelDisplay.zeitschriftValid
                 }
                 IconWithText
@@ -134,6 +136,20 @@ Item
                    onTextWasEdited:{ artikelDisplay.rubrikEdit(newText)}
                    onNextPressed: {countryArea.focus = true}
                    onPreviousPressed: {pageArea.focus = true}
+                   onFocusChanged:
+                   {
+                       console.log("Focus = "+focus);
+                   }
+
+                   Rectangle
+                   {
+                       width: 150
+                       height: 150
+                       border.color: "black"
+                       anchors.top: parent.bottom
+                    //   z: 10
+                       visible: rubrikArea.hasFocus;
+                   }
                 }
                 IconWithText
                 {
@@ -172,6 +188,7 @@ Item
             id: textInfo
             width: parent.width
             height: authorArea.height // + photoArea.height
+      //      z: 5
             Row
             {
                anchors.fill: parent
@@ -221,6 +238,7 @@ Item
         {
             id: headline
             width: parent.width
+        //    z:4
 
             height:showColumn.basicHeight + 20
           /*  IconWithText

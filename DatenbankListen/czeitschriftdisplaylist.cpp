@@ -70,6 +70,48 @@ void CZeitschriftDisplayList::AddElement(CZeitschrift &zeitschrift)
 
 }
 
+CZeitschrift CZeitschriftDisplayList::getZeitschrift (const QString& Zeitschrift, int &listIndex)
+{
+	CZeitschrift zeitschrift;
+	listIndex = -1;
+	for (int i=0; i<m_ZeitschriftenList.count(); ++i)
+	{
+		if (m_ZeitschriftenList.at(i).getZeitschrift() == Zeitschrift)
+		{
+			zeitschrift = m_ZeitschriftenList.at(i);
+			listIndex = i;
+			break;
+		}
+	}
+	return zeitschrift;
+}
+
+
+CZeitschrift CZeitschriftDisplayList::getZeitschrift (int listIndex)
+{
+	CZeitschrift zeitschrift;
+	if ((listIndex>=0 ) && (listIndex<m_ZeitschriftenList.count()))
+	{
+		zeitschrift = m_ZeitschriftenList.at(listIndex);
+	}
+}
+void CZeitschriftDisplayList::AddRubrikToZeitschrift(const QString& zeitschrift, const QString& rubrik)
+{
+	int theIndex=-1;
+	CZeitschrift Zeitung = getZeitschrift(zeitschrift,theIndex);
+	if (theIndex>=0)
+	{
+		Zeitung.AddElementToRubrikList(rubrik);
+		m_ZeitschriftenList.replace(theIndex,Zeitung);
+		const QModelIndex idx = index(theIndex);
+		emit dataChanged(idx,idx);
+
+
+	}
+
+}
+
+
 void CZeitschriftDisplayList::ToggleSelection(int theIndex)
 {
     if ((theIndex>=0) && (theIndex<rowCount()))
