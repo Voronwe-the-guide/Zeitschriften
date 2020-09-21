@@ -29,6 +29,7 @@ SOURCES += \
         DatenbankListen/cjahr.cpp \
         DatenbankListen/cjahrdisplaylist.cpp \
         DatenbankListen/clistencontroller.cpp \
+        DatenbankListen/crubriklistdisplay.cpp \
         DatenbankListen/czeitschrift.cpp \
         DatenbankListen/czeitschriftdisplaylist.cpp \
         Helper/cerrordisplay.cpp \
@@ -64,6 +65,7 @@ HEADERS += \
     DatenbankListen/cjahr.h \
     DatenbankListen/cjahrdisplaylist.h \
     DatenbankListen/clistencontroller.h \
+    DatenbankListen/crubriklistdisplay.h \
     DatenbankListen/czeitschrift.h \
     DatenbankListen/czeitschriftdisplaylist.h \
     Helper/cerrordisplay.h \
