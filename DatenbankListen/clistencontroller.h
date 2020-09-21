@@ -7,6 +7,7 @@
 #include <DatenbankListen/cjahrdisplaylist.h>
 #include <DatenbankListen/causgabedisplaylist.h>
 #include <DatenbankListen/czeitschriftdisplaylist.h>
+#include <DatenbankListen/crubriklistdisplay.h>
 #include <DatenbankInfo/ccolumn.h>
 
 
@@ -23,6 +24,7 @@ public:
 	CArtikelDisplayList *artikelDisplay();
     CZeitschriftDisplayList *zeitschriftenDisplay();
     CZeitschriftDisplayList *zeitschriftenForJahrDisplay();
+    CSelectionListDisplay *rubrikenListDisplay();
 
 
 public slots:
@@ -43,6 +45,9 @@ public slots:
     int addNewEmptyRowToInhalte();
 
     void deleteArtikel(int index);
+
+    void setRubrikDisplay(QString zeitschrift);
+    void updateRubrikListDisplay(QString filter);
    // void setSearchString(QString string);
 
     /*!
@@ -72,6 +77,7 @@ private:
     CArtikelDisplayList *m_artikelDisplay;
     CZeitschriftDisplayList *m_zeitschriftenDisplay;
     CZeitschriftDisplayList *m_zeitschriftenForJahrDisplay;
+    CSelectionListDisplay *m_RubrikenList;
     QString m_searchElement;
 
     QMap<QString, CColumn> m_searchTables;

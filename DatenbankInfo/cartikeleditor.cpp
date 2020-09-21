@@ -6,6 +6,9 @@ CArtikelEditor::CArtikelEditor(CListenController *listen,QObject *parent) :
     m_somethingHasChanged(false)
 {
 
+    QObject::connect(this, &CArtikelEditor::zeitschriftUpdated, m_listen, &CListenController::setRubrikDisplay);
+
+    QObject::connect(this, &CArtikelEditor::rubrikUpdated, m_listen, &CListenController::updateRubrikListDisplay);
 }
 
 void CArtikelEditor::setNewArtikel()
@@ -44,6 +47,8 @@ void CArtikelEditor::setArtikelForUpdate(CArtikel artikel)
     m_Artikel = artikel;
     setSomethingHasChanged(false);
     emit artikelDisplayUpdated();
+    emit zeitschriftUpdated(m_Artikel.getZeitschrift());
+
 }
 
 CArtikel CArtikelEditor::getArtikel() const
@@ -67,6 +72,8 @@ bool CArtikelEditor::isAusgabeValid() const
 bool CArtikelEditor::isSeiteValid() const
 {
 	return (getSeite()>0);
+
+
 
 }
 

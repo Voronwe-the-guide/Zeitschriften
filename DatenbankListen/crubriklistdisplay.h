@@ -21,6 +21,10 @@ public slots:
 	void deleteAll();
 	void SetList(QList<QString> list);
 
+    void UpdateListDisplay(QString filter);
+
+    QString getElementFromDisplay(int index);
+
 
 protected:
 
@@ -28,8 +32,10 @@ protected:
 
 private:
 
+    void SetElementToDisplayList(const QString& element);
 
 	QList<QString> m_ElementList;
+    QList<QString> m_DisplayList;
 
 
 	static const int  Role_Element;

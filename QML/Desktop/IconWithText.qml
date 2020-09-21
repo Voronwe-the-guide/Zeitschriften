@@ -17,6 +17,9 @@ Item
     signal textWasEdited(var newText)
     signal nextPressed()
     signal previousPressed()
+    signal returnPressed()
+    signal arrowDownPressed()
+
     property bool hasFocus: textDisplay.focus
 
     function setFocus(toFocus)
@@ -38,15 +41,8 @@ Item
             width:  source==""?0:height
             anchors.verticalCenter: parent.verticalCenter
             source: textArea.iconSource
-            MouseArea
-            {
-               id: mouseArea
-                anchors.fill: parent
-                hoverEnabled: true
-                onEntered: {toolTip.showTip = true}
-                onExited: {toolTip.showTip = false}
 
-            }
+
        }
         Item
         {
@@ -66,12 +62,34 @@ Item
             onTextWasEdited:{ textArea.textWasEdited(newText)}
             onNextPressed: {textArea.nextPressed();}
             onPreviousPressed: {textArea.previousPressed();}
+            onReturnPressed: {textArea.returnPressed();}
+            onArrowDownPressed: {textArea.arrowDownPressed();}
+
+
             additionToFont: textArea.additionToFont
             font.weight: textArea.font_weight
             hasValidData: textArea.hasValidData
-        }
-    }
 
+            onFocusChanged:
+            {
+                toolTip.showTip = focus;
+            }
+        }
+
+
+    }
+  /*  MouseArea
+    {
+       id: mouseArea_Edit
+        anchors.fill: parent
+        hoverEnabled: true
+        onEntered: {toolTip.showTip = true}
+        onExited: {toolTip.showTip = false}
+        visible: textArea.readOnly
+        propagateComposedEvents: true
+
+    }
+*/
     ToolTip
     {
       id: toolTip

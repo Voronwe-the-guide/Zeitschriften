@@ -13,6 +13,8 @@ CListenController::CListenController( QObject *parent) : QObject(parent)
     m_zeitschriftenDisplay = new CZeitschriftDisplayList();
     m_zeitschriftenForJahrDisplay = new CZeitschriftDisplayList();
 
+    m_RubrikenList = new CSelectionListDisplay();
+
 
 
     m_searchTablesSetting["Zeitschrift"].setName("Zeitschrift");
@@ -90,6 +92,12 @@ CZeitschriftDisplayList *CListenController::zeitschriftenForJahrDisplay()
 {
     return m_zeitschriftenForJahrDisplay;
 }
+
+CSelectionListDisplay *CListenController::rubrikenListDisplay()
+{
+    return m_RubrikenList;
+}
+
 
 void CListenController::getListOfZeitschriften()
 {
@@ -514,6 +522,28 @@ void CListenController::deleteArtikel(int index)
  //   sqlite3_finalize(stmt);
     return ;
 }
+
+void CListenController::setRubrikDisplay(QString zeitschrift)
+{
+   int zeitschriftIndex=-1;
+    CZeitschrift zeitschriftStruct = m_zeitschriftenDisplay->getZeitschrift(zeitschrift,zeitschriftIndex);
+    if ( zeitschriftIndex >= 0)
+    {
+        m_RubrikenList->SetList(zeitschriftStruct.getRubrikList());
+    }
+    else
+    {
+        m_RubrikenList->deleteAll();
+    }
+
+}
+
+void CListenController::updateRubrikListDisplay(QString filter)
+{
+    m_RubrikenList->UpdateListDisplay(filter);
+}
+
+
 void CListenController::updateInhalteTable(const CArtikel &Artikel)// QString sqlElements)
 {
     if (m_db == nullptr)

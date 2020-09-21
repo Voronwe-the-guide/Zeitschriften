@@ -94,7 +94,10 @@ CZeitschrift CZeitschriftDisplayList::getZeitschrift (int listIndex)
 	{
 		zeitschrift = m_ZeitschriftenList.at(listIndex);
 	}
+    return zeitschrift;
 }
+
+
 void CZeitschriftDisplayList::AddRubrikToZeitschrift(const QString& zeitschrift, const QString& rubrik)
 {
 	int theIndex=-1;

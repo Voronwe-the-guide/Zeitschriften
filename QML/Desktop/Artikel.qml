@@ -82,7 +82,7 @@ Item
                     id: magazinArea
                     text: artikelDisplay.zeitschrift
                     iconSource: "qrc:/Images/magazin.svg" //"png"
-                    toolTip: qsTr("Magazin")
+                    toolTip: qsTr("Name des Magazins")
                     readOnly: artikelDisplay.readOnlyMode
                     onTextWasEdited:{artikelDisplay.zeitschriftEdit(newText)}
                     onNextPressed: {yearArea.focus = true} //setFocus(true)}
@@ -94,7 +94,7 @@ Item
                     id: yearArea
                     text: (artikelDisplay.jahrgang==0)?"":artikelDisplay.jahrgang
                     iconSource: "qrc:/Images/year.svg"//.png"
-                    toolTip: qsTr("Jahr")
+                    toolTip: qsTr("Erscheinungsjahr")
                     readOnly: artikelDisplay.readOnlyMode
                     onTextWasEdited:{ artikelDisplay.jahrgangEdit(newText)}
                     onNextPressed: {editionArea.focus = true}
@@ -107,7 +107,7 @@ Item
                    id: editionArea
                    text: (artikelDisplay.ausgabe==0)?"":artikelDisplay.ausgabe
                    iconSource: "qrc:/Images/edition.svg"  //.png"
-                   toolTip: qsTr("Ausgabe")
+                   toolTip: qsTr("Ausgabe im Jahr")
                    readOnly: artikelDisplay.readOnlyMode
                    onTextWasEdited:{ artikelDisplay.ausgabeEdit(newText)}
                    onNextPressed: {pageArea.focus = true}
@@ -119,7 +119,7 @@ Item
                    id:pageArea
                    text: (artikelDisplay.seite==0)?"":artikelDisplay.seite
                    iconSource: "qrc:/Images/page.svg"  //.png"
-                   toolTip: qsTr("Seite")
+                   toolTip: qsTr("Seite des Artikels")
                    readOnly: artikelDisplay.readOnlyMode
                    onTextWasEdited:{ artikelDisplay.seiteEdit(newText)}
                    onNextPressed: {rubrikArea.focus = true}
@@ -131,11 +131,29 @@ Item
                    id: rubrikArea
                    text: artikelDisplay.rubrik
                    iconSource: "qrc:/Images/rubrik.svg" //.png"
-                   toolTip: qsTr("Rubrik")
+                   toolTip: qsTr("Rubrik - unterschiedlich für Magazine")
                    readOnly: artikelDisplay.readOnlyMode
                    onTextWasEdited:{ artikelDisplay.rubrikEdit(newText)}
                    onNextPressed: {countryArea.focus = true}
                    onPreviousPressed: {pageArea.focus = true}
+
+                   onReturnPressed:
+                   {
+                       if (rubrikList.count>0)
+                       {
+         //
+                            rubrikArea.text = cRubrikList.getElementFromDisplay(0);
+                            artikelDisplay.rubrikEdit(rubrikArea.text)
+                       }
+                   }
+                   onArrowDownPressed:
+                   {
+                       if (rubrikList.count>0)
+                       {
+                           rubrikList.focus = true;
+                       }
+                   }
+
                    onFocusChanged:
                    {
                        console.log("Focus = "+focus);
@@ -143,12 +161,74 @@ Item
 
                    Rectangle
                    {
+                       id: rubrikDisplay
                        width: 150
                        height: 150
                        border.color: "black"
                        anchors.top: parent.bottom
                     //   z: 10
-                       visible: rubrikArea.hasFocus;
+                       visible: (!artikelDisplay.readOnlyMode) && (rubrikArea.hasFocus || rubrikList.focus)
+
+                       Component
+                       {
+                           id: rubrikCompent
+                           Item
+                           {
+                               width: rubrikDisplay.width
+                               height: rubrikArea.height
+                               Text
+                               {
+                                   id: rubrikText
+                                   anchors.fill: parent
+                                   text: model.element
+                                   font.pixelSize:18
+                               }
+                               MouseArea
+                               {
+                                   anchors.fill: parent
+                                   onClicked:
+                                   {
+                                       rubrikArea.text = rubrikText.text;
+                                       rubrikList.currentIndex = model.index;
+                                       rubrikArea.focus = true;
+                                       artikelDisplay.rubrikEdit(rubrikArea.text);
+                                   }
+
+                               }
+                           }
+                       }
+
+                       ListView
+                       {
+                           id: rubrikList
+                           anchors.fill: parent
+                           model: cRubrikList
+                           delegate: rubrikCompent
+                           focus: false
+                           clip: true
+                           highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
+                           Keys.onEscapePressed: rubrikArea.focus = true;
+                           Keys.onUpPressed:
+                           {
+                               if (rubrikList.currentIndex == 0)
+                               {
+                                   rubrikArea.focus = true;
+                               }
+                               else
+                               {
+                                   rubrikList.currentIndex --;
+                               }
+                           }
+                           Keys.onReturnPressed:
+                           {
+                               console.log("Enter pressed");
+                               rubrikArea.text = cRubrikList.getElementFromDisplay(rubrikList.currentIndex);
+                                rubrikArea.focus = true;
+                                artikelDisplay.rubrikEdit(rubrikArea.text);
+                           }
+
+
+                       }
                    }
                 }
                 IconWithText
@@ -156,7 +236,7 @@ Item
                    id: gpsArea
                    text: artikelDisplay.coordinates
                    iconSource: "qrc:/Images/flag.svg" //.png"
-                   toolTip: qsTr("Koordinaten")
+                   toolTip: qsTr("Koordinaten: Werden in Karte gesetzt")
                    readOnly: true //artikelDisplay.readOnlyMode
                  //  onTextWasEdited:{ artikelDisplay.rubrikEdit(newText)}
                  //  onNextPressed: {countryArea.focus = true}
@@ -198,7 +278,7 @@ Item
                    id: countryArea
                    text: artikelDisplay.land
                    iconSource:  "qrc:/Images/land.svg" //png"
-                   toolTip: qsTr("Land")
+                   toolTip: qsTr("Land - Verschiedene Eingaben möglich")
                    readOnly: artikelDisplay.readOnlyMode
                    onTextWasEdited:{ artikelDisplay.landEdit(newText)}
                    onNextPressed: {authorArea.focus = true}
@@ -212,7 +292,7 @@ Item
                      height: showColumn.basicHeight
                     text: artikelDisplay.author
                     iconSource:  "qrc:/Images/writer.svg" //.png"
-                    toolTip: qsTr("Text von")
+                    toolTip: qsTr("Text von: Nachname, Vorname - Verschiedene Autoren durch ; separieren")
 
                     readOnly: artikelDisplay.readOnlyMode
                     onTextWasEdited:{ artikelDisplay.authorEdit(newText)}
@@ -225,7 +305,7 @@ Item
                      height: showColumn.basicHeight
                     text: artikelDisplay.fotos
                     iconSource:  "qrc:/Images/foto.svg" //.png"
-                    toolTip: qsTr("Fotos von")
+                    toolTip: qsTr("Fotos von: Nachname, Vorname - Verschiedene Fotografen durch ; separieren")
                     readOnly: artikelDisplay.readOnlyMode
                     onTextWasEdited:{ artikelDisplay.fotosEdit(newText)}
                     onNextPressed: {kurzText.focus = true}
@@ -260,6 +340,8 @@ Item
                     height: parent.height
                   //  width: contentWidth //+10
                     //anchors.fill: parent
+                    toolTip: qsTr("Einführungstext der Überschrift")
+
                     additionToFont: 5
                     font_weight: Font.DemiBold
                    // font.bold: true
@@ -289,6 +371,8 @@ Item
                 {
                   id: ueberschrift
                   height: parent.height
+                  toolTip: qsTr("Hauptüberschrift")
+
                //   width: contentWidth //+10
                   additionToFont: 5
                   font_weight: Font.DemiBold
@@ -319,10 +403,11 @@ Item
                 height: parent.height
                         //-6
                 width: parent.width/2-6
-                DisplayText
+                DisplayText_MultiLine
                 {
                     id: zusammenfassung
                     height: zusammenfassung.contentHeight + 20
+                    toolTip: qsTr("Zusammenfassung des Textes")
 
 
                     width: parent.width-6
@@ -353,7 +438,7 @@ Item
                 height: parent.height //-6
                 width: parent.width/2-6
 
-                DisplayText
+                DisplayText_MultiLine
                 {
                     id: schlagworte
                     height: schlagworte.contentHeight + 20 //parent.height-6
@@ -361,6 +446,8 @@ Item
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.top: parent.top
                     anchors.topMargin: 2
+                    toolTip: qsTr("Schlagworte zur Suche")
+
 
                   //  anchors.centerIn: parent
                      text: artikelDisplay.stichworte
@@ -410,7 +497,7 @@ Item
         anchors.right: editButton.left
         anchors.rightMargin: 20
         color: "lightyellow"
-        DisplayText
+        DisplayText_MultiLine
         {
             id: notes
             height: parent.height-6
@@ -418,6 +505,7 @@ Item
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: parent.top
             anchors.topMargin: 2
+            toolTip: qsTr("Notizen zum Artikel")
 
           //  anchors.centerIn: parent
              text: artikelDisplay.notizen

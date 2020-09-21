@@ -41,5 +41,6 @@
         <file>Images/chevron-up.svg</file>
         <file>Images/minus-circle.svg</file>
         <file>Images/plus-circle.svg</file>
+        <file>Desktop/DisplayText_MultiLine.qml</file>
     </qresource>
 </RCC>
