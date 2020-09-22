@@ -42,5 +42,6 @@
         <file>Images/minus-circle.svg</file>
         <file>Images/plus-circle.svg</file>
         <file>Desktop/DisplayText_MultiLine.qml</file>
+        <file>Desktop/PullDownFile.qml</file>
     </qresource>
 </RCC>

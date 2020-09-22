@@ -137,20 +137,24 @@ Item
                    onNextPressed: {countryArea.focus = true}
                    onPreviousPressed: {pageArea.focus = true}
 
-                   onReturnPressed:
+                 onReturnPressed:
                    {
-                       if (rubrikList.count>0)
+                       if (rubrikDisplay.elementCount > 0)
                        {
          //
                             rubrikArea.text = cRubrikList.getElementFromDisplay(0);
+                           console.log("Text: "+rubrikArea.text)
                             artikelDisplay.rubrikEdit(rubrikArea.text)
                        }
                    }
                    onArrowDownPressed:
                    {
-                       if (rubrikList.count>0)
+                      // if (rubrikList.count>0)
+                       if (rubrikDisplay.elementCount > 0)
                        {
-                           rubrikList.focus = true;
+                          // rubrikList.focus = true;
+                           rubrikDisplay.setFocus(true);
+                            rubrikArea.focus = false;
                        }
                    }
 
@@ -158,8 +162,31 @@ Item
                    {
                        console.log("Focus = "+focus);
                    }
+                   PullDownFile
+                   {
+                       id: rubrikDisplay
+                       width: 150
+                       height: 150
+                       border.color: "black"
+                       anchors.top: parent.bottom
+                       listModel: cRubrikList
+                    //   z: 10
+                       visible: (!artikelDisplay.readOnlyMode) && (rubrikArea.hasFocus || rubrikDisplay.hasFocus)
+                    onJumpedOut: {rubrikArea.focus = true; /*rubrikDisplay.setFocus(false); */}
+                    onTextSelected:
+                    {
+                       // rubrikArea.focus = false;
+                         console.log("Text selected: "+text);
+                        rubrikArea.text = text
+                        artikelDisplay.rubrikEdit(rubrikArea.text);
+                        rubrikArea.focus = true;
 
-                   Rectangle
+                      //  rubrikDisplay.setFocus(false);
+
+                    }
+                   }
+
+                /*   Rectangle
                    {
                        id: rubrikDisplay
                        width: 150
@@ -230,6 +257,7 @@ Item
 
                        }
                    }
+                   */
                 }
                 IconWithText
                 {
