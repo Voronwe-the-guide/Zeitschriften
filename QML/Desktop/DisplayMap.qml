@@ -39,8 +39,7 @@ Item {
                 {   anchors.fill: parent
                     onClicked:
                     {
-                        console.log('latitude = '+ (map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude),
-                                           'longitude = '+ (map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude));
+                     //   console.log('latitude = '+ (map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude),'longitude = '+ (map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude));
                         mapDisplay.coordinatePressed(map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude,map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude)
                     }
 

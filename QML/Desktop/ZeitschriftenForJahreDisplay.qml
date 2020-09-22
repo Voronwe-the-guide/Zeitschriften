@@ -56,7 +56,7 @@ Item
                     {
                         zeitschriftenDisplay.currentZeitschrift = model.index;
                       //  zeitschriftenDisplay.currentAusgabenListeHight = ausgabenDisplay.height //.ausgabenHeight
-                         console.log("Artikel request");
+                       //  console.log("Artikel request");
                         cListenController.getAusgabenForZeitschrift(model.zeitschrift, zeitschriftenDisplay.jahr);
 
                     }

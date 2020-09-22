@@ -25,6 +25,7 @@ public:
     CZeitschriftDisplayList *zeitschriftenDisplay();
     CZeitschriftDisplayList *zeitschriftenForJahrDisplay();
     CSelectionListDisplay *rubrikenListDisplay();
+    CSelectionListDisplay *zeitschriftenListForSelection();
 
 
 public slots:
@@ -48,7 +49,9 @@ public slots:
 
     void setRubrikDisplay(QString zeitschrift);
     void updateRubrikListDisplay(QString filter);
-   // void setSearchString(QString string);
+
+    void setZeitschriftSelectionDisplay();
+    void updateZeitschriftSelectionDisplay(QString filter);
 
     /*!
      * \brief getArtikelByIndex
@@ -78,6 +81,7 @@ private:
     CZeitschriftDisplayList *m_zeitschriftenDisplay;
     CZeitschriftDisplayList *m_zeitschriftenForJahrDisplay;
     CSelectionListDisplay *m_RubrikenList;
+    CSelectionListDisplay *m_ZeitschriftenListForSelection;
     QString m_searchElement;
 
     QMap<QString, CColumn> m_searchTables;

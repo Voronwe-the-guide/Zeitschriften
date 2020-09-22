@@ -88,6 +88,55 @@ Item
                     onNextPressed: {yearArea.focus = true} //setFocus(true)}
                     onPreviousPressed: { schlagworte.focus = true}//setFocus(true)} //artikelDisplay.previousPressed()}
                     hasValidData: artikelDisplay.zeitschriftValid
+                    onReturnPressed:
+                    {
+                          if ( zeitschriftListDisplay.elementCount > 0)
+                          {
+            //
+                               magazinArea.text = cZeitschriftenList.getElementFromDisplay(0);
+                           //   console.log("Text: "+magazinArea.text)
+                               artikelDisplay.zeitschriftEdit(magazinArea.text)
+                          }
+                      }
+                      onArrowDownPressed:
+                      {
+                         // if (rubrikList.count>0)
+                          if (zeitschriftEdit.elementCount > 0)
+                          {
+                             // rubrikList.focus = true;
+                              rzeitschriftEdit.setFocus(true);
+                               magazinArea.focus = false;
+                          }
+                      }
+
+                      onFocusChanged:
+                      {
+                         // console.log("Focus = "+focus);
+                      }
+                      PullDownFile
+                      {
+                          id: zeitschriftListDisplay
+                          width: 150
+                          height: 150
+                          border.color: "black"
+                          anchors.top: parent.bottom
+                          listModel: cZeitschriftNameList
+                       //   z: 10
+                          visible: (!artikelDisplay.readOnlyMode) && (magazinArea.hasFocus || zeitschriftListDisplay.hasFocus)
+                       onJumpedOut: {magazinArea.focus = true; /*rubrikDisplay.setFocus(false); */}
+                       onTextSelected:
+                       {
+                          // rubrikArea.focus = false;
+                          //  console.log("Text selected: "+text);
+                           magazinArea.text = text
+                           artikelDisplay.zeitschriftEdit(magazinArea.text);
+                           magazinArea.focus = true;
+
+                         //  rubrikDisplay.setFocus(false);
+
+                       }
+                      }
+
                 }
                 IconWithText
                 {
@@ -143,7 +192,7 @@ Item
                        {
          //
                             rubrikArea.text = cRubrikList.getElementFromDisplay(0);
-                           console.log("Text: "+rubrikArea.text)
+                         //  console.log("Text: "+rubrikArea.text)
                             artikelDisplay.rubrikEdit(rubrikArea.text)
                        }
                    }
@@ -160,7 +209,7 @@ Item
 
                    onFocusChanged:
                    {
-                       console.log("Focus = "+focus);
+                     //  console.log("Focus = "+focus);
                    }
                    PullDownFile
                    {
@@ -176,7 +225,7 @@ Item
                     onTextSelected:
                     {
                        // rubrikArea.focus = false;
-                         console.log("Text selected: "+text);
+                      //   console.log("Text selected: "+text);
                         rubrikArea.text = text
                         artikelDisplay.rubrikEdit(rubrikArea.text);
                         rubrikArea.focus = true;
@@ -248,7 +297,7 @@ Item
                            }
                            Keys.onReturnPressed:
                            {
-                               console.log("Enter pressed");
+                              // console.log("Enter pressed");
                                rubrikArea.text = cRubrikList.getElementFromDisplay(rubrikList.currentIndex);
                                 rubrikArea.focus = true;
                                 artikelDisplay.rubrikEdit(rubrikArea.text);

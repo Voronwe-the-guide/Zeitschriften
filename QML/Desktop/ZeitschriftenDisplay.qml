@@ -44,7 +44,7 @@ Item
                     onClicked:
                     {
                      //   jahreDisplay.currentJahr = model.index;
-                        console.log("Zeitschriften request");
+                     //   console.log("Zeitschriften request");
                         cArtikelList.deleteAll();
                         cListenController.addOrRemoveZeitschrift(model.index);
                     }
@@ -87,7 +87,7 @@ Item
                 onClicked:
                 {
                  //   jahreDisplay.currentJahr = model.index;
-                    console.log("Zeitschriften request");
+                  //  console.log("Zeitschriften request");
                //     cZeitschriftenList.deselectAll();
                     cListenController.getOverview();
                 //    cListenController.addOrRemoveZeitschrift(model.index);

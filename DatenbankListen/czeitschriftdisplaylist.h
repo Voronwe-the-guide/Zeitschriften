@@ -33,6 +33,7 @@ public slots:
 
     QStringList getSelectedElements();
 
+
 protected:
 
     QHash<int, QByteArray> roleNames() const;

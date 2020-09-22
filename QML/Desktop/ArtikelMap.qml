@@ -22,7 +22,7 @@ Item {
         //    artikelList.positionViewAtIndex(0,artikelList.Beginning);
             artikelList.positionViewAtBeginning();
             artikelList.currentIndex = -1;
-            console.log("Empty: Go to 0");
+        //    console.log("Empty: Go to 0");
             map.clearMapItems();
         }
 
@@ -36,7 +36,7 @@ Item {
 */
             var latitude = cArtikelList.getLatitude(index);
             var longitude = cArtikelList.getLongitude(index);
-            console.log("Get Marker for index: "+index+" : "+latitude+"/"+longitude);
+          //  console.log("Get Marker for index: "+index+" : "+latitude+"/"+longitude);
             var Component = Qt.createComponent("MapFlag.qml")
             var item = Component.createObject(mapDisplay,
                                                      {
@@ -94,7 +94,7 @@ Item {
             //    artikelList.positionViewAtIndex(0,artikelList.Beginning);
                 artikelList.positionViewAtBeginning();
                 artikelList.currentIndex = -1;
-                console.log("Empty: Go to 0");
+              //  console.log("Empty: Go to 0");
                 map.clearMapItems();
             }
 
@@ -108,7 +108,7 @@ Item {
 
                 var latitude = cArtikelList.getLatitude(index);
                 var longitude = cArtikelList.getLongitude(index);
-                console.log("Get Marker for index: "+index+" : "+latitude+"/"+longitude);
+              //  console.log("Get Marker for index: "+index+" : "+latitude+"/"+longitude);
                 var Component = Qt.createComponent("MapFlag.qml")
 
 

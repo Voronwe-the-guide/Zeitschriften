@@ -47,7 +47,7 @@ Window
 
         onCoordinatePressed:
         {
-            console.log("got coordinate"+latitude+"/"+longitude);
+          //  console.log("got coordinate"+latitude+"/"+longitude);
             cArtikelEditor.setCurrentCoordinate(latitude,longitude);
         }
     }
@@ -157,7 +157,7 @@ Window
               target:cArtikelEditor
               function onArtikelDisplayUpdated()
               {
-                 console.log("Display updated");
+               //  console.log("Display updated");
                   artikel.zeitschrift = cArtikelEditor.getZeitschrift()
                   artikel.jahrgang=cArtikelEditor.getJahr()
                   artikel.ausgabe=cArtikelEditor.getAusgabe()

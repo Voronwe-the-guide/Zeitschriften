@@ -15,6 +15,8 @@ CListenController::CListenController( QObject *parent) : QObject(parent)
 
     m_RubrikenList = new CSelectionListDisplay();
 
+    m_ZeitschriftenListForSelection = new CSelectionListDisplay();
+
 
 
     m_searchTablesSetting["Zeitschrift"].setName("Zeitschrift");
@@ -98,6 +100,11 @@ CSelectionListDisplay *CListenController::rubrikenListDisplay()
     return m_RubrikenList;
 }
 
+CSelectionListDisplay *CListenController::zeitschriftenListForSelection()
+{
+    return m_ZeitschriftenListForSelection;
+}
+
 
 void CListenController::getListOfZeitschriften()
 {
@@ -138,6 +145,8 @@ void CListenController::getListOfZeitschriften()
     }
 
     sqlite3_finalize(stmt);
+
+    setZeitschriftSelectionDisplay();
 }
 /*!
   Will search for all Jahrgänge and Zeitschriften
@@ -541,6 +550,32 @@ void CListenController::setRubrikDisplay(QString zeitschrift)
 void CListenController::updateRubrikListDisplay(QString filter)
 {
     m_RubrikenList->UpdateListDisplay(filter);
+}
+
+void CListenController::setZeitschriftSelectionDisplay()
+{
+
+   QList<QString> zeitschriftenList;
+   for (int i=0; i<m_zeitschriftenDisplay->rowCount(); ++i)
+   {
+       zeitschriftenList << m_zeitschriftenDisplay->getZeitschrift(i).getZeitschrift();
+
+   }
+    if ( zeitschriftenList.count() >= 0)
+    {
+        m_ZeitschriftenListForSelection->SetList(zeitschriftenList);
+    }
+    else
+    {
+        m_ZeitschriftenListForSelection->deleteAll();
+    }
+
+}
+
+void CListenController::updateZeitschriftSelectionDisplay(QString filter)
+{
+      m_ZeitschriftenListForSelection->UpdateListDisplay(filter);
+
 }
 
 

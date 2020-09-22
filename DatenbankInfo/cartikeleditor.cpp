@@ -9,6 +9,7 @@ CArtikelEditor::CArtikelEditor(CListenController *listen,QObject *parent) :
     QObject::connect(this, &CArtikelEditor::zeitschriftUpdated, m_listen, &CListenController::setRubrikDisplay);
 
     QObject::connect(this, &CArtikelEditor::rubrikUpdated, m_listen, &CListenController::updateRubrikListDisplay);
+    QObject::connect(this, &CArtikelEditor::zeitschriftUpdated, m_listen, &CListenController::updateZeitschriftSelectionDisplay);
 }
 
 void CArtikelEditor::setNewArtikel()

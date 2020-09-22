@@ -25,7 +25,7 @@ Item
         //    artikelList.positionViewAtIndex(0,artikelList.Beginning);
             artikelList.positionViewAtBeginning();
             artikelList.currentIndex = -1;
-            console.log("Empty: Go to 0");
+           // console.log("Empty: Go to 0");
         }
         function onElementAdded(index)
         {
@@ -34,7 +34,7 @@ Item
             {
                 artikelList.positionViewAtBeginning();
                 artikelList.currentIndex = 0;
-                console.log("Go to 0");
+             //   console.log("Go to 0");
             }
         }
     }
@@ -127,7 +127,7 @@ Item
         clip: true
        onCurrentIndexChanged:
         {
-           console.log("Current Index: "+currentIndex);
+           //console.log("Current Index: "+currentIndex);
         }
       //  snapMode: ListView.SnapToItem
       //  highlightRangeMode: ListView.StrictlyEnforceRange

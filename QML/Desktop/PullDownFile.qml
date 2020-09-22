@@ -42,7 +42,7 @@ Rectangle
                 {
 
                     rubrikDisplay.textSelected(model.element)
-                    console.log("text on Muose:"+model.element)
+                //    console.log("text on Muose:"+model.element)
                     //rubrikArea.text = rubrikText.text;
                     rubrikList.currentIndex = model.index;
                     //rubrikArea.focus = true;

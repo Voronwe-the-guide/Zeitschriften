@@ -56,7 +56,7 @@ Item
                     onClicked:
                     {
                         jahreDisplay.currentJahr = model.index;
-                        console.log("Ausgaben request");
+                     //   console.log("Ausgaben request");
                         cArtikelList.deleteAll();
                         cListenController.getLowerInfoForJahr(model.jahr);
                     }
@@ -94,7 +94,7 @@ Item
         delegate: jahrComponent
         onCountChanged:
         {
-            console.log("Jahre count = "+count)
+          //  console.log("Jahre count = "+count)
             if (count == 0)
             {
                 jahreDisplay.currentJahr = -1;

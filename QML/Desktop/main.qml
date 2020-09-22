@@ -26,7 +26,7 @@ ApplicationWindow
 
     function restart()
     {
-        console.log("Restart");
+    //    console.log("Restart");
         callWriter()
     }
 
