@@ -243,6 +243,11 @@ ApplicationWindow
    //     Component.onCompleted: visible = true
     }
 
+   ZeitschriftWriter
+   {
+
+   }
+
 /*   Window {
        width: Qt.platform.os == "android" ? Screen.width :800
        height: Qt.platform.os == "android" ? Screen.height : 512
@@ -257,8 +262,8 @@ ApplicationWindow
 
    }
    */
-/*
-ArtikelWriter
+
+/*ArtikelWriter
 {
 }
 */

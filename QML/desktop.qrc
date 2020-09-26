@@ -43,5 +43,7 @@
         <file>Images/plus-circle.svg</file>
         <file>Desktop/DisplayText_MultiLine.qml</file>
         <file>Desktop/PullDownFile.qml</file>
+        <file>Desktop/Zeitschrift.qml</file>
+        <file>Desktop/ZeitschriftWriter.qml</file>
     </qresource>
 </RCC>

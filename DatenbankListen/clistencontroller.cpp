@@ -116,12 +116,39 @@ void CListenController::getListOfZeitschriften()
     }
     sqlite3_stmt *stmt;
 
-	QString request = QString("SELECT Zeitschrift, Rubrik FROM Inhalte  ORDER BY Zeitschrift ASC, Rubrik ASC");
-	int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt,"getListOfZeitschriften");
+    //QString request = QString("SELECT Zeitschrift, Rubrik FROM Inhalte  ORDER BY Zeitschrift ASC, Rubrik ASC");
+    QString request = QString("SELECT * FROM Zeitschriften ORDER BY Zeitschrift ASC");
+    int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt,"getListOfZeitschriften");
     if (rc != SQLITE_OK)
     {
            return; // or throw
     }
+
+    while ((rc = sqlite3_step(stmt)) == SQLITE_ROW)
+    {
+        int number = sqlite3_column_count(stmt);
+        CZeitschrift zeitschrift;
+        for (int i=0; i<number; ++i)
+        {
+
+            QString columnName(reinterpret_cast<const char*>(sqlite3_column_name(stmt,i)));
+            QByteArray columnText(reinterpret_cast<const char*>(sqlite3_column_text(stmt,i)));
+            zeitschrift.setDBElement(columnName,columnText);
+
+        }
+
+         m_zeitschriftenDisplay->AddElement(zeitschrift);
+    }
+
+    //Get Zeitschriften from Inhalte -> to get the Rubriken and Zeitschriften, which are not in the main list
+    request = QString("SELECT Zeitschrift, Rubrik FROM Inhalte  ORDER BY Zeitschrift ASC, Rubrik ASC");
+    rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt,"getListOfZeitschriften");
+    if (rc != SQLITE_OK)
+    {
+           return; // or throw
+    }
+
+   bool foundNew = false;
     while ((rc = sqlite3_step(stmt)) == SQLITE_ROW)
     {
         int number = sqlite3_column_count(stmt);
@@ -140,13 +167,30 @@ void CListenController::getListOfZeitschriften()
 
         }
 
-         m_zeitschriftenDisplay->AddElement(zeitschrift);
+         bool isNew = m_zeitschriftenDisplay->AddElement(zeitschrift);
+         if (isNew)
+         {
+             int index = addNewEmptyRowToZeitschriftTable();
+             zeitschrift.setUniqueIndex(index);
+             updateZeitschriftenTable(zeitschrift,false);
+             foundNew = true;
+         }
 		 m_zeitschriftenDisplay->AddRubrikToZeitschrift(zeitschrift.getZeitschrift(),rubrik);
     }
 
+
     sqlite3_finalize(stmt);
 
-    setZeitschriftSelectionDisplay();
+    if (foundNew)
+    {
+        getListOfZeitschriften();
+    }
+    else
+    {
+        setZeitschriftSelectionDisplay();
+    }
+
+
 }
 /*!
   Will search for all Jahrgänge and Zeitschriften
@@ -505,6 +549,35 @@ int CListenController::addNewEmptyRowToInhalte()
     return index;
 }
 
+
+int CListenController::addNewEmptyRowToZeitschriftTable()
+{
+    if (m_db == nullptr)
+    {
+        qDebug()<<"No open DB!";
+        return -1;
+    }
+//    sqlite3_stmt *stmt;
+    char *zErrMsg;
+
+    QString request = QString("INSERT INTO Zeitschriften DEFAULT VALUES");
+    int rc = sqlite3_exec(m_db,request.toStdString().c_str(),nullptr,nullptr,&zErrMsg);
+    if (rc !=0 )
+    {
+        qDebug()<<"addNewEmptyRowToZeitschriftTable: SqLite request returned "<<sqlite3_errstr(rc)<<" ("<<rc<<") for "<<request;
+        return -1;
+    }
+    else
+    {
+        qDebug()<<":addNewEmptyRowToZeitschriftTable: SqLite request returned OK for "<<request;
+
+    }
+    int index = static_cast<int>(sqlite3_last_insert_rowid(m_db));
+ //   sqlite3_finalize(stmt);
+    return index;
+
+}
+
 void CListenController::deleteArtikel(int index)
 {
     if (m_db == nullptr)
@@ -603,7 +676,40 @@ void CListenController::updateInhalteTable(const CArtikel &Artikel)// QString sq
     }
  //   sqlite3_finalize(stmt);
 
+
+
 	getListOfZeitschriften();
+    return;
+}
+
+void CListenController::updateZeitschriftenTable( const CZeitschrift &Zeitschrift, bool refresh)
+{
+    if (m_db == nullptr)
+    {
+        qDebug()<<"No open DB!";
+        return;
+    }
+ //   sqlite3_stmt *stmt;
+    char *zErrMsg;
+    QString sqlElements = Zeitschrift.getAsSQLString(true);
+    QString request = QString("UPDATE Zeitschriften %1").arg(sqlElements);
+    int rc = sqlite3_exec(m_db,request.toStdString().c_str(),nullptr,nullptr,&zErrMsg);
+//    int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt);
+    if (rc !=0 )
+    {
+        qDebug()<<"SqLite request returned "<<sqlite3_errstr(rc)<<" ("<<rc<<") for "<<request;
+    }
+    else
+    {
+        qDebug()<<"SqLite request returned OK for "<<request;
+
+    }
+ //   sqlite3_finalize(stmt);
+
+    if (refresh)
+    {
+        getListOfZeitschriften();
+    }
     return;
 }
 
@@ -660,6 +766,61 @@ CArtikel CListenController::getArtikelByIndex(int index)
     sqlite3_finalize(stmt);
     return artikel;
 }
+
+CZeitschrift CListenController::getZeitschriftByIndex(int index)
+{
+    CZeitschrift zeitschrift;
+
+
+    if (m_db == nullptr)
+    {
+        qDebug()<<"No open DB!";
+        return zeitschrift;
+    }
+    sqlite3_stmt *stmt;
+
+    QString request = QString("SELECT * FROM Zeitschriften WHERE UniqueIndex='%1' ORDER BY Zeitschrift ASC").arg(index);
+//    qDebug()<<request;
+
+    int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt,"getZeitschriftByIndex");
+//	int rc = sqlite3_prepare_v2(m_db, request.toStdString().c_str(), -1, &stmt, nullptr);
+    if (rc != SQLITE_OK)
+    {
+           return zeitschrift; // or throw
+    }
+
+  /*  if (number != 1)
+    {
+       qDebug()<<"Index "<<index<<" nicht eindeutig";
+       return artikel;
+    }*/
+
+    int counter =0;
+    while ((rc = sqlite3_step(stmt)) == SQLITE_ROW)
+    {
+          if (counter > 0)
+          {
+             qDebug()<<"Index "<<index<<" nicht eindeutig";
+             return zeitschrift;
+          }
+        int number = sqlite3_column_count(stmt);
+
+        for (int i=0; i<number; ++i)
+        {
+
+           QString columnName(reinterpret_cast<const char*>(sqlite3_column_name(stmt,i)));
+            QByteArray columnText(reinterpret_cast<const char*>(sqlite3_column_text(stmt,i)));
+            zeitschrift.setDBElement(columnName,columnText);
+
+        }
+        counter ++;
+
+      }
+
+    sqlite3_finalize(stmt);
+    return zeitschrift;
+}
+
 
 void CListenController::getTableNamesFromDB()
 {

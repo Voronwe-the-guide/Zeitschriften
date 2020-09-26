@@ -9,6 +9,7 @@
 #include <DatenbankListen/clistencontroller.h>
 #include <DatenbankInfo/ccolumn.h>
 #include <DatenbankInfo/cartikeleditor.h>
+#include <DatenbankInfo/czeitschrifteditor.h>
 #include <Helper/cerrordisplay.h>
 
 
@@ -42,6 +43,7 @@ int main(int argc, char *argv[])
 	QObject::connect(&listenController, &CListenController::errorMessage, &errorDisplay, &CErrorDisplay::gotErrorMessage);
 
     CArtikelEditor artikelEditor(&listenController);
+    CZeitschriftEditor zeitschriftEditor(&listenController);
 
 	QQmlApplicationEngine engine;
     engine.addImportPath("qrc:/");
@@ -64,6 +66,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("cZeitschriftNameList",listenController.zeitschriftenListForSelection());
     engine.rootContext()->setContextProperty("cListenController",&listenController);
     engine.rootContext()->setContextProperty("cArtikelEditor",&artikelEditor);
+     engine.rootContext()->setContextProperty("cZeitschriftEditor",&zeitschriftEditor);
 	engine.rootContext()->setContextProperty("cErrorDisplay",&errorDisplay);
     engine.load(url);
 

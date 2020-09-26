@@ -2,6 +2,7 @@
 #define CLISTENCONTROLLER_H
 
 #include <QObject>
+//#include <QtSql>
 #include <sqlite/sqlite3.h>
 #include <DatenbankListen/cartikeldisplaylist.h>
 #include <DatenbankListen/cjahrdisplaylist.h>
@@ -45,6 +46,9 @@ public slots:
 	void updateInhalteTable(const CArtikel &Artikel);
     int addNewEmptyRowToInhalte();
 
+    void updateZeitschriftenTable( const CZeitschrift &Zeitschrift, bool refresh);
+    int addNewEmptyRowToZeitschriftTable();
+
     void deleteArtikel(int index);
 
     void setRubrikDisplay(QString zeitschrift);
@@ -59,6 +63,8 @@ public slots:
      * \param changeOtherLists: Soll nur der Artikel gefunden werden, oder auch Jahr + Ausgabe nur diesen anzeigen?
      */
     CArtikel getArtikelByIndex(int index);
+    CZeitschrift getZeitschriftByIndex(int index);
+
     void searchArtikel(QString searchElement);
 
     QString getSearchElement() const;

@@ -4,6 +4,7 @@ QT += svg
 QT += quickcontrols2
 
 
+
 CONFIG += c++11
 CONFIG += console
 
@@ -20,8 +21,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         DatenbankInfo/cartikeleditor.cpp \
+        DatenbankInfo/causgabeeditor.cpp \
         DatenbankInfo/ccolumn.cpp \
         DatenbankInfo/csqlitedbloader.cpp \
+        DatenbankInfo/czeitschrifteditor.cpp \
         DatenbankListen/cartikel.cpp \
         DatenbankListen/cartikeldisplaylist.cpp \
         DatenbankListen/causgabe.cpp \
@@ -56,8 +59,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     DatenbankInfo/cartikeleditor.h \
+    DatenbankInfo/causgabeeditor.h \
     DatenbankInfo/ccolumn.h \
     DatenbankInfo/csqlitedbloader.h \
+    DatenbankInfo/czeitschrifteditor.h \
     DatenbankListen/cartikel.h \
     DatenbankListen/cartikeldisplaylist.h \
     DatenbankListen/causgabe.h \
@@ -70,7 +75,7 @@ HEADERS += \
     DatenbankListen/czeitschriftdisplaylist.h \
     Helper/cerrordisplay.h \
     Helper/helper.h \
-    Settings/csettings.h \
+      Settings/csettings.h \
     sqlite/sqlite3.h \
     sqlite/sqlite3ext.h
 

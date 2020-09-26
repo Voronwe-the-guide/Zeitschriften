@@ -2,6 +2,8 @@
 
 const int  CZeitschriftDisplayList::Role_Zeitschrift  = Qt::UserRole+1;
 const int CZeitschriftDisplayList::Role_Selection = Qt::UserRole+2;
+const int CZeitschriftDisplayList::Role_Logo = Qt::UserRole+3;
+const int CZeitschriftDisplayList::Role_DBIndex = Qt::UserRole+4;
 
 CZeitschriftDisplayList::CZeitschriftDisplayList(QObject *parent) :
     QAbstractListModel(parent)
@@ -35,6 +37,8 @@ QVariant CZeitschriftDisplayList::data ( const QModelIndex & index, int role) co
             case Qt::DisplayRole:
 			case Role_Zeitschrift: return temp.getZeitschrift();					//!< Jahrgang der Zeitschrift
         case Role_Selection: return temp.isSelected();
+        case Role_Logo: return temp.getLogo();
+        case Role_DBIndex: return temp.getUniqueIndex();
         }
     }
 
@@ -54,19 +58,20 @@ void CZeitschriftDisplayList::deleteAll()
 }
 
 
-void CZeitschriftDisplayList::AddElement(CZeitschrift &zeitschrift)
+bool CZeitschriftDisplayList::AddElement(CZeitschrift &zeitschrift)
 {
     for (int i=0; i<m_ZeitschriftenList.count(); i++)
     {
 		if (zeitschrift.getZeitschrift() == m_ZeitschriftenList.at(i).getZeitschrift())
         {
             //Allready there
-            return;
+            return false;
         }
     }
     beginInsertRows(QModelIndex(),rowCount(),rowCount());//This is to keep the list in QML updated
     m_ZeitschriftenList << zeitschrift;
     endInsertRows();
+    return true;
 
 }
 
@@ -169,5 +174,7 @@ QHash<int, QByteArray> CZeitschriftDisplayList::roleNames() const
 
     roles[Role_Zeitschrift] = "zeitschrift";//!< Jahrgang der Zeitschrift
     roles[Role_Selection] = "selected";
+    roles[Role_Logo] = "logo";
+    roles[Role_DBIndex]= "dbIndex";
     return roles;
 }

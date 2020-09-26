@@ -22,7 +22,7 @@ signals:
 
 public slots:
     void deleteAll();
-    void AddElement(CZeitschrift &zeitschrift);
+    bool AddElement(CZeitschrift &zeitschrift);
 	CZeitschrift getZeitschrift (const QString& Zeitschrift,int &listIndex);
 	CZeitschrift getZeitschrift (int listIndex);
 	void AddRubrikToZeitschrift(const QString& zeitschrift, const QString& rubrik);
@@ -42,7 +42,9 @@ private:
     QList<CZeitschrift> m_ZeitschriftenList;
 
     static const int Role_Zeitschrift;
+    static const int Role_Logo;
     static const int Role_Selection;
+    static const int Role_DBIndex;
 };
 
 #endif // CZEITSCHRIFTDISPLAYLIST_H

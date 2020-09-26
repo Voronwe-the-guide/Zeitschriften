@@ -25,6 +25,11 @@ Item
                 color: model.selected?"lightblue":"lightgrey"
                 radius: 5
                 anchors.centerIn: parent
+                Image
+                {
+                    anchors.fill: parent
+                    source: model.logo
+                }
 
                 Text
                 {
@@ -41,14 +46,25 @@ Item
                 MouseArea
                 {
                     anchors.fill: parent
+                     acceptedButtons: Qt.LeftButton | Qt.RightButton
                     onClicked:
                     {
                      //   jahreDisplay.currentJahr = model.index;
                      //   console.log("Zeitschriften request");
-                        cArtikelList.deleteAll();
-                        cListenController.addOrRemoveZeitschrift(model.index);
+                        console.log("Area cliecked");
+                        if (mouse.button == Qt.RightButton)
+                        {
+                            cZeitschriftEditor.setZeitschriftForUpdate(model.dbIndex)
+                            Qt.createComponent("ZeitschriftWriter.qml").createObject(zeitschriftenDisplay)// artikeleditor.visible = true;
+                        }
+                        else
+                        {
+                            cArtikelList.deleteAll();
+                            cListenController.addOrRemoveZeitschrift(model.index);
+                        }
                     }
-                 }
+
+                }
             }
         }
 

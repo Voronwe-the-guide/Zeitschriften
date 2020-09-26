@@ -4,10 +4,12 @@
 #include <QString>
 #include <QMap>
 
-#define ZEITSCHRIFT_TABELLE		"Zeitschrift"
-#define ZEITSCHRIFT_ZEITSCHRIFT "Zeitschrift"	//!< TEXT
-#define ZEITSCHRIFT_INDEX		"UniqueIndex"	//!< INTEGER
-#define ZEITSCHRIFT_LOGO		"Logo"			//!< BLOB
+#define ZEITSCHRIFT_TABELLE         "Zeitschriften"
+#define ZEITSCHRIFT_ZEITSCHRIFT     "Zeitschrift"	//!< TEXT
+#define ZEITSCHRIFT_INDEX           "UniqueIndex"	//!< INTEGER
+#define ZEITSCHRIFT_LOGO            "Logo"			//!< BLOB
+#define ZEITSCHRIFT_BESCHREIBUNG    "Beschreibung" //!< TEXT
+#define ZEITSCHRIFT_NOTIZEN         "Notizen"      //!< TEXT
 
 class CZeitschrift
 {
@@ -31,11 +33,20 @@ public:
 	QString getLogo() const;
 	void setLogo(const QString &logo);
 
+    QString getBeschreibung() const;
+    void setBeschreibung(const QString &beschreibung);
+
+    QString getNotizen() const;
+    void setNotizen(const QString &notizen);
+
+
 	int getUniqueIndex() const;
 	void setUniqueIndex(int uniqueIndex);
 
 	void AddElementToRubrikList(QString rubrik);
 	QList <QString> getRubrikList();
+
+    QString getAsSQLString(bool include_whereID) const;
 
 private:
 	void setText(QString key, QString text);

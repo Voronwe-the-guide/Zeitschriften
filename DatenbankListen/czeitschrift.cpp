@@ -7,6 +7,10 @@ CZeitschrift::CZeitschrift():
 	m_ZeitschriftMap[ZEITSCHRIFT_INDEX].setNum(-1);
 	m_ZeitschriftMap[ZEITSCHRIFT_ZEITSCHRIFT] = "";
 	m_ZeitschriftMap[ZEITSCHRIFT_LOGO] = "";
+    m_ZeitschriftMap[ZEITSCHRIFT_BESCHREIBUNG] ="";
+    m_ZeitschriftMap[ZEITSCHRIFT_NOTIZEN]="";
+
+
 
 }
 CZeitschrift::~CZeitschrift()
@@ -77,6 +81,36 @@ void CZeitschrift::setLogo(const QString &logo)
    m_ZeitschriftMap[ZEITSCHRIFT_LOGO] = logo.toUtf8();
 }
 
+
+QString CZeitschrift::getBeschreibung() const
+{
+    QString beschreibung;
+    if (m_ZeitschriftMap.contains(ZEITSCHRIFT_BESCHREIBUNG))
+    {
+        beschreibung = m_ZeitschriftMap[ZEITSCHRIFT_BESCHREIBUNG];
+    }
+    return beschreibung;
+}
+void CZeitschrift::setBeschreibung(const QString &beschreibung)
+{
+    m_ZeitschriftMap[ZEITSCHRIFT_BESCHREIBUNG] = beschreibung.toUtf8();
+}
+
+QString CZeitschrift::getNotizen() const
+{
+    QString notizen;
+    if (m_ZeitschriftMap.contains(ZEITSCHRIFT_NOTIZEN))
+    {
+        notizen = m_ZeitschriftMap[ZEITSCHRIFT_NOTIZEN];
+    }
+    return notizen;
+}
+void CZeitschrift::setNotizen(const QString &notizen)
+{
+    m_ZeitschriftMap[ZEITSCHRIFT_NOTIZEN] = notizen.toUtf8();
+
+}
+
 int CZeitschrift::getUniqueIndex() const
 {
 	int index =  -1;
@@ -122,3 +156,22 @@ QList <QString> CZeitschrift::getRubrikList()
 	return m_rubrikList;
 }
 
+
+QString CZeitschrift::getAsSQLString(bool include_whereID) const
+{
+    QString artikel = "SET ";
+
+    Helper helper;
+
+    artikel +=QString(" %1 = '%2'").arg(ZEITSCHRIFT_ZEITSCHRIFT).arg(helper.fixSpecialCharacters(getZeitschrift()));
+    artikel +=QString(", %1 = '%2'").arg(ZEITSCHRIFT_LOGO).arg(helper.fixSpecialCharacters(getLogo()));
+    artikel +=QString(", %1 = '%2'").arg(ZEITSCHRIFT_BESCHREIBUNG).arg(helper.fixSpecialCharacters(getBeschreibung()));
+    artikel +=QString(", %1 = '%2'").arg(ZEITSCHRIFT_NOTIZEN).arg(helper.fixSpecialCharacters(getNotizen()));
+
+    if (include_whereID)
+    {
+       artikel += QString(" WHERE %1='%2'").arg(ZEITSCHRIFT_INDEX).arg(getUniqueIndex());
+    }
+
+    return artikel;
+}
