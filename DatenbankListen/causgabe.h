@@ -45,6 +45,7 @@ public:
 	void setUniqueIndex(int uniqueIndex);
 
 	QString getCover() const;
+    QString getPureCover() const;
 	void setCover(const QString &Cover);
 
 	double getPreis() const;

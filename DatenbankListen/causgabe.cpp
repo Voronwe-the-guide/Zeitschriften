@@ -1,5 +1,9 @@
 #include "causgabe.h"
 #include <Helper/helper.h>
+
+#include <Settings/csettings.h>
+
+#include <QDir>
 CAusgabe::CAusgabe()
 
 
@@ -95,17 +99,46 @@ void CAusgabe::setUniqueIndex(int uniqueIndex)
 
 QString CAusgabe::getCover() const
 {
-	QString result;
-	if (m_AusgabenMap.contains(AUSGABE_COVER))
-	{
-		result = m_AusgabenMap[AUSGABE_COVER];
-	}
+    QString result = getPureCover();
+
+    if (!result.isEmpty())
+   {
+       QDir DBPath = (CSettings::getConfiguration()->getCurrentDBPath());
+       QFileInfo LogoInfo(DBPath,result);
+       result = LogoInfo.absoluteFilePath();
+       if (result.contains("file:/"))
+       {
+         int position = result.indexOf(("file:/"));
+         result = result.remove(0,position+6);
+       }
+    //   qDebug()<<logo;
+       result = "file:///"+result;
+   }
 	return result;
+}
+
+QString CAusgabe::getPureCover() const
+{
+    QString result;
+    if (m_AusgabenMap.contains(AUSGABE_COVER))
+    {
+        result = m_AusgabenMap[AUSGABE_COVER];
+    }
+    return result;
+
 }
 
 void CAusgabe::setCover(const QString &Cover)
 {
-	m_AusgabenMap[AUSGABE_COVER] = Cover.toUtf8();
+    QString logoPath = Cover;
+    if (!(logoPath.isEmpty()))
+    {
+        QDir DBPath = (CSettings::getConfiguration()->getCurrentDBPath());
+
+        QFileInfo LogoInfo (Cover);
+        logoPath = DBPath.relativeFilePath(LogoInfo.absoluteFilePath());
+    }
+    setText(AUSGABE_COVER,logoPath);
 }
 
 double CAusgabe::getPreis() const
