@@ -8,8 +8,9 @@
 #define ZEITSCHRIFT_ZEITSCHRIFT     "Zeitschrift"	//!< TEXT
 #define ZEITSCHRIFT_INDEX           "UniqueIndex"	//!< INTEGER
 #define ZEITSCHRIFT_LOGO            "Logo"			//!< BLOB
-#define ZEITSCHRIFT_BESCHREIBUNG    "Beschreibung" //!< TEXT
-#define ZEITSCHRIFT_NOTIZEN         "Notizen"      //!< TEXT
+#define ZEITSCHRIFT_BESCHREIBUNG    "Beschreibung"  //!< TEXT
+#define ZEITSCHRIFT_NOTIZEN         "Notizen"       //!< TEXT
+#define ZEITSCHRIFT_SPRACHE         "Sprache"       //!< TEXT
 
 class CZeitschrift
 {
@@ -31,6 +32,7 @@ public:
     void setIsSelected(bool isSelected);
 
 	QString getLogo() const;
+    QString getPureLogo() const;
 	void setLogo(const QString &logo);
 
     QString getBeschreibung() const;
@@ -39,6 +41,8 @@ public:
     QString getNotizen() const;
     void setNotizen(const QString &notizen);
 
+    QString getSprache() const;
+    void setSprache(const QString &sprache);
 
 	int getUniqueIndex() const;
 	void setUniqueIndex(int uniqueIndex);

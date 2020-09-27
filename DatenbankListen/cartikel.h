@@ -23,6 +23,7 @@
 #define ARTIKEL_SCHLAGWORTE		"Schlagworte"		//!< TEXT,
 #define ARTIKEL_LAND			"Land"				//!< TEXT,
 #define ARTIKEL_NOTIZEN			"Notizen"			//!< TEXT,
+#define ARTIKEL_SPRACHE         "Sprache"           //!< TEXT
 #define ARTIKEL_LONGITUDE		"Koord_Laenge"		//!< REAL,
 #define ARTIKEL_LATITUDE		"Koord_Breite"		//!< REAL,
 #define ARTIKEL_AENDERUNGSZEIT	"Aenderungszeit"	//!< TEXT,
@@ -79,6 +80,9 @@ public:
 
     QString getNotizen() const;
     void setNotizen(const QString &Notizen);
+
+    QString getSprache() const;
+    void setSprache(const QString &Sprache);
 
 	QGeoCoordinate getKoordinate() const;
 	QString getKoordinateAsString() const;

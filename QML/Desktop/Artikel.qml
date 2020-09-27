@@ -31,6 +31,9 @@ Item
     signal fotosEdit(var newText)
     property string land:""
     signal landEdit(var newText)
+    property string language:""
+    signal languageEdit(var newText)
+
 
     property string notizen:""
     signal notizenEdit(var newText)
@@ -183,7 +186,7 @@ Item
                    toolTip: qsTr("Rubrik - unterschiedlich für Magazine")
                    readOnly: artikelDisplay.readOnlyMode
                    onTextWasEdited:{ artikelDisplay.rubrikEdit(newText)}
-                   onNextPressed: {countryArea.focus = true}
+                   onNextPressed: {languageArea.focus = true}
                    onPreviousPressed: {pageArea.focus = true}
 
                  onReturnPressed:
@@ -350,6 +353,18 @@ Item
             {
                anchors.fill: parent
                spacing: 4
+
+               IconWithText
+               {
+                   id: languageArea
+                   text: artikelDisplay.language
+                   iconSource:  "qrc:/Images/language.svg" //png"
+                   toolTip: qsTr("Artikelsprache")
+                   readOnly: artikelDisplay.readOnlyMode
+                   onTextWasEdited:{ artikelDisplay.spracheEdit(newText)}
+                   onNextPressed: {countryArea.focus = true}
+                   onPreviousPressed: {rubrikArea.focus = true}
+               }
                IconWithText
                {
                    id: countryArea
@@ -359,7 +374,7 @@ Item
                    readOnly: artikelDisplay.readOnlyMode
                    onTextWasEdited:{ artikelDisplay.landEdit(newText)}
                    onNextPressed: {authorArea.focus = true}
-                   onPreviousPressed: {rubrikArea.focus = true}
+                   onPreviousPressed: {languageArea.focus = true}
                }
 
 
@@ -389,6 +404,7 @@ Item
                     onPreviousPressed: {authorArea.focus = true}
 
                 }
+
              }
         }
         Item

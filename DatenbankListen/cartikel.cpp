@@ -26,32 +26,12 @@ CArtikel::CArtikel()//:
     m_artikelMap[ARTIKEL_LONGITUDE].setNum(0);
 	m_artikelMap[ARTIKEL_LATITUDE].setNum(0);
 	m_artikelMap[ARTIKEL_AENDERUNGSZEIT] ="";
+    m_artikelMap[ARTIKEL_SPRACHE]="";
 }
 
 bool CArtikel::setDBElement(const QString& columnName, const QByteArray& columnEntry)
 {
-    //columnName = columnName.toLower();
 
-	/*if ((columnName == ARTIKEL_TABELLE)
-		|| (columnName == ARTIKEL_INDEX)
-		|| (columnName == ARTIKEL_ZEITSCHRIFT)
-		|| (columnName == ARTIKEL_AUSGABE)
-		|| (columnName == ARTIKEL_JAHR)
-		|| (columnName == ARTIKEL_RUBRIK)
-		|| (columnName == ARTIKEL_UEBERSCHRIFT)
-		|| (columnName == ARTIKEL_ZUSAMMENFASSUNG)
-		|| (columnName == ARTIKEL_KURZTEXT)
-		|| (columnName == ARTIKEL_SEITE)
-		|| (columnName == ARTIKEL_AUTOR)
-		|| (columnName == ARTIKEL_FOTOS)
-		|| (columnName == ARTIKEL_SCHLAGWORTE)
-		|| (columnName == ARTIKEL_LAND)
-		|| (columnName == ARTIKEL_NOTIZEN)
-		|| (columnName == ARTIKEL_LONGITUDE)
-		|| (columnName == ARTIKEL_LATITUDE)
-		|| (columnName == ARTIKEL_AENDERUNGSZEIT)
-		)
-		*/
 	if (m_artikelMap.contains(columnName))
 	{
 		m_artikelMap[columnName] = columnEntry;
@@ -59,26 +39,7 @@ bool CArtikel::setDBElement(const QString& columnName, const QByteArray& columnE
 	}
 
 	return false;
-/*
-    if (columnName == "Ausgabe"){ m_artikelMap[columnName] = columnEntry; setAusgabe(columnEntry.toInt()); return true;}
-    else if (columnName == "Jahr") { m_artikelMap[columnName] = columnEntry; setJahr(columnEntry.toInt()); return true;}
-    else if (columnName == "Rubrik") { m_artikelMap[columnName] = columnEntry; setRubrik(columnEntry); return true;}
-    else if (columnName == "Ueberschrift") { m_artikelMap[columnName] = columnEntry; setUeberschrift(columnEntry); return true;}
-    else if (columnName == "Zusammenfassung") {m_artikelMap[columnName] = columnEntry; setZusammenfassung(columnEntry); return true;}
-    else if (columnName == "Kurztext") {m_artikelMap[columnName] = columnEntry; setKurztext(columnEntry); return true;}
-    else if (columnName == "Seite") {m_artikelMap[columnName] = columnEntry; setSeite(columnEntry.toInt()); return true;}
-    else if (columnName == "Autor") {m_artikelMap[columnName] = columnEntry; setAutor(columnEntry); return true;}
-    else if (columnName == "Fotos") {m_artikelMap[columnName] = columnEntry; setFotos(columnEntry); return true;}
-    else if (columnName == "Schlagworte") {m_artikelMap[columnName] = columnEntry; setSchlagworte(columnEntry); return true;}
-    else if (columnName == "Zeitschrift") {m_artikelMap[columnName] = columnEntry;setZeitschrift(columnEntry); return true;}
-    else if (columnName == "Land") {m_artikelMap[columnName] = columnEntry;setLand(columnEntry); return true;}
-    else if (columnName == "Koord_Laenge") {m_artikelMap[columnName] = columnEntry;setKoordinate(columnName,columnEntry); return true;}
-    else if (columnName == "Koord_Breite") {m_artikelMap[columnName] = columnEntry;setKoordinate(columnName,columnEntry); return true;}
-    else if (columnName == "Aenderungszeit") {m_artikelMap[columnName] = columnEntry;setLastChange(columnEntry); return true;}
-    else if (columnName == "UniqueIndex") {m_artikelMap[columnName] = columnEntry;setDBIndex(columnEntry.toInt()); return true;}
-    else if (columnName == "Notizen") {m_artikelMap[columnName] = columnEntry; setNotizen(columnEntry); return true;}
-	return false;
-	*/
+
 }
 
 
@@ -272,6 +233,23 @@ void CArtikel::setLand(const QString &Land)
 
 }
 
+QString CArtikel::getSprache() const
+{
+    QString result;
+    if (m_artikelMap.contains(ARTIKEL_SPRACHE))
+    {
+        result = m_artikelMap[ARTIKEL_SPRACHE];
+    }
+    return result;
+}
+
+
+void CArtikel::setSprache(const QString &Sprache)
+{
+   setText(ARTIKEL_SPRACHE,Sprache);
+}
+
+
 QGeoCoordinate CArtikel::getKoordinate() const
 {
 	QGeoCoordinate koordinate;
@@ -420,35 +398,37 @@ QString CArtikel::getArtikelAsSQLString(bool include_whereID) const
     }
 */
 	Helper helper;
-	artikel +=QString(" Ausgabe = '%1'").arg(helper.fixSpecialCharacters(getAusgabe()));
-	artikel +=QString(", Jahr = '%1'").arg(helper.fixSpecialCharacters(getJahr()));
-	artikel +=QString(", Rubrik = '%1'").arg(helper.fixSpecialCharacters(getRubrik()));
-	artikel +=QString(", Ueberschrift = '%1'").arg(helper.fixSpecialCharacters(getUeberschrift()));
-	artikel +=QString(", Zusammenfassung = '%1'").arg(helper.fixSpecialCharacters(getZusammenfassung()));
-	artikel +=QString(", Kurztext = '%1'").arg(helper.fixSpecialCharacters(getKurztext()));
-	artikel +=QString(", Seite = '%1'").arg(helper.fixSpecialCharacters(getSeite()));
-	artikel +=QString(", Autor = '%1'").arg(helper.fixSpecialCharacters(getAutor()));
-	artikel +=QString(", Fotos = '%1'").arg(helper.fixSpecialCharacters(getFotos()));
-	artikel +=QString(", Schlagworte = '%1'").arg(helper.fixSpecialCharacters(getSchlagworte()));
-	artikel +=QString(", Zeitschrift = '%1'").arg(helper.fixSpecialCharacters(getZeitschrift()));
-	artikel +=QString(", Land = '%1'").arg(helper.fixSpecialCharacters(getLand()));
+    artikel +=QString(" %1 = '%2'").arg(ARTIKEL_AUSGABE).arg(helper.fixSpecialCharacters(getAusgabe()));
+    artikel +=QString(", %1 = '%2'").arg(ARTIKEL_JAHR).arg(helper.fixSpecialCharacters(getJahr()));
+    artikel +=QString(", %1 = '%2'").arg(ARTIKEL_RUBRIK).arg(helper.fixSpecialCharacters(getRubrik()));
+    artikel +=QString(", %1 = '%2'").arg(ARTIKEL_UEBERSCHRIFT).arg(helper.fixSpecialCharacters(getUeberschrift()));
+    artikel +=QString(", %1 = '%2'").arg(ARTIKEL_ZUSAMMENFASSUNG).arg(helper.fixSpecialCharacters(getZusammenfassung()));
+    artikel +=QString(", %1 = '%2'").arg(ARTIKEL_KURZTEXT).arg(helper.fixSpecialCharacters(getKurztext()));
+    artikel +=QString(", %1 = '%2'").arg(ARTIKEL_SEITE).arg(helper.fixSpecialCharacters(getSeite()));
+    artikel +=QString(", %1 = '%2'").arg(ARTIKEL_AUTOR).arg(helper.fixSpecialCharacters(getAutor()));
+    artikel +=QString(", %1 = '%2'").arg(ARTIKEL_FOTOS).arg(helper.fixSpecialCharacters(getFotos()));
+    artikel +=QString(", %1 = '%2'").arg(ARTIKEL_SCHLAGWORTE).arg(helper.fixSpecialCharacters(getSchlagworte()));
+    artikel +=QString(", %1 = '%2'").arg(ARTIKEL_ZEITSCHRIFT).arg(helper.fixSpecialCharacters(getZeitschrift()));
+    artikel +=QString(", %1 = '%2'").arg(ARTIKEL_LAND).arg(helper.fixSpecialCharacters(getLand()));
+    artikel +=QString(", %1 = '%2'").arg(ARTIKEL_SPRACHE).arg(helper.fixSpecialCharacters(getSprache()));
+
 	if (getKoordinate().isValid())
     {
-		artikel +=QString(", Koord_Laenge = '%1'").arg(getKoordinate().longitude());
-		artikel +=QString(", Koord_Breite = '%1'").arg(getKoordinate().latitude());
+        artikel +=QString(", %1 = '%2'").arg(ARTIKEL_LONGITUDE).arg(getKoordinate().longitude());
+        artikel +=QString(", %1 = '%2'").arg(ARTIKEL_LATITUDE).arg(getKoordinate().latitude());
     }
     else
     {
-        artikel +=QString(", Koord_Laenge = ''");
-        artikel +=QString(", Koord_Breite = ''");
+        artikel +=QString(", %1 = ''").arg(ARTIKEL_LONGITUDE);
+        artikel +=QString(", %1 = ''").arg(ARTIKEL_LATITUDE);
 
     }
-	artikel +=QString(", Aenderungszeit = '%1'").arg(helper.fixSpecialCharacters(getLastChangeAsString()));
-	artikel +=QString(", Notizen = '%1'").arg(helper.fixSpecialCharacters(getNotizen()));
+    artikel +=QString(", %1 = '%2'").arg(ARTIKEL_AENDERUNGSZEIT).arg(helper.fixSpecialCharacters(getLastChangeAsString()));
+    artikel +=QString(", %1 = '%2'").arg(ARTIKEL_NOTIZEN).arg(helper.fixSpecialCharacters(getNotizen()));
 
     if (include_whereID)
     {
-	   artikel += QString(" WHERE UniqueIndex='%1'").arg(getDBIndex());
+       artikel += QString(" WHERE %1='%1'").arg(ARTIKEL_INDEX).arg(getDBIndex());
     }
 
 	return artikel;

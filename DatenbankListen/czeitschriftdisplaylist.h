@@ -45,6 +45,9 @@ private:
     static const int Role_Logo;
     static const int Role_Selection;
     static const int Role_DBIndex;
+    static const int Role_Beschreibung;
+    static const int Role_Notizen;
+    static const int Role_Sprache;
 };
 
 #endif // CZEITSCHRIFTDISPLAYLIST_H

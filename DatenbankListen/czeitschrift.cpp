@@ -1,5 +1,8 @@
 #include "czeitschrift.h"
 #include <Helper/helper.h>
+#include <Settings/csettings.h>
+
+#include <QDir>
 
 CZeitschrift::CZeitschrift():
     m_isSelected(false)
@@ -9,6 +12,7 @@ CZeitschrift::CZeitschrift():
 	m_ZeitschriftMap[ZEITSCHRIFT_LOGO] = "";
     m_ZeitschriftMap[ZEITSCHRIFT_BESCHREIBUNG] ="";
     m_ZeitschriftMap[ZEITSCHRIFT_NOTIZEN]="";
+    m_ZeitschriftMap[ZEITSCHRIFT_SPRACHE]="";
 
 
 
@@ -22,14 +26,7 @@ CZeitschrift::~CZeitschrift()
 
 bool CZeitschrift::setDBElement(const QString& columnName, const QByteArray& columnEntry)
 {
-  //  columnName = columnName.toLower();
 
-
-/*	if ((columnName == ZEITSCHRIFT_INDEX)
-		||  (columnName == ZEITSCHRIFT_ZEITSCHRIFT)
-		||  (columnName == ZEITSCHRIFT_LOGO)
-		)
-		*/
 	if (m_ZeitschriftMap.contains(columnName))
 	{
 		m_ZeitschriftMap[columnName] = columnEntry;
@@ -68,17 +65,47 @@ void CZeitschrift::setZeitschrift(const QString& zeitschrift)
 
 QString CZeitschrift::getLogo() const
 {
-	QString logo;
-	if (m_ZeitschriftMap.contains(ZEITSCHRIFT_LOGO))
-	{
-		logo = m_ZeitschriftMap[ZEITSCHRIFT_LOGO];
-	}
+    QString logo = getPureLogo();
+         if (!logo.isEmpty())
+        {
+            QDir DBPath = (CSettings::getConfiguration()->getCurrentDBPath());
+            QFileInfo LogoInfo(DBPath,logo);
+            logo = LogoInfo.absoluteFilePath();
+            if (logo.contains("file:/"))
+            {
+              int position = logo.indexOf(("file:/"));
+              logo = logo.remove(0,position+6);
+            }
+         //   qDebug()<<logo;
+            logo = "file:///"+logo;
+        }
+
 	return logo;
+}
+
+QString CZeitschrift::getPureLogo() const
+{
+    QString logo;
+    if (m_ZeitschriftMap.contains(ZEITSCHRIFT_LOGO))
+    {
+        logo = m_ZeitschriftMap[ZEITSCHRIFT_LOGO];
+    }
+    return logo;
+
 }
 
 void CZeitschrift::setLogo(const QString &logo)
 {
-   m_ZeitschriftMap[ZEITSCHRIFT_LOGO] = logo.toUtf8();
+   // QFileInfo DBAdress(CSettings::getConfiguration()->getCurrentDB());
+    QString logoPath = logo;
+    if (!(logoPath.isEmpty()))
+    {
+        QDir DBPath = (CSettings::getConfiguration()->getCurrentDBPath());
+
+        QFileInfo LogoInfo (logo);
+        logoPath = DBPath.relativeFilePath(LogoInfo.absoluteFilePath());
+    }
+    setText(ZEITSCHRIFT_LOGO,logoPath);
 }
 
 
@@ -93,7 +120,7 @@ QString CZeitschrift::getBeschreibung() const
 }
 void CZeitschrift::setBeschreibung(const QString &beschreibung)
 {
-    m_ZeitschriftMap[ZEITSCHRIFT_BESCHREIBUNG] = beschreibung.toUtf8();
+   setText(ZEITSCHRIFT_BESCHREIBUNG,beschreibung);
 }
 
 QString CZeitschrift::getNotizen() const
@@ -107,9 +134,24 @@ QString CZeitschrift::getNotizen() const
 }
 void CZeitschrift::setNotizen(const QString &notizen)
 {
-    m_ZeitschriftMap[ZEITSCHRIFT_NOTIZEN] = notizen.toUtf8();
+    setText(ZEITSCHRIFT_NOTIZEN,notizen);
 
 }
+
+QString CZeitschrift::getSprache() const
+{
+    QString sprache;
+    if (m_ZeitschriftMap.contains(ZEITSCHRIFT_SPRACHE))
+    {
+        sprache = m_ZeitschriftMap[ZEITSCHRIFT_SPRACHE];
+    }
+    return sprache;
+}
+void CZeitschrift::setSprache(const QString &sprache)
+{
+    setText(ZEITSCHRIFT_SPRACHE,sprache);
+}
+
 
 int CZeitschrift::getUniqueIndex() const
 {
@@ -164,9 +206,10 @@ QString CZeitschrift::getAsSQLString(bool include_whereID) const
     Helper helper;
 
     artikel +=QString(" %1 = '%2'").arg(ZEITSCHRIFT_ZEITSCHRIFT).arg(helper.fixSpecialCharacters(getZeitschrift()));
-    artikel +=QString(", %1 = '%2'").arg(ZEITSCHRIFT_LOGO).arg(helper.fixSpecialCharacters(getLogo()));
+    artikel +=QString(", %1 = '%2'").arg(ZEITSCHRIFT_LOGO).arg(helper.fixSpecialCharacters(getPureLogo()));
     artikel +=QString(", %1 = '%2'").arg(ZEITSCHRIFT_BESCHREIBUNG).arg(helper.fixSpecialCharacters(getBeschreibung()));
     artikel +=QString(", %1 = '%2'").arg(ZEITSCHRIFT_NOTIZEN).arg(helper.fixSpecialCharacters(getNotizen()));
+    artikel +=QString(", %1 = '%2'").arg(ZEITSCHRIFT_SPRACHE).arg(helper.fixSpecialCharacters(getSprache()));
 
     if (include_whereID)
     {
@@ -175,3 +218,10 @@ QString CZeitschrift::getAsSQLString(bool include_whereID) const
 
     return artikel;
 }
+
+/*void CZeitschrift::setText(QString key, QString text)
+{
+    //text = fixSpecialCharacters(text);
+    m_ZeitschriftMap[key]=text.toUtf8();
+}
+*/

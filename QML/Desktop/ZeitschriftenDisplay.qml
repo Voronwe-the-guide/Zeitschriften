@@ -25,12 +25,12 @@ Item
                 color: model.selected?"lightblue":"lightgrey"
                 radius: 5
                 anchors.centerIn: parent
-                Image
+              /*  Image
                 {
                     anchors.fill: parent
                     source: model.logo
                 }
-
+                */
                 Text
                 {
                     id: zeitschrift

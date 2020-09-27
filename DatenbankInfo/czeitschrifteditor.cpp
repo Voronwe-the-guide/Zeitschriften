@@ -102,6 +102,7 @@ QString CZeitschriftEditor::getLogoAdress() const
 {
     return m_zeitschrift.getLogo();
 }
+
 void CZeitschriftEditor::setLogoAdress(const QString &LogoAdress)
 {
     m_zeitschrift.setLogo(LogoAdress);
@@ -131,6 +132,18 @@ void  CZeitschriftEditor::setNotizen(const QString &notizen)
     m_zeitschrift.setNotizen(notizen);
     setSomethingHasChanged(true);
     emit notizenUpdated(notizen);
+}
+
+
+QString CZeitschriftEditor::getSprache() const
+{
+    return m_zeitschrift.getSprache();
+}
+void CZeitschriftEditor::setSprache(const QString &sprache)
+{
+    m_zeitschrift.setSprache(sprache);
+    setSomethingHasChanged(true);
+    emit spracheUpdated(sprache);
 }
 
 

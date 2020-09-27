@@ -19,6 +19,7 @@ const int  CArtikelDisplayList::Role_Index = Qt::UserRole+14;
 const int  CArtikelDisplayList::Role_Notizen = Qt::UserRole+15;
 const int  CArtikelDisplayList::Role_Latitude = Qt::UserRole+16;
 const int  CArtikelDisplayList::Role_Longitude = Qt::UserRole+17;
+const int  CArtikelDisplayList::Role_Sprache = Qt::UserRole+18;
 
 
 
@@ -73,6 +74,7 @@ QVariant CArtikelDisplayList::data ( const QModelIndex & index, int role) const
 			case Role_Koordinate: return temp.getKoordinateAsString();
 			case Role_Latitude: return temp.getKoordinate().latitude();
 			case Role_Longitude: return temp.getKoordinate().longitude();
+            case Role_Sprache: return temp.getSprache();
         }
 	}
 
@@ -127,6 +129,7 @@ QHash<int, QByteArray> CArtikelDisplayList::roleNames() const
     roles[Role_Notizen] = "notizen";
     roles[Role_Latitude] = "latitude";
     roles[Role_Longitude] = "longitude";
+    roles[Role_Sprache] = "sprache";
 
 
     return roles;
@@ -202,6 +205,11 @@ QString CArtikelDisplayList::getLand(int index)
 	return getArtikel(index).getLand();
 
 }
+
+QString CArtikelDisplayList::getSprache(int index)
+{
+    return getArtikel(index).getSprache();
+}
 int CArtikelDisplayList::getDBIndex(int index)
 {
 	return getArtikel(index).getDBIndex();
@@ -212,6 +220,8 @@ QString CArtikelDisplayList::getNotizen(int index)
     return getArtikel(index).getNotizen();
 
 }
+
+
 double CArtikelDisplayList::getLatitude(int index)
 {
 	return getArtikel(index).getKoordinate().latitude();

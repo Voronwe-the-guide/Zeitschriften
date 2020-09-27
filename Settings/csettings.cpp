@@ -2,9 +2,46 @@
 #include <QJsonDocument>
 #include <QDebug>
 
+QString CSettingsData::getCurrentDB() const
+{
+    return m_currentDB;
+}
+void CSettingsData::setCurrentDB(const QString &currentDBPath)
+{
+    m_currentDB = currentDBPath;
+}
+
+QDir CSettingsData::getCurrentDBPath() const
+{
+    QFileInfo DBAdress(CSettings::getConfiguration()->getCurrentDB());
+    QDir DBPath(DBAdress.absolutePath());
+
+    return DBPath;
+}
+
+QSize CSettingsData::getWindowSize() const
+{
+    return m_windowSize;
+}
+void CSettingsData::setWindowSize(const QSize &windowSize)
+{
+    m_windowSize = windowSize;
+}
+
+
+QSharedPointer<CSettingsData> GlobalSettings;
+
+CSettingsData* CSettings::getConfiguration()
+{
+    return GlobalSettings.data();
+}
+
 CSettings::CSettings()
 {
-	cleanData();
+    CSettingsData *setting = new CSettingsData;
+    GlobalSettings.reset(setting);
+
+    cleanData();
 	loadSettingsFile();
 
 	connect(this, &CSettings::dbUpdated, this, &CSettings::writeSettingsFile);
@@ -58,17 +95,17 @@ void CSettings::writeSettingsFile()
 
 void CSettings::cleanData()
 {
-	m_currentDB="";
-    m_windowSize.setWidth(1200);
-    m_windowSize.setHeight(600);
+    GlobalSettings->setCurrentDB("");
+    QSize windowSize(1200,600);
+    GlobalSettings->setWindowSize(windowSize);
 }
 
 QJsonObject CSettings::getAsJSONObject()
 {
 	QJsonObject jsonObject;
-	jsonObject["CurrentDB"]=m_currentDB;
-    jsonObject["WindowWidth"]=m_windowSize.width();
-    jsonObject["WindowHeight"]=m_windowSize.height();
+    jsonObject["CurrentDB"]=GlobalSettings->getCurrentDB();
+    jsonObject["WindowWidth"]=GlobalSettings->getWindowSize().width();
+    jsonObject["WindowHeight"]=GlobalSettings->getWindowSize().height();
 
 	return jsonObject;
 
@@ -92,9 +129,9 @@ void CSettings::readDataFromJSONFormat(QJsonObject &jsonObject)
 
 	cleanData();
 
-    m_currentDB =jsonObject["CurrentDB"].toString();
-    m_windowSize.setWidth(jsonObject["WindowWidth"].toInt());
-    m_windowSize.setHeight(jsonObject["WindowHeight"].toInt());
+    GlobalSettings->setCurrentDB(jsonObject["CurrentDB"].toString());
+    QSize windowSize(jsonObject["WindowWidth"].toInt(),jsonObject["WindowHeight"].toInt());
+    GlobalSettings->setWindowSize(windowSize);
 
 }
 void CSettings::readDataFromJSONFormat(std::string &json)
@@ -107,38 +144,42 @@ void CSettings::readDataFromJSONFormat(std::string &json)
 
 QString CSettings::getCurrentDB() const
 {
-	return m_currentDB;
+    return GlobalSettings->getCurrentDB();
 }
 
 
 void CSettings::setCurrentDB(const QString &currentDBPath)
 {
 
-	m_currentDB = currentDBPath;
-	emit dbUpdated(m_currentDB);
+    GlobalSettings->setCurrentDB(currentDBPath);
+    emit dbUpdated(GlobalSettings->getCurrentDB());
 
 
 }
 
 QSize CSettings::getWindowSize() const
 {
-    return m_windowSize;
+    return GlobalSettings->getWindowSize();
 }
 
 void CSettings::setWindowSize(const QSize &windowSize)
 {
-    m_windowSize = windowSize;
+    GlobalSettings->setWindowSize(windowSize);
 }
 
 void CSettings::setWindowHeight(int height)
 {
-   m_windowSize.setHeight(height);
+   QSize windowSize = GlobalSettings->getWindowSize();
+   windowSize.setHeight(height);
+    GlobalSettings->setWindowSize(windowSize);
    m_sizeSettingTimer.start();
 
 }
 void CSettings::setWindowWidth(int width)
 {
-    m_windowSize.setWidth(width);
+    QSize windowSize = GlobalSettings->getWindowSize();
+    windowSize.setHeight(width);
+     GlobalSettings->setWindowSize(windowSize);
     m_sizeSettingTimer.start();
 
 }

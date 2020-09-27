@@ -35,11 +35,13 @@ int main(int argc, char *argv[])
 	qRegisterMetaType<CColumn>("CColumn");
 
 	CErrorDisplay errorDisplay;
-	CSettings settings;
+//	 CSettings settings = globalSettings::g_settings;
+  //  g_settingsPointer = &settings;
 
+    CSettings settings;
     CListenController listenController;
     listenController.openDB(settings.getCurrentDB());
-	QObject::connect(&settings, &CSettings::dbUpdated, &listenController, &CListenController::openDB);
+    QObject::connect(&settings, &CSettings::dbUpdated, &listenController, &CListenController::openDB);
 	QObject::connect(&listenController, &CListenController::errorMessage, &errorDisplay, &CErrorDisplay::gotErrorMessage);
 
     CArtikelEditor artikelEditor(&listenController);
@@ -54,9 +56,10 @@ int main(int argc, char *argv[])
 			QCoreApplication::exit(-1);
 	}, Qt::QueuedConnection);
 
+
     engine.rootContext()->setContextProperty("sqliteversion", QString(sqlite3_libversion()));
     engine.rootContext()->setContextProperty("qtversion", QString(qVersion()));
-	engine.rootContext()->setContextProperty("cSettings",&settings);
+    engine.rootContext()->setContextProperty("cSettings",&settings);
 	engine.rootContext()->setContextProperty("cArtikelList", listenController.artikelDisplay());
 	engine.rootContext()->setContextProperty("cJahreList",listenController.jahrgaengeDisplay());
 	engine.rootContext()->setContextProperty("cAusgabenList",listenController.ausgabenDisplay());

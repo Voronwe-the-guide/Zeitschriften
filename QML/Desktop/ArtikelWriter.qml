@@ -146,6 +146,7 @@ Window
           land:cArtikelEditor.land
           notizen: cArtikelEditor.notizen
           coordinates: cArtikelEditor.koordinaten
+          language: cArtikelEditor.sprache
 
           zeitschriftValid: cArtikelEditor.zeitschriftValid;
           jahrValid: cArtikelEditor.jahrValid;
@@ -172,6 +173,7 @@ Window
                   artikel.land=cArtikelEditor.getLand()
                   artikel.notizen = cArtikelEditor.getNotizen()
                   artikel.coordinates = cArtikelEditor.getKoordinaten()
+                  artikel.language = cArtikelEditor.getSprache()
               }
           }
           onZeitschriftEdit:{cArtikelEditor.setZeitschrift(newText)}
@@ -187,6 +189,7 @@ Window
           onFotosEdit:{cArtikelEditor.setFotos(newText)}
           onLandEdit:{cArtikelEditor.setLand(newText)}
           onNotizenEdit: {cArtikelEditor.setNotizen(newText)}
+          onLanguageEdit: {cArtikelEditor.setSprache(newText)}
 
           onPreviousPressed: {dialogButtons.focusFromEnd()}
           onNextPressed: {dialogButtons.focusFromStart()}

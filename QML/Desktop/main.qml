@@ -18,10 +18,16 @@ ApplicationWindow
     onWidthChanged: cSettings.setWindowWidth(width)
     onHeightChanged: cSettings.setWindowHeight(height)
    // var this_component
-    function callWriter()
+    function callNewArtikelWindow()
     {
         var this_component = Qt.createComponent("ArtikelWriter.qml").createObject(mainWindow, {isNewOne:true})// artikeleditor.visible = true;
         this_component.nextButtonPressed.connect(restart);
+    }
+
+    function callNewZeitschriftWindow()
+    {
+        var this_component = Qt.createComponent("ZeitschriftWriter.qml").createObject(mainWindow, {isNewOne:true})// artikeleditor.visible = true;
+   //     this_component.nextButtonPressed.connect(restart);
     }
 
     function restart()
@@ -133,11 +139,22 @@ ApplicationWindow
             Button
             {
                 id: newEntry
-                text: qsTr("Neuer Eintrag")
+                text: qsTr("Neuer Artikel")
                 onClicked:
                 {
                     cArtikelEditor.setNewArtikel();
-                    mainWindow.callWriter();
+                    mainWindow.callNewArtikelWindow();
+                }
+                anchors.verticalCenter: parent.verticalCenter
+            }
+            Button
+            {
+                id: neueZeitschrift
+                text: qsTr("Neue Zeitschrift")
+                onClicked:
+                {
+                    cZeitschriftEditor.setNewZeitschrift();
+                    mainWindow.callNewZeitschriftWindow();
                 }
                 anchors.verticalCenter: parent.verticalCenter
             }

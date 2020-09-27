@@ -2,7 +2,7 @@
 #define CLISTENCONTROLLER_H
 
 #include <QObject>
-//#include <QtSql>
+#include <QtSql>
 #include <sqlite/sqlite3.h>
 #include <DatenbankListen/cartikeldisplaylist.h>
 #include <DatenbankListen/cjahrdisplaylist.h>
@@ -80,6 +80,9 @@ private:
     QString setZeitschriftenAsSQL();
     void getTableNamesFromDB();
 	int makeSQLiteSearch(const QString& request, sqlite3_stmt **stmt,QString callingFunction);
+
+    QSqlDatabase m_sqldb;
+
     sqlite3 *m_db;
 	CJahrDisplayList *m_jahrgaengeDisplay;
     CAusgabeDisplayList *m_ausgabenDisplay;

@@ -45,5 +45,6 @@
         <file>Desktop/PullDownFile.qml</file>
         <file>Desktop/Zeitschrift.qml</file>
         <file>Desktop/ZeitschriftWriter.qml</file>
+        <file>Images/language.svg</file>
     </qresource>
 </RCC>

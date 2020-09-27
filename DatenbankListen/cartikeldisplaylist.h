@@ -43,6 +43,7 @@ public slots:
     QString getFotos(int index);
     QString getSchlagworte(int index);
     QString getLand(int index);
+    QString getSprache(int index);
     int getDBIndex(int index);
     QString getNotizen(int index);
     double getLatitude(int index);
@@ -80,6 +81,7 @@ private:
     static const int  Role_Notizen;
     static const int  Role_Latitude;
     static const int  Role_Longitude;
+    static const int  Role_Sprache;
 
 };
 

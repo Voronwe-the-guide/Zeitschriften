@@ -232,6 +232,19 @@ void  CArtikelEditor::setNotizen(const QString &Notizen)
     emit notizenUpdated(Notizen);
 }
 
+QString CArtikelEditor::getSprache() const
+{
+    return m_Artikel.getSprache();
+}
+void CArtikelEditor::setSprache(const QString &Sprache)
+{
+    m_Artikel.setSprache(Sprache);
+    setSomethingHasChanged(true);
+    emit spracheUpdated(Sprache);
+
+}
+
+
 
 double CArtikelEditor::getCurrentLat() const
 {

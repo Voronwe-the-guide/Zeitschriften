@@ -4,6 +4,10 @@ const int  CZeitschriftDisplayList::Role_Zeitschrift  = Qt::UserRole+1;
 const int CZeitschriftDisplayList::Role_Selection = Qt::UserRole+2;
 const int CZeitschriftDisplayList::Role_Logo = Qt::UserRole+3;
 const int CZeitschriftDisplayList::Role_DBIndex = Qt::UserRole+4;
+const int  CZeitschriftDisplayList::Role_Beschreibung= Qt::UserRole+5;
+const int  CZeitschriftDisplayList::Role_Notizen= Qt::UserRole+6;
+ const int CZeitschriftDisplayList:: Role_Sprache= Qt::UserRole+7;
+
 
 CZeitschriftDisplayList::CZeitschriftDisplayList(QObject *parent) :
     QAbstractListModel(parent)
@@ -36,9 +40,13 @@ QVariant CZeitschriftDisplayList::data ( const QModelIndex & index, int role) co
         {
             case Qt::DisplayRole:
 			case Role_Zeitschrift: return temp.getZeitschrift();					//!< Jahrgang der Zeitschrift
-        case Role_Selection: return temp.isSelected();
-        case Role_Logo: return temp.getLogo();
-        case Role_DBIndex: return temp.getUniqueIndex();
+            case Role_Selection: return temp.isSelected();
+            case Role_Logo: return temp.getLogo();
+            case Role_DBIndex: return temp.getUniqueIndex();
+            case Role_Beschreibung: return temp.getBeschreibung();
+            case Role_Notizen: return temp.getNotizen();
+            case Role_Sprache: return temp.getSprache();
+
         }
     }
 
@@ -176,5 +184,9 @@ QHash<int, QByteArray> CZeitschriftDisplayList::roleNames() const
     roles[Role_Selection] = "selected";
     roles[Role_Logo] = "logo";
     roles[Role_DBIndex]= "dbIndex";
+    roles[Role_Beschreibung] ="beschreibung";
+    roles[Role_Notizen] = "notizen";
+    roles[Role_Sprache] = "sprache";
+
     return roles;
 }

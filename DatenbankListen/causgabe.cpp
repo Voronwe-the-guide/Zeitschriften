@@ -14,35 +14,20 @@ CAusgabe::CAusgabe()
 	m_AusgabenMap[AUSGABE_SEITENZAHL].setNum(-1);
 	m_AusgabenMap[AUSGABE_CHEFREDAKTEUR]="";
 	m_AusgabenMap[AUSGABE_NOTIZEN]="";
+    m_AusgabenMap[AUSGABE_SPRACHE]="";
+    m_AusgabenMap[AUSGABE_UNTERTITEL]="";
 
 }
 
 bool CAusgabe::setDBElement(QString columnName, QByteArray columnEntry)
 {
 
-/*	if ((columnName == AUSGABE_INDEX)
-		||  (columnName == AUSGABE_ZEITSCHRIFT)
-		||  (columnName == AUSGABE_JAHR)
-		||  (columnName == AUSGABE_AUSGABE)
-		||  (columnName == AUSGABE_COVER)
-		||  (columnName == AUSGABE_PREIS)
-		||  (columnName == AUSGABE_WAEHRUNG)
-		||  (columnName == AUSGABE_SEITENZAHL)
-		||  (columnName == AUSGABE_CHEFREDAKTEUR)
-		||  (columnName == AUSGABE_NOTIZEN)
-		)
-		*/
+
 	if (m_AusgabenMap.contains(columnName))
 	{
 		m_AusgabenMap[columnName] = columnEntry;
 		return true;
 	}
-
-/*	if (columnName == "ausgabe"){ setAusgabe(columnEntry.toInt()); return true;}
-	else if (columnName == "jahr") { setJahr(columnEntry.toInt()); return true;}
-    else if (columnName == "zeitschrift"){setZeitschrift(columnEntry); return true;}
-*/
-
 
 	return false;
 }
@@ -202,6 +187,35 @@ void CAusgabe::setNotizen(const QString &Notizen)
 
 }
 
+QString  CAusgabe::getSprache() const
+{
+    QString result;
+    if (m_AusgabenMap.contains(AUSGABE_SPRACHE))
+    {
+        result = m_AusgabenMap[AUSGABE_SPRACHE];
+    }
+    return result;
+}
+void  CAusgabe::setSprache(const QString &Sprache)
+{
+    setText(AUSGABE_SPRACHE,Sprache);
+}
+
+QString  CAusgabe::getUntertitel() const
+{
+    QString result;
+    if (m_AusgabenMap.contains(AUSGABE_UNTERTITEL))
+    {
+        result = m_AusgabenMap[AUSGABE_UNTERTITEL];
+    }
+    return result;
+}
+
+
+void  CAusgabe::setUntertitel (const QString &untertitel)
+{
+    setText(AUSGABE_UNTERTITEL,untertitel);
+}
 
 void CAusgabe::setText(QString key, QString text)
 {

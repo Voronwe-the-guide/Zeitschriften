@@ -3,6 +3,15 @@
 const int  CAusgabeDisplayList::Role_Jahr  = Qt::UserRole+1;
 const int  CAusgabeDisplayList::Role_Ausgabe  = Qt::UserRole+2;
 const int  CAusgabeDisplayList::Role_Zeitschrift = Qt::UserRole+3;
+const int CAusgabeDisplayList::Role_COVER  = Qt::UserRole+4	;
+const int CAusgabeDisplayList::Role_PREIS  = Qt::UserRole+5;
+const int CAusgabeDisplayList::Role_WAEHRUNG  = Qt::UserRole+6;
+const int CAusgabeDisplayList::Role_SPRACHE  = Qt::UserRole+7;
+const int CAusgabeDisplayList::Role_SEITENZAHL  = Qt::UserRole+8;
+const int CAusgabeDisplayList::Role_CHEFREDAKTEUR  = Qt::UserRole+9;
+const int CAusgabeDisplayList::Role_NOTIZEN  = Qt::UserRole+10;
+const int  CAusgabeDisplayList::Role_UNTERTITEL = Qt::UserRole+11;
+
 
 CAusgabeDisplayList::CAusgabeDisplayList(QObject *parent) :
     QAbstractListModel(parent)
@@ -36,6 +45,14 @@ QVariant CAusgabeDisplayList::data ( const QModelIndex & index, int role) const
 			case Role_Jahr: return temp.getJahr();
 			case Role_Ausgabe: return temp.getAusgabe();
 			case Role_Zeitschrift: return temp.getZeitschrift();
+            case Role_COVER: return temp.getCover()	;
+            case Role_PREIS: return temp.getPreis();
+            case Role_WAEHRUNG: return temp.getWaehrung();
+            case Role_SPRACHE: return temp.getSprache();
+            case Role_SEITENZAHL: return temp.getSeitenzahl();
+            case Role_CHEFREDAKTEUR: return temp.getChefredakteur();
+            case Role_NOTIZEN: return temp.getNotizen();
+        case  Role_UNTERTITEL: return temp.getUntertitel();
 		}
 	}
 
@@ -83,6 +100,13 @@ QHash<int, QByteArray> CAusgabeDisplayList::roleNames() const
 	roles[Role_Jahr] = "jahr";
 	roles[Role_Ausgabe] = "ausgabe";
 	roles[Role_Zeitschrift] = "zeitschrift";
-
-	return roles;
+    roles[Role_COVER] = "cover"	;
+    roles[Role_PREIS] = "preis";
+    roles[Role_WAEHRUNG] = "waehrung";
+    roles[Role_SPRACHE] = "sprache";
+    roles[Role_SEITENZAHL] = "seitenzahl";
+    roles[Role_CHEFREDAKTEUR] = "chefredakteur";
+    roles[Role_NOTIZEN] = "notizen";
+    roles[Role_UNTERTITEL]="untertitel";
+    return roles;
 }

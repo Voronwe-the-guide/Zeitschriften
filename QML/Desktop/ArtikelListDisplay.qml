@@ -65,6 +65,7 @@ Item
                 land: model.land
                 notizen: model.notizen
                 coordinates: model.koordinate
+                language: model.sprache
         //        hasGPS: true
                 onEditButtonPressed:
                 {

@@ -11,6 +11,8 @@ class CZeitschriftEditor : public QObject
   //  Q_PROPERTY (QString logoAdress READ getLogoAdress NOTIFY zeitschriftDisplayUpdated)
     Q_PROPERTY (QString beschreibung READ getBeschreibung NOTIFY zeitschriftDisplayUpdated)
     Q_PROPERTY (QString notiz READ getNotizen NOTIFY zeitschriftDisplayUpdated)
+    Q_PROPERTY (QString sprache READ getSprache NOTIFY zeitschriftDisplayUpdated)
+
 public:
     CZeitschriftEditor(CListenController *listen, QObject *parent = nullptr);
 
@@ -25,6 +27,7 @@ signals:
     void logoDisplayUpdated();
     void beschreibungUpdated(QString beschreibung);
     void notizenUpdated(QString Notizen);
+    void spracheUpdated(QString Sprache);
 
     void entryIsNotValid(); //Will be send back before sendig data to SQL
 
@@ -47,6 +50,9 @@ public slots:
 
     QString getNotizen() const;
     void setNotizen(const QString &notizen);
+
+    QString getSprache() const;
+    void setSprache(const QString &sprache);
 
 
     void setNewZeitschrift();

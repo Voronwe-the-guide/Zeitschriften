@@ -37,6 +37,14 @@ private:
 	static const int Role_Jahr;
 	static const int Role_Ausgabe;
 	static const int Role_Zeitschrift;
+    static const int Role_COVER	;
+    static const int Role_PREIS;
+    static const int Role_WAEHRUNG;
+    static const int Role_SPRACHE;
+    static const int Role_SEITENZAHL;
+    static const int Role_CHEFREDAKTEUR;
+    static const int Role_NOTIZEN;
+    static const int Role_UNTERTITEL;
 };
 
 #endif // CAUSGABEDISPLAYLIST_H

@@ -12,9 +12,11 @@
 #define AUSGABE_COVER			"Cover"			//!< BLOB,
 #define AUSGABE_PREIS			"Preis"			//!< REAL,
 #define AUSGABE_WAEHRUNG		"Waehrung"		//!< TEXT,
+#define AUSGABE_SPRACHE         "Sprache"       //!< TEXT
 #define AUSGABE_SEITENZAHL		"Seitenzahl"	//!< INTEGER,
 #define AUSGABE_CHEFREDAKTEUR	"Chefredakteur"	//!< TEXT,
 #define AUSGABE_NOTIZEN			"Notizen"		//!< TEXT,
+#define AUSGABE_UNTERTITEL      "Untertitel"    //!< TEXT
 
 class CAusgabe
 {
@@ -60,23 +62,19 @@ public:
 	QString getNotizen() const;
 	void setNotizen(const QString &Notizen);
 
+    QString getSprache() const;
+    void setSprache(const QString &Sprache);
+
+    QString getUntertitel() const;
+    void setUntertitel (const QString &untertitel);
+
+
 private:
 	void setText(QString key, QString text);
 
 	QMap<QString,QByteArray> m_AusgabenMap;
 
-	/*int m_Ausgabe;
-	int m_Jahr;
-	QString m_Zeitschrift;
 
-	int m_uniqueIndex;
-	QString m_Cover; //"			//!< BLOB,
-	double m_Preis; //"			//!< INTEGER,
-	QString m_Waehrung; //"		//!< TEXT,
-	int m_Seitenzahl;//"	//!< INTEGER,
-	QString m_Chefredakteur; //"	//!< TEXT,
-	QString m_Notizen; //"		//!< TEXT,
-*/
 
 };
 

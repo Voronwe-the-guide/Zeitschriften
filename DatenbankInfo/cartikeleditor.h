@@ -24,6 +24,7 @@ class CArtikelEditor : public QObject
     Q_PROPERTY(double currentLat READ getCurrentLat NOTIFY coordinateDisplayUpdated)
     Q_PROPERTY(double currentLong READ getCurrentLong NOTIFY coordinateDisplayUpdated)
     Q_PROPERTY(QString koordinaten READ getKoordinaten NOTIFY coordinateDisplayUpdated)
+    Q_PROPERTY(QString sprache READ getSprache NOTIFY artikelDisplayUpdated)
 
 	Q_PROPERTY(bool zeitschriftValid READ isZeitschriftValid NOTIFY zeitschriftUpdated)
 	Q_PROPERTY(bool jahrValid READ isJahrValid NOTIFY jahrUpdated)
@@ -55,6 +56,7 @@ signals:
     void landUpdated(QString land);
     void notizenUpdated(QString notizen);
     void coordinateDisplayUpdated();
+    void spracheUpdated(QString sprache);
 
 	void entryIsNotValid(); //Will be send back before sendig data to SQL
 
@@ -114,6 +116,9 @@ public slots:
 
     QString getNotizen() const;
     void setNotizen(const QString &Notizen);
+
+    QString getSprache() const;
+    void setSprache(const QString &Sprache);
 
     double getCurrentLat() const;
     double getCurrentLong() const;

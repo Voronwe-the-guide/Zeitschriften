@@ -47,7 +47,30 @@ CListenController::~CListenController()
 
 bool CListenController::openDB(QString DBPath)
 {
-    int rc =  sqlite3_close(m_db);
+ /*   if (m_sqldb.isOpen())
+    {
+        m_sqldb.close();
+    }
+    m_sqldb = QSqlDatabase::addDatabase("QSQLITE");
+    if (DBPath.startsWith("file:///"))
+    {
+        DBPath = DBPath.remove("file:///");
+    }
+    m_sqldb.setDatabaseName(DBPath);
+    if (!m_sqldb.open())
+    {
+        qDebug() <<m_sqldb.lastError().text();
+        return false;
+    }
+
+    getTableNamesFromDB();
+    getListOfZeitschriften();
+    getOverview();
+
+
+    return true;
+*/
+   int rc =  sqlite3_close(m_db);
     if (rc != SQLITE_OK)
     {
         qDebug()<<"Could not close current SQLite DB ";
@@ -67,6 +90,7 @@ bool CListenController::openDB(QString DBPath)
     getListOfZeitschriften();
     getOverview();
     return true;
+
 
 }
 
@@ -826,6 +850,17 @@ void CListenController::getTableNamesFromDB()
 {
     char **result;
     int row;int column;
+
+ /*   if (!m_sqldb.isOpen())
+    {
+        qDebug()<<"No open DB!";
+        return;
+
+    }
+
+    QSqlQuery query;
+    query.exec("SELECT * from Inhalte");
+   */
     if (m_db == nullptr)
     {
         qDebug()<<"No open DB!";

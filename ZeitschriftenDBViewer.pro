@@ -2,7 +2,7 @@ QT += quick
 QT += positioning
 QT += svg
 QT += quickcontrols2
-
+QT += sql
 
 
 CONFIG += c++11

@@ -5,12 +5,37 @@
 #include <QJsonObject>
 #include <QSize>
 #include <QTimer>
+#include <QDir>
+
+class CSettingsData
+{
+
+public:
+    QString getCurrentDB() const;
+    void setCurrentDB(const QString &currentDBPath);
+    QDir getCurrentDBPath() const;
+
+    QSize getWindowSize() const;
+    void setWindowSize(const QSize &windowSize);
+
+private:
+    QString m_currentDB;
+    QSize m_windowSize;
+
+};
+
 class CSettings  : public QObject
 {
 	Q_OBJECT
     Q_PROPERTY(QString currentDB	 READ getCurrentDB NOTIFY dbUpdated)
 public:
-	CSettings();
+/*    static CSettings* getInstance()
+    {
+        if (nullptr == sm_Instance) {sm_Instance = new CSettings(); }
+        return sm_Instance;
+    }
+*/
+    CSettings();
 	CSettings (std::string &JsonInfo);
 	CSettings (QJsonObject &jsonObject);
 
@@ -19,7 +44,7 @@ public:
 	CSettings ( CSettings&&) = default;
 	CSettings& operator=( CSettings&&) = default;
 
-
+    static CSettingsData* getConfiguration();
 	QJsonObject getAsJSONObject();
 	std::string getDataInJSONFormat();
 	void readDataFromJSONFormat(QJsonObject &jsonObject);
@@ -44,9 +69,14 @@ signals:
 	void dbUpdated(QString absolutePath);
 
 private:
-	QString m_currentDB;
-    QSize m_windowSize;
+
+ //   static CSettings* sm_Instance;
+//	QString m_currentDB;
+//    QSize m_windowSize;
     QTimer m_sizeSettingTimer;
 };
+
+
+//CSettings* CSettings::sm_Instance = nullptr;
 
 #endif // CSETTINGS_H
