@@ -49,6 +49,9 @@ public slots:
     void updateZeitschriftenTable( const CZeitschrift &Zeitschrift, bool refresh);
     int addNewEmptyRowToZeitschriftTable();
 
+    void updateAusgabenTable( const CAusgabe &Ausgabe);
+    int addNewEmptyRowToAusgabenTable();
+
     void deleteArtikel(int index);
 
     void setRubrikDisplay(QString zeitschrift);
@@ -64,6 +67,7 @@ public slots:
      */
     CArtikel getArtikelByIndex(int index);
     CZeitschrift getZeitschriftByIndex(int index);
+    CAusgabe getAusgabeByIndex(int dbIndex);
 
     void searchArtikel(QString searchElement);
 
@@ -74,6 +78,8 @@ public slots:
 
 signals:
 	void errorMessage(QString sender, QString Message);
+    void newZeitschriftDetected(CZeitschrift zeitschrift);
+    void newAusgabeDetected(CAusgabe ausgabe);
 
 private:
     QString setSearchStringAsSQL();

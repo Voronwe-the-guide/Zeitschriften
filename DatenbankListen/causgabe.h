@@ -69,6 +69,8 @@ public:
     QString getUntertitel() const;
     void setUntertitel (const QString &untertitel);
 
+    QString getAsSQLString(bool include_whereID) const;
+
 
 private:
 	void setText(QString key, QString text);

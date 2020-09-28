@@ -6,7 +6,7 @@ CArtikelEditor::CArtikelEditor(CListenController *listen,QObject *parent) :
     m_somethingHasChanged(false)
 {
 
-    QObject::connect(this, &CArtikelEditor::zeitschriftUpdated, m_listen, &CListenController::setRubrikDisplay);
+    QObject::connect(this, &CArtikelEditor::zeitschriftUpdated, m_listen, &CListenController::setRubrikDisplay); //To show Rubrik only for this Zeitung
 
     QObject::connect(this, &CArtikelEditor::rubrikUpdated, m_listen, &CListenController::updateRubrikListDisplay);
     QObject::connect(this, &CArtikelEditor::zeitschriftUpdated, m_listen, &CListenController::updateZeitschriftSelectionDisplay);
@@ -216,7 +216,7 @@ QString CArtikelEditor::getLand() const
 
 void CArtikelEditor::setLand(const QString &Land)
 {
-    m_Artikel.setLand(Land);
+   m_Artikel.setLand(Land);
     setSomethingHasChanged(true);
     emit landUpdated(Land);
 }

@@ -556,7 +556,7 @@ int CListenController::addNewEmptyRowToInhalte()
 //    sqlite3_stmt *stmt;
     char *zErrMsg;
 
-    QString request = QString("INSERT INTO Inhalte DEFAULT VALUES");
+    QString request = QString("INSERT INTO %1 DEFAULT VALUES").arg(ARTIKEL_TABELLE);
     int rc = sqlite3_exec(m_db,request.toStdString().c_str(),nullptr,nullptr,&zErrMsg);
     if (rc !=0 )
     {
@@ -584,7 +584,7 @@ int CListenController::addNewEmptyRowToZeitschriftTable()
 //    sqlite3_stmt *stmt;
     char *zErrMsg;
 
-    QString request = QString("INSERT INTO Zeitschriften DEFAULT VALUES");
+    QString request = QString("INSERT INTO %1 DEFAULT VALUES").arg(ZEITSCHRIFT_TABELLE);
     int rc = sqlite3_exec(m_db,request.toStdString().c_str(),nullptr,nullptr,&zErrMsg);
     if (rc !=0 )
     {
@@ -600,6 +600,63 @@ int CListenController::addNewEmptyRowToZeitschriftTable()
  //   sqlite3_finalize(stmt);
     return index;
 
+}
+
+
+void CListenController::updateAusgabenTable( const CAusgabe &Ausgabe)
+{
+    if (m_db == nullptr)
+    {
+        qDebug()<<"No open DB!";
+        return;
+    }
+ //   sqlite3_stmt *stmt;
+    char *zErrMsg;
+    QString sqlElements = Ausgabe.getAsSQLString(true);
+    QString request = QString("UPDATE %1 %2").arg(AUSGABE_TABELLE).arg(sqlElements);
+    int rc = sqlite3_exec(m_db,request.toStdString().c_str(),nullptr,nullptr,&zErrMsg);
+//    int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt);
+    if (rc !=0 )
+    {
+        qDebug()<<"SqLite request returned "<<sqlite3_errstr(rc)<<" ("<<rc<<") for "<<request;
+    }
+    else
+    {
+        qDebug()<<"SqLite request returned OK for "<<request;
+
+    }
+ //   sqlite3_finalize(stmt);
+
+
+    return;
+}
+
+
+int CListenController::addNewEmptyRowToAusgabenTable()
+{
+    if (m_db == nullptr)
+    {
+        qDebug()<<"No open DB!";
+        return -1;
+    }
+//    sqlite3_stmt *stmt;
+    char *zErrMsg;
+
+    QString request = QString("INSERT INTO %1 DEFAULT VALUES").arg(AUSGABE_TABELLE);
+    int rc = sqlite3_exec(m_db,request.toStdString().c_str(),nullptr,nullptr,&zErrMsg);
+    if (rc !=0 )
+    {
+        qDebug()<<"addNewEmptyRowToAusgabenTable: SqLite request returned "<<sqlite3_errstr(rc)<<" ("<<rc<<") for "<<request;
+        return -1;
+    }
+    else
+    {
+        qDebug()<<":addNewEmptyRowToZeitschriftTable: SqLite request returned OK for "<<request;
+
+    }
+    int index = static_cast<int>(sqlite3_last_insert_rowid(m_db));
+ //   sqlite3_finalize(stmt);
+    return index;
 }
 
 void CListenController::deleteArtikel(int index)
@@ -700,9 +757,19 @@ void CListenController::updateInhalteTable(const CArtikel &Artikel)// QString sq
     }
  //   sqlite3_finalize(stmt);
 
+    int zeitschriftIndex = -1;
+    CZeitschrift zeitschrift = m_zeitschriftenDisplay->getZeitschrift(Artikel.getZeitschrift(),zeitschriftIndex);
+    if (zeitschriftIndex<0)
+    {
+       int unique_index = addNewEmptyRowToZeitschriftTable();
+       zeitschrift.setUniqueIndex(unique_index);
+        zeitschrift.setZeitschrift(Artikel.getZeitschrift());
+        zeitschrift.setSprache(Artikel.getSprache());
+        updateZeitschriftenTable(zeitschrift,true);
+        emit newZeitschriftDetected(zeitschrift);
+    }
 
-
-	getListOfZeitschriften();
+//	getListOfZeitschriften();
     return;
 }
 
@@ -749,7 +816,7 @@ CArtikel CListenController::getArtikelByIndex(int index)
     }
     sqlite3_stmt *stmt;
 
-    QString request = QString("SELECT * FROM Inhalte WHERE UniqueIndex='%1' ORDER BY Jahr ASC,Ausgabe ASC,Seite ASC").arg(index);
+    QString request = QString("SELECT * FROM Inhalte WHERE UniqueIndex='%1'").arg(index);
 //    qDebug()<<request;
 
 	int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt,"getArtikelByIndex");
@@ -803,7 +870,7 @@ CZeitschrift CListenController::getZeitschriftByIndex(int index)
     }
     sqlite3_stmt *stmt;
 
-    QString request = QString("SELECT * FROM Zeitschriften WHERE UniqueIndex='%1' ORDER BY Zeitschrift ASC").arg(index);
+    QString request = QString("SELECT * FROM Zeitschriften WHERE UniqueIndex='%1'").arg(index);
 //    qDebug()<<request;
 
     int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt,"getZeitschriftByIndex");
@@ -843,6 +910,60 @@ CZeitschrift CListenController::getZeitschriftByIndex(int index)
 
     sqlite3_finalize(stmt);
     return zeitschrift;
+}
+
+CAusgabe CListenController::getAusgabeByIndex(int dbIndex)
+{
+    CAusgabe ausgabe;
+
+
+    if (m_db == nullptr)
+    {
+        qDebug()<<"No open DB!";
+        return ausgabe;
+    }
+    sqlite3_stmt *stmt;
+
+    QString request = QString("SELECT * FROM %1 WHERE UniqueIndex='%2'").arg(AUSGABE_TABELLE).arg(dbIndex);
+//    qDebug()<<request;
+
+    int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt,"getZeitschriftByIndex");
+//	int rc = sqlite3_prepare_v2(m_db, request.toStdString().c_str(), -1, &stmt, nullptr);
+    if (rc != SQLITE_OK)
+    {
+           return ausgabe; // or throw
+    }
+
+  /*  if (number != 1)
+    {
+       qDebug()<<"Index "<<index<<" nicht eindeutig";
+       return artikel;
+    }*/
+
+    int counter =0;
+    while ((rc = sqlite3_step(stmt)) == SQLITE_ROW)
+    {
+          if (counter > 0)
+          {
+             qDebug()<<"Index "<<dbIndex<<" nicht eindeutig";
+             return ausgabe;
+          }
+        int number = sqlite3_column_count(stmt);
+
+        for (int i=0; i<number; ++i)
+        {
+
+           QString columnName(reinterpret_cast<const char*>(sqlite3_column_name(stmt,i)));
+            QByteArray columnText(reinterpret_cast<const char*>(sqlite3_column_text(stmt,i)));
+           ausgabe.setDBElement(columnName,columnText);
+
+        }
+        counter ++;
+
+      }
+
+    sqlite3_finalize(stmt);
+    return ausgabe;
 }
 
 

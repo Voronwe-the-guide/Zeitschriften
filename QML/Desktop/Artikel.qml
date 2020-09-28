@@ -361,7 +361,7 @@ Item
                    iconSource:  "qrc:/Images/language.svg" //png"
                    toolTip: qsTr("Artikelsprache")
                    readOnly: artikelDisplay.readOnlyMode
-                   onTextWasEdited:{ artikelDisplay.spracheEdit(newText)}
+                   onTextWasEdited:{ artikelDisplay.languageEdit(newText)}
                    onNextPressed: {countryArea.focus = true}
                    onPreviousPressed: {rubrikArea.focus = true}
                }

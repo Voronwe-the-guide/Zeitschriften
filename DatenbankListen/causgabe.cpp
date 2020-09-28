@@ -250,8 +250,38 @@ void  CAusgabe::setUntertitel (const QString &untertitel)
     setText(AUSGABE_UNTERTITEL,untertitel);
 }
 
+
+QString CAusgabe::getAsSQLString(bool include_whereID) const
+{
+    QString ausgabe = "SET ";
+
+    Helper helper;
+
+    ausgabe +=QString(" %1 = '%2'").arg(AUSGABE_ZEITSCHRIFT).arg(helper.fixSpecialCharacters(getZeitschrift()));
+    ausgabe +=QString(", %1 = '%2'").arg(AUSGABE_JAHR).arg(helper.fixSpecialCharacters(getJahr()));
+    ausgabe +=QString(", %1 = '%2'").arg(AUSGABE_AUSGABE).arg(helper.fixSpecialCharacters(getAusgabe()));
+    ausgabe +=QString(", %1 = '%2'").arg(AUSGABE_COVER).arg(helper.fixSpecialCharacters(getPureCover()));
+    ausgabe +=QString(", %1 = '%2'").arg(AUSGABE_PREIS).arg(helper.fixSpecialCharacters(getPreis()));
+    ausgabe +=QString(", %1 = '%2'").arg(AUSGABE_WAEHRUNG).arg(helper.fixSpecialCharacters(getWaehrung()));
+    ausgabe +=QString(", %1 = '%2'").arg(AUSGABE_SPRACHE).arg(helper.fixSpecialCharacters(getSprache()));
+    ausgabe +=QString(", %1 = '%2'").arg(AUSGABE_SEITENZAHL).arg(helper.fixSpecialCharacters(getSeitenzahl()));
+    ausgabe +=QString(", %1 = '%2'").arg(AUSGABE_CHEFREDAKTEUR).arg(helper.fixSpecialCharacters(getChefredakteur()));
+    ausgabe +=QString(", %1 = '%2'").arg(AUSGABE_NOTIZEN).arg(helper.fixSpecialCharacters(getNotizen()));
+    ausgabe +=QString(", %1 = '%2'").arg(AUSGABE_UNTERTITEL).arg(helper.fixSpecialCharacters(getUntertitel()));
+
+    if (include_whereID)
+    {
+       ausgabe += QString(" WHERE %1='%2'").arg(AUSGABE_INDEX).arg(getUniqueIndex());
+    }
+
+    return ausgabe;
+
+}
+
 void CAusgabe::setText(QString key, QString text)
 {
 	//text = fixSpecialCharacters(text);
 	m_AusgabenMap[key]=text.toUtf8();
 }
+
+

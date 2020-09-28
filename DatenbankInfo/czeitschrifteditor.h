@@ -35,7 +35,7 @@ public slots:
     bool saveChangesInDB();
 
     void saveUpdate();
-    void storeNewArtikel();
+    void storeNew();
 
     bool isNameValid() const;
 
@@ -55,11 +55,13 @@ public slots:
     void setSprache(const QString &sprache);
 
 
-    void setNewZeitschrift();
+    void setNew();
 
-    void setZeitschriftForUpdate(int dbIndex);
+    void setForUpdate(int dbIndex);
 
-    void setZeitschriftForUpdate(CZeitschrift zeitschriftl);
+    void setForUpdate(CZeitschrift zeitschriftl);
+
+    void getForUpdate(CZeitschrift zeitschrift);
 
 
 private:

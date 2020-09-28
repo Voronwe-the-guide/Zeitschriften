@@ -31,6 +31,7 @@ int main(int argc, char *argv[])
 
 	qRegisterMetaType<CArtikel>("CArtikel");
 	qRegisterMetaType<CAusgabe>("CAusgabe");
+    qRegisterMetaType<CZeitschrift>("CZeitschrift");
 	qRegisterMetaType<CJahr>("CJahr");
 	qRegisterMetaType<CColumn>("CColumn");
 

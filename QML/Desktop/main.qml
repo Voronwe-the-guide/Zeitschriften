@@ -44,6 +44,17 @@ ApplicationWindow
         {
             Qt.createComponent("MessageDisplay.qml").createObject(mainWindow, {text:error})// artikeleditor.visible = true;
         }
+
+    }
+    Connections
+    {
+        target: cListenController
+        function onNewZeitschriftDetected(zeitschrift)
+        {
+            Qt.createComponent("ZeitschriftWriter.qml").createObject(mainWindow)// artikeleditor.visible = true;
+
+        }
+
     }
 
     Item
@@ -55,6 +66,7 @@ ApplicationWindow
         Row
         {
             anchors.fill: parent
+            spacing:10
             Button
             {
                id: dbLoadButton
@@ -63,12 +75,12 @@ ApplicationWindow
                anchors.verticalCenter: parent.verticalCenter
           //     color: "lightblue"
             }
-            Item
+        /*    Item
             {
                width: 10
                height: parent.height
             }
-
+*/
             Rectangle
             {
                 id: searchArea
@@ -131,12 +143,12 @@ ApplicationWindow
 
                 }
             }
-            Item
+      /*      Item
             {
                width: 10
                height: parent.height
             }
-            Button
+        */    Button
             {
                 id: newEntry
                 text: qsTr("Neuer Artikel")

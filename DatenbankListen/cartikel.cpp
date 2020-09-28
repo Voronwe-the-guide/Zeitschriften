@@ -428,7 +428,7 @@ QString CArtikel::getArtikelAsSQLString(bool include_whereID) const
 
     if (include_whereID)
     {
-       artikel += QString(" WHERE %1='%1'").arg(ARTIKEL_INDEX).arg(getDBIndex());
+       artikel += QString(" WHERE %1='%2'").arg(ARTIKEL_INDEX).arg(getDBIndex());
     }
 
 	return artikel;

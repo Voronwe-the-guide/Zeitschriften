@@ -9,12 +9,13 @@ CZeitschriftEditor::CZeitschriftEditor(CListenController *listen, QObject *paren
     QObject::connect(this, &CZeitschriftEditor::zeitschriftDisplayUpdated, this, &CZeitschriftEditor::logoDisplayUpdated);
     QObject::connect(this, &CZeitschriftEditor::logoUpdated, this, &CZeitschriftEditor::logoDisplayUpdated);
 
+    QObject::connect(m_listen, &CListenController::newZeitschriftDetected, this, &CZeitschriftEditor::getForUpdate);
 }
 
-void CZeitschriftEditor::setNewZeitschrift()
+void CZeitschriftEditor::setNew()
 {
     CZeitschrift zeitschrift;
-    setZeitschriftForUpdate(zeitschrift);
+    setForUpdate(zeitschrift);
 
 }
 /*
@@ -37,19 +38,24 @@ bool CZeitschriftEditor::saveAndNext()
 }
 
 */
-void CZeitschriftEditor::setZeitschriftForUpdate(int dbIndex)
+void CZeitschriftEditor::setForUpdate(int dbIndex)
 {
     CZeitschrift zeitschrift = m_listen->getZeitschriftByIndex(dbIndex);
-   setZeitschriftForUpdate(zeitschrift);
+   setForUpdate(zeitschrift);
 
 }
 
-void CZeitschriftEditor::setZeitschriftForUpdate(CZeitschrift zeitschrift)
+void CZeitschriftEditor::setForUpdate(CZeitschrift zeitschrift)
 {
     m_zeitschrift = zeitschrift;
     setSomethingHasChanged(false);
     emit zeitschriftDisplayUpdated();
 
+}
+
+void CZeitschriftEditor::getForUpdate(CZeitschrift zeitschrift)
+{
+    setForUpdate(zeitschrift);
 }
 
 bool CZeitschriftEditor::getSomethingHasChanged() const
@@ -72,7 +78,7 @@ bool CZeitschriftEditor::saveChangesInDB()
     }
     if (m_zeitschrift.getUniqueIndex()<0)
     {
-        storeNewArtikel();
+        storeNew();
     }
     else
     {
@@ -158,7 +164,7 @@ void CZeitschriftEditor::saveUpdate()
 
 }
 
-void CZeitschriftEditor::storeNewArtikel()
+void CZeitschriftEditor::storeNew()
 {
    // m_zeitschrift.setLastChange(QDateTime::currentDateTime());
     int index = m_listen->addNewEmptyRowToZeitschriftTable();
