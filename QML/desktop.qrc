@@ -46,5 +46,6 @@
         <file>Desktop/Zeitschrift.qml</file>
         <file>Desktop/ZeitschriftWriter.qml</file>
         <file>Images/language.svg</file>
+        <file>Desktop/AusgabeWriter.qml</file>
     </qresource>
 </RCC>

@@ -6,7 +6,7 @@
 
 class CAusgabeEditor : public QObject
 {
-public:
+
 
 
     Q_OBJECT
@@ -21,8 +21,12 @@ public:
     Q_PROPERTY(QString  notizen READ getNotizen NOTIFY ausgabeDisplayUpdated)
     Q_PROPERTY(QString   sprache READ getSprache NOTIFY ausgabeDisplayUpdated)
     Q_PROPERTY(QString   untertitel READ getUntertitel NOTIFY ausgabeDisplayUpdated )
+	Q_PROPERTY(bool ausgabeValid READ isAusgabeValid NOTIFY ausgabeUpdated)
+	Q_PROPERTY(bool zeitschriftValid READ isZeitschriftValid NOTIFY zeitschriftUpdated)
+	Q_PROPERTY(bool jahrValid READ isJahrValid NOTIFY jahrUpdated)
 
 
+public:
     CAusgabeEditor(CListenController *listen, QObject *parent = nullptr);
 
     bool getSomethingHasChanged() const;

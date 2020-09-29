@@ -87,7 +87,7 @@ Window
                 width: parent.width
                 toolTip: qsTr("Name der Zeitschrift")
                 focus: true
-
+                hasValidData: cZeitschriftEditor.zeitschriftValid
                 additionToFont: 5
                 font_weight: Font.DemiBold
                // font.bold: true

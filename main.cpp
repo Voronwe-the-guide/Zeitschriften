@@ -10,6 +10,7 @@
 #include <DatenbankInfo/ccolumn.h>
 #include <DatenbankInfo/cartikeleditor.h>
 #include <DatenbankInfo/czeitschrifteditor.h>
+#include <DatenbankInfo/causgabeeditor.h>
 #include <Helper/cerrordisplay.h>
 
 
@@ -47,6 +48,7 @@ int main(int argc, char *argv[])
 
     CArtikelEditor artikelEditor(&listenController);
     CZeitschriftEditor zeitschriftEditor(&listenController);
+	CAusgabeEditor ausgabeEditor(&listenController);
 
 	QQmlApplicationEngine engine;
     engine.addImportPath("qrc:/");
@@ -71,6 +73,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("cListenController",&listenController);
     engine.rootContext()->setContextProperty("cArtikelEditor",&artikelEditor);
      engine.rootContext()->setContextProperty("cZeitschriftEditor",&zeitschriftEditor);
+	 engine.rootContext()->setContextProperty("cAusgabeEditor",&ausgabeEditor);
 	engine.rootContext()->setContextProperty("cErrorDisplay",&errorDisplay);
     engine.load(url);
 

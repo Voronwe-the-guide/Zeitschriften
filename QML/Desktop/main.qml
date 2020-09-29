@@ -165,7 +165,7 @@ ApplicationWindow
                 text: qsTr("Neue Zeitschrift")
                 onClicked:
                 {
-                    cZeitschriftEditor.setNewZeitschrift();
+                    cZeitschriftEditor.setNew();
                     mainWindow.callNewZeitschriftWindow();
                 }
                 anchors.verticalCenter: parent.verticalCenter
@@ -272,11 +272,11 @@ ApplicationWindow
    //     Component.onCompleted: visible = true
     }
 
- /*  ZeitschriftWriter
+  AusgabeWriter
    {
 
    }
-*/
+
 /*   Window {
        width: Qt.platform.os == "android" ? Screen.width :800
        height: Qt.platform.os == "android" ? Screen.height : 512

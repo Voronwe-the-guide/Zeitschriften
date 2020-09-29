@@ -13,6 +13,8 @@ class CZeitschriftEditor : public QObject
     Q_PROPERTY (QString notiz READ getNotizen NOTIFY zeitschriftDisplayUpdated)
     Q_PROPERTY (QString sprache READ getSprache NOTIFY zeitschriftDisplayUpdated)
 
+	Q_PROPERTY(bool zeitschriftValid READ isNameValid NOTIFY zeitschriftNameUpdated)
+
 public:
     CZeitschriftEditor(CListenController *listen, QObject *parent = nullptr);
 
