@@ -89,34 +89,44 @@ Window
             spacing: information_area.heightElement/6
 
 
-
-           Row
+    Item
+    {
+        id: nameElement
+        width: information_area.width
+        height: information_area.heightElement
+        Row
             {
-                id: nameElement
-                height: information_area.heightElement
-                width: parent.width
+               // id: nameElement
+                anchors.fill: parent
+              //  height: information_area.heightElement
+               // width: parent.width
                 Tracer{bc:"black"}
 
-                    spacing: 10
+                 //   spacing: 10
 
                     IconWithText//DisplayText
                     {
                         id: zeitschrift
                         height: parent.height-10
-                      //  width: parent.width
+                   //     width: 100 //parent.width
                         anchors.verticalCenter: parent.verticalCenter
                         toolTip: qsTr("Name der Zeitschrift")
                         focus: true
                         hasValidData: cAusgabeEditor.zeitschriftValid
                         additionToFont: 5
                         font_weight: Font.DemiBold
-                       // font.bold: true
+                       //font.bold: true
                 //        property string trenner: ((artikelDisplay.kurztext!="") && (artikelDisplay.ueberschrift!=""))?": ":""
                         text: cAusgabeEditor.zeitschrift //+trenner+artikelDisplay.ueberschrift
                         readOnly: ausgabeEditWindow.readOnlyMode
                         onTextWasEdited:{cAusgabeEditor.setZeitschrift(newText)}
                         onNextPressed: {untertitel.focus = true}
                         onPreviousPressed: {notizen.focus = true}
+                        onWidthChanged:
+                        {
+                            console.log(width)
+                        }
+
 
                     }
 
@@ -124,10 +134,12 @@ Window
                     IconWithText//DisplayText
                     {
                         id: untertitel
-                        height: parent.height*2/3 -10
+
+                       height: parent.height*2/3 -10
                       //  width: parent.width
                         toolTip: qsTr("Slogan der Zeitschrift")
                        anchors.verticalCenter: parent.verticalCenter
+                       anchors.left: zeitschrift.right
 
                       //  additionToFont: 5
                       //  font_weight: Font.DemiBold
@@ -136,25 +148,116 @@ Window
                         text: cAusgabeEditor.untertitel //+trenner+artikelDisplay.ueberschrift
                         readOnly: ausgabeEditWindow.readOnlyMode
                         onTextWasEdited:{cAusgabeEditor.setUntertitel(newText)}
-                        onNextPressed: {beschreibung.focus = true}
+                        onNextPressed: {yearArea.focus = true}
                         onPreviousPressed: {zeitschrift.focus = true}
 
                     }
 
             }
+    }
             Item
             {
                 id: ausgabeElement
                 height: information_area.heightElement
                 width: parent.width
                 Tracer{bc: "red"}
+                Row
+                    {
+                       // id: nameElement
+                      width: parent.width //  anchors.fill: parent
+                        spacing: 4
+                        height: 25
+                        IconWithText
+                        {
+                            id: yearArea
+                            text: ( cAusgabeEditor.jahr==0)?"":cAusgabeEditor.jahr
+                            iconSource: "qrc:/Images/year.svg"//.png"
+                            toolTip: qsTr("Erscheinungsjahr")
+                            readOnly:ausgabeEditWindow.readOnlyMode
+                            onTextWasEdited:{ cAusgabeEditor.setJahr(newText)}
+                            onNextPressed: {editionArea.focus = true}
+                            onPreviousPressed: {untertitel.focus = true}
+                            hasValidData:  cAusgabeEditor.jahrValid
+                         }
+
+                        IconWithText
+                        {
+                           id: editionArea
+                           text: (cAusgabeEditor.ausgabe==0)?"":cAusgabeEditor.ausgabe
+                           iconSource: "qrc:/Images/edition.svg"  //.png"
+                           toolTip: qsTr("Ausgabe im Jahr")
+                           readOnly: ausgabeEditWindow.readOnlyMode
+                           onTextWasEdited:{ cAusgabeEditor.setAusgabe(newText)}
+                           onNextPressed: {pageArea.focus = true}
+                           onPreviousPressed: {yearArea.focus = true}
+                           hasValidData: cAusgabeEditor.isAusgabeValid()
+                        }
+                        IconWithText
+                        {
+                           id:pageArea
+                           text: (cAusgabeEditor.seitenzahl==0)?"":cAusgabeEditor.seitenzahl
+                           iconSource: "qrc:/Images/page.svg"  //.png"
+                           toolTip: qsTr("Anzahl der Seiten")
+                           readOnly:ausgabeEditWindow.readOnlyMode
+                           onTextWasEdited:{ cAusgabeEditor.setSeitenzahl(newText)}
+                           onNextPressed: {preisArea.focus = true}
+                           onPreviousPressed: {editionArea.focus = true}
+
+                        }
+                    }
+
+
             }
             Item
             {
                 id: preisElement
                 height: information_area.heightElement
                 width: parent.width
-                Tracer{bc: "blue"}
+                Row
+                    {
+                       // id: nameElement
+                      width: parent.width //  anchors.fill: parent
+                        spacing: 4
+                        height: 25
+                        IconWithText
+                        {
+                            id: preisArea
+                            text:  cAusgabeEditor.preis// r==0)?"":cAusgabeEditor.jahr
+                            iconSource: "qrc:/Images/year.svg"//.png"
+                            toolTip: qsTr("Preis")
+                            readOnly:ausgabeEditWindow.readOnlyMode
+                            onTextWasEdited:{ cAusgabeEditor.setPreis(newText)}
+                            onPreviousPressed: {pageArea.focus = true}
+                            onNextPressed: {waehrungArea.focus = true}
+
+                         }
+
+                        IconWithText
+                        {
+                           id: waehrungArea
+                           text: cAusgabeEditor.waehrung //.ausgabe==0)?"":cAusgabeEditor.ausgabe
+                           iconSource: "qrc:/Images/edition.svg"  //.png"
+                           toolTip: qsTr("Währung")
+                           readOnly: ausgabeEditWindow.readOnlyMode
+                           onTextWasEdited:{ cAusgabeEditor.setWaehrung(newText)}
+                          onPreviousPressed : {preisArea.focus = true}
+                           onNextPressed: {languageArea.focus = true}
+
+                        }
+                        IconWithText
+                        {
+                           id:languageArea
+                           text: cAusgabeEditor.sprache //eitenzahl==0)?"":cAusgabeEditor.seitenzahl
+                           iconSource: "qrc:/Images/page.svg"  //.png"
+                           toolTip: qsTr("Sprache")
+                           readOnly:ausgabeEditWindow.readOnlyMode
+                           onTextWasEdited:{ cAusgabeEditor.setSprache(newText)}
+                           onNextPressed: {redakteurArea.focus = true}
+                           onPreviousPressed: {waehrungArea.focus = true}
+
+                        }
+                    }               Tracer{bc: "blue"}
+
             }
             Item
             {
@@ -162,12 +265,55 @@ Window
                 height: information_area.heightElement
                 width: parent.width
                 Tracer{bc: "green"}
+                IconWithText
+                {
+                   id:redakteurArea
+                   height: 25
+                   text: cAusgabeEditor.chefredakteur //eitenzahl==0)?"":cAusgabeEditor.seitenzahl
+                   iconSource: "qrc:/Images/page.svg"  //.png"
+                   toolTip: qsTr("Chefredaktion")
+                   readOnly:ausgabeEditWindow.readOnlyMode
+                   onTextWasEdited:{ cAusgabeEditor.setChefredakteur(newText)}
+                   onNextPressed: {notizen.focus = true}
+                   onPreviousPressed: {languageArea.focus = true}
+
+                }
             }
             Item
             {
                 id: notizenElement
                 height: information_area.heightElement *3
                 width: parent.width
+                BackgroundElement
+                {
+                    id: notizen_bg
+                    height: parent.height //-6
+                    width: parent.width/2-6
+
+                    DisplayText_MultiLine
+                    {
+                        id: notizen
+                        height: beschreibung.contentHeight + 20 //parent.height-6
+                        width: parent.width-6
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.top: parent.top
+                        anchors.topMargin: 2
+                        toolTip: qsTr("Notizen")
+
+
+                      //  anchors.centerIn: parent
+                         text: cAusgabeEditor.notizen
+                        wrapMode: Text.Wrap
+                        verticalAlignment: Text.AlignTop
+
+                        clip: true
+                                readOnly:ausgabeEditWindow.readOnlyMode
+                        onTextWasEdited:{ cZeitschriftEditor.setNotizen(newText)}
+                        onPreviousPressed: {redakteurArea.focus = true}
+                        onNextPressed: {zeitschrift.focus = true}//artikelDisplay.nextPressed()}
+                      }
+                  }
+
                 Tracer{bc: "yellow"}
             }
 
@@ -176,6 +322,46 @@ Window
 
        // Tracer{}
     }
+
+
+    DialogButtonBox
+    {
+        id: dialogButtons
+        signal nextPressed()
+        signal previousPressed()
+        anchors.bottom: parent.bottom
+
+
+        Button {
+            id: saveButton
+            text: qsTr("Speichern")
+              DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
+              onClicked:
+              {
+                 var retVal= cAusgabeEditor.saveChangesInDB();
+                  if (retVal)
+                  {
+                     ausgabeEditWindow.close()
+                  }
+                  else
+                  {
+                      Qt.createComponent("MessageDisplay.qml").createObject(ausgabeEditWindow, {text:qsTr("Daten nicht korrekt!")})// artikeleditor.visible = true;
+
+                  }
+              }
+
+
+          }
+          Button {
+              id: cancelButton
+              text: qsTr("Cancel")
+              DialogButtonBox.buttonRole: DialogButtonBox.DestructiveRole
+              onClicked: { ausgabeEditWindow.close()}
+
+          }
+
+
+}
 
     FileDialog
      {

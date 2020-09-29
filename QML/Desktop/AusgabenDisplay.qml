@@ -44,11 +44,20 @@ Item
             MouseArea
             {
                 anchors.fill: parent
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onClicked:
                 {
-                    ausgabenDisplay.currentAusgabe = model.index;
-                 //   console.log("Artikel request");
-                    cListenController.getArtikelForAusgabe(model.zeitschrift,model.jahr, model.ausgabe);
+                    if (mouse.button == Qt.RightButton)
+                    {
+                //        cAusgabeEditor.ZeitschriftForUpdate(model.dbIndex)
+                //        Qt.createComponent("ZeitschriftWriter.qml").createObject(zeitschriftenDisplay)// artikeleditor.visible = true;
+                    }
+                    else
+                    {
+                        ausgabenDisplay.currentAusgabe = model.index;
+                    //   console.log("Artikel request");
+                        cListenController.getArtikelForAusgabe(model.zeitschrift,model.jahr, model.ausgabe);
+                    }
                 }
             }
         }

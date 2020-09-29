@@ -30,6 +30,11 @@ ApplicationWindow
    //     this_component.nextButtonPressed.connect(restart);
     }
 
+    function callNewAusgabeWindow()
+    {
+        var this_component = Qt.createComponent("AusgebenWriter.qml").createObject(mainWindow, {isNewOne:true})// artikeleditor.visible = true;
+   //     this_component.nextButtonPressed.connect(restart);
+    }
     function restart()
     {
     //    console.log("Restart");
@@ -167,6 +172,17 @@ ApplicationWindow
                 {
                     cZeitschriftEditor.setNew();
                     mainWindow.callNewZeitschriftWindow();
+                }
+                anchors.verticalCenter: parent.verticalCenter
+            }
+            Button
+            {
+                id: neueAusgabe
+                text: qsTr("Neue Ausgabe")
+                onClicked:
+                {
+                    cAusgabeEditor.setNew();
+                    mainWindow.callNewAusgabeWindow();
                 }
                 anchors.verticalCenter: parent.verticalCenter
             }
