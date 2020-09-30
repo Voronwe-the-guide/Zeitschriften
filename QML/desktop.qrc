@@ -49,5 +49,8 @@
         <file>Desktop/AusgabeWriter.qml</file>
         <file>Desktop/ZeitschriftenListe.qml</file>
         <file>Images/logo_GEO.png</file>
+        <file>Images/preis.svg</file>
+        <file>Images/seitenzahl.svg</file>
+        <file>Images/waehrung.svg</file>
     </qresource>
 </RCC>

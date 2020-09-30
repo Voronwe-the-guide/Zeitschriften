@@ -5,9 +5,19 @@
 #include <QObject>
 #include "causgabe.h"
 
+
 class CAusgabeDisplayList  : public QAbstractListModel
 {
 	Q_OBJECT
+
+
+    struct jahrElement
+    {
+        QMap<int,int> m_ausgaben;
+           //  jahre, ausgaben
+    };
+
+
 public:
     CAusgabeDisplayList(QObject *parent = 0);
 
@@ -33,6 +43,8 @@ private:
 
 
 	QList<CAusgabe> m_AusgabenList;
+    QMap<QString,jahrElement> m_zeitungen;
+     //     Zeitung, Jahre
 
 	static const int Role_DBIndex;
 	static const int Role_Jahr;

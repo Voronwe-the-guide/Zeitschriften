@@ -272,7 +272,7 @@ Window
                         {
                            id:pageArea
                            text: (cAusgabeEditor.seitenzahl==0)?"":cAusgabeEditor.seitenzahl
-                           iconSource: "qrc:/Images/page.svg"  //.png"
+                           iconSource: "qrc:/Images/seitenzahl.svg"  //.png"
                            toolTip: qsTr("Anzahl der Seiten")
                            readOnly:ausgabeEditWindow.readOnlyMode
                            onTextWasEdited:{ cAusgabeEditor.setSeitenzahl(newText)}
@@ -300,7 +300,7 @@ Window
                         {
                             id: preisArea
                             text:  cAusgabeEditor.preis// r==0)?"":cAusgabeEditor.jahr
-                            iconSource: "qrc:/Images/year.svg"//.png"
+                            iconSource: "qrc:/Images/preis.svg"//.png"
                             toolTip: qsTr("Preis")
                             readOnly:ausgabeEditWindow.readOnlyMode
                             onTextWasEdited:{ cAusgabeEditor.setPreis(newText)}
@@ -313,7 +313,7 @@ Window
                         {
                            id: waehrungArea
                            text: cAusgabeEditor.waehrung //.ausgabe==0)?"":cAusgabeEditor.ausgabe
-                           iconSource: "qrc:/Images/edition.svg"  //.png"
+                           iconSource: "qrc:/Images/waehrung.svg"  //.png"
                            toolTip: qsTr("Währung")
                            readOnly: ausgabeEditWindow.readOnlyMode
                            onTextWasEdited:{ cAusgabeEditor.setWaehrung(newText)}
@@ -364,7 +364,7 @@ Window
                         {
                            id:languageArea
                            text: cAusgabeEditor.sprache //eitenzahl==0)?"":cAusgabeEditor.seitenzahl
-                           iconSource: "qrc:/Images/page.svg"  //.png"
+                           iconSource: "qrc:/Images/language.svg"  //.png"
                            toolTip: qsTr("Sprache")
                            readOnly:ausgabeEditWindow.readOnlyMode
                            onTextWasEdited:{ cAusgabeEditor.setSprache(newText)}
@@ -389,7 +389,7 @@ Window
                    id:redakteurArea
                    height: 25
                    text: cAusgabeEditor.chefredakteur //eitenzahl==0)?"":cAusgabeEditor.seitenzahl
-                   iconSource: "qrc:/Images/page.svg"  //.png"
+                   iconSource: "qrc:/Images/writer.svg"  //.png"
                    toolTip: qsTr("Chefredaktion")
                    readOnly:ausgabeEditWindow.readOnlyMode
                    onTextWasEdited:{ cAusgabeEditor.setChefredakteur(newText)}

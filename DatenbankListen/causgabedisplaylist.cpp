@@ -1,5 +1,5 @@
 #include "causgabedisplaylist.h"
-
+#include <QDebug>
 const int  CAusgabeDisplayList::Role_Jahr  = Qt::UserRole+1;
 const int  CAusgabeDisplayList::Role_Ausgabe  = Qt::UserRole+2;
 const int  CAusgabeDisplayList::Role_Zeitschrift = Qt::UserRole+3;
@@ -74,14 +74,17 @@ void CAusgabeDisplayList::deleteAll()
 		 m_AusgabenList.clear();
 		 endRemoveRows();
 	}
-
+    m_zeitungen.clear();
 	emit listEmpty();
 }
 
 
 bool CAusgabeDisplayList::AddElement(CAusgabe &ausgabe)
 {
-	for (int i=0; i<m_AusgabenList.count(); i++)
+
+
+    QTime startTime = QTime::currentTime();
+    for (int i=0; i<m_AusgabenList.count(); i++)
 	{
 		if ((ausgabe.getZeitschrift() == m_AusgabenList.at(i).getZeitschrift())
 				&& (ausgabe.getJahr() == m_AusgabenList.at(i).getJahr())
@@ -91,9 +94,12 @@ bool CAusgabeDisplayList::AddElement(CAusgabe &ausgabe)
 			return false;
 		}
 	}
-	beginInsertRows(QModelIndex(),rowCount(),rowCount());//This is to keep the list in QML updated
+    QTime forTime = QTime::currentTime();
+    beginInsertRows(QModelIndex(),rowCount(),rowCount());//This is to keep the list in QML updated
 	m_AusgabenList << ausgabe;
 	endInsertRows();
+    QTime endTime = QTime::currentTime();
+    qDebug()<<"Add Element "<< startTime.msecsTo(forTime)<<" - "<<forTime.msecsTo(endTime);
 
 	return true;
 

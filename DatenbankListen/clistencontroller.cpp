@@ -255,7 +255,7 @@ void CListenController::getListOfAusgaben(bool atStartup)
 	sqlite3_stmt *stmt;
 
 	QString request = QString("SELECT * FROM ")+AUSGABE_TABELLE +" ORDER BY "+AUSGABE_ZEITSCHRIFT+" ASC, "+AUSGABE_JAHR+" ASC, "+AUSGABE_AUSGABE+" ASC";
-	int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt,"getListOfAusgaben");
+    int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt,"getListOfAusgaben_1");
 	if (rc != SQLITE_OK)
 	{
 		   return; // or throw
@@ -289,12 +289,12 @@ void CListenController::getListOfAusgaben(bool atStartup)
 
 	}
 
-	if (atStartup)
+/*	if (atStartup)
 	{
 		//Get Zeitschriften from Inhalte -> to get the Rubriken and Zeitschriften, which are not in the main list
 		request = QString("SELECT ")+ARTIKEL_ZEITSCHRIFT+", "+ARTIKEL_JAHR+", "+ARTIKEL_AUSGABE+" FROM "+ARTIKEL_TABELLE
 									+" ORDER BY "+ARTIKEL_ZEITSCHRIFT+" ASC, "+ARTIKEL_JAHR+" ASC, "+ARTIKEL_AUSGABE+" ASC";
-		rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt,"getListOfAusgaben");
+        rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt,"getListOfAusgaben_2");
 		if (rc != SQLITE_OK)
 		{
 			   return; // or throw
@@ -330,15 +330,17 @@ void CListenController::getListOfAusgaben(bool atStartup)
 		}
 
 
-		sqlite3_finalize(stmt);
 
-		if (foundNew)
+    if (foundNew)
 		{
 			getListOfAusgaben();
 		}
 
-	}
 
+	}
+*/
+
+sqlite3_finalize(stmt);
 
 }
 /*!
@@ -507,12 +509,14 @@ int CListenController::getZeitschriftenForJahr(int jahr)
       {
              return 0; // or throw
       }
+      QTime startTime = QTime::currentTime();
       while ((rc = sqlite3_step(stmt)) == SQLITE_ROW)
       {
           int number = sqlite3_column_count(stmt);
           CAusgabe ausgabe;
           CArtikel artikel;
           CZeitschrift zeitschrift;
+         QTime localStart = QTime::currentTime();
           for (int i=0; i<number; ++i)
           {
 
@@ -522,11 +526,17 @@ int CListenController::getZeitschriftenForJahr(int jahr)
               ausgabe.setDBElement(columnName,columnText);
               artikel.setDBElement(columnName,columnText);
           }
-
+          QTime loopEnd = QTime::currentTime();
+          qDebug()<<"Loop Finished in "<<localStart.msecsTo(loopEnd);
           m_ausgabenForJahrDisplay->AddElement(ausgabe);
           m_artikelDisplay->AddElement(artikel);
           m_zeitschriftenForJahrDisplay->AddElement(zeitschrift);
+          QTime addingEnd = QTime::currentTime();
+          qDebug()<<"Adding Finished in "<<loopEnd.msecsTo(addingEnd);
       }
+      QTime endTime = QTime::currentTime();
+      int doneIn = startTime.msecsTo(endTime);
+      qDebug()<<"Finished in "<<doneIn;
 
     sqlite3_finalize(stmt);
     return m_zeitschriftenForJahrDisplay->rowCount();
@@ -1362,7 +1372,10 @@ void CListenController::searchArtikel(QString searchElement)
 int CListenController::makeSQLiteSearch(const QString& request, sqlite3_stmt **stmt,QString callingFunction)
 {
  //   int rc = sqlite3_get_table
+    QTime startTime = QTime::currentTime();
     int rc = sqlite3_prepare_v2(m_db,request.toStdString().c_str() , -1, stmt, nullptr);
+    QTime endTime = QTime::currentTime();
+    int doneIn = startTime.msecsTo(endTime);
     if (rc !=0 )
     {
 		QString error = QString("sqlite3_prepare_v2 request from ")+callingFunction+QString(" returned %1 (%2) for %3").arg(sqlite3_errstr(rc)).arg(rc).arg(request);
@@ -1374,6 +1387,7 @@ int CListenController::makeSQLiteSearch(const QString& request, sqlite3_stmt **s
 		qDebug()<<"sqlite3_prepare_v2 request from "<<callingFunction<<" returned OK for "<<request;
 
     }
+    qDebug()<<"Finished in "<<doneIn;
     return rc;
 }
 
