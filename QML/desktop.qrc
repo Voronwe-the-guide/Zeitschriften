@@ -47,5 +47,7 @@
         <file>Desktop/ZeitschriftWriter.qml</file>
         <file>Images/language.svg</file>
         <file>Desktop/AusgabeWriter.qml</file>
+        <file>Desktop/ZeitschriftenListe.qml</file>
+        <file>Images/logo_GEO.png</file>
     </qresource>
 </RCC>

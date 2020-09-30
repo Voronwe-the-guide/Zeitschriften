@@ -20,6 +20,7 @@ signals:
 public slots:
 	void deleteAll();
 	void SetList(QList<QString> list);
+	void AddElement(QString element);
 
     void UpdateListDisplay(QString filter);
 

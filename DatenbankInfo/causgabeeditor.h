@@ -16,7 +16,7 @@ class CAusgabeEditor : public QObject
     Q_PROPERTY(QString   cover READ getCover NOTIFY coverDisplayUpdated)
     Q_PROPERTY(double   preis READ getPreis NOTIFY ausgabeDisplayUpdated)
     Q_PROPERTY(QString   waehrung READ getWaehrung NOTIFY ausgabeDisplayUpdated)
-    Q_PROPERTY(QString   seitenzahl READ getSeitenzahl NOTIFY ausgabeDisplayUpdated)
+	Q_PROPERTY(int   seitenzahl READ getSeitenzahl NOTIFY ausgabeDisplayUpdated)
     Q_PROPERTY(QString  chefredakteur READ getChefredakteur NOTIFY ausgabeDisplayUpdated)
     Q_PROPERTY(QString  notizen READ getNotizen NOTIFY ausgabeDisplayUpdated)
     Q_PROPERTY(QString   sprache READ getSprache NOTIFY ausgabeDisplayUpdated)

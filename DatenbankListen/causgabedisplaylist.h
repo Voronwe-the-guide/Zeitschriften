@@ -23,7 +23,7 @@ signals:
 public slots:
 
     void deleteAll();
-	void AddElement (CAusgabe &ausgabe);
+	bool AddElement (CAusgabe &ausgabe);
 
 protected:
 
@@ -34,6 +34,7 @@ private:
 
 	QList<CAusgabe> m_AusgabenList;
 
+	static const int Role_DBIndex;
 	static const int Role_Jahr;
 	static const int Role_Ausgabe;
 	static const int Role_Zeitschrift;

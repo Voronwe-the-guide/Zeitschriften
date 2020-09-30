@@ -3,7 +3,7 @@ import QtQuick 2.0
 Item
 {
 
-    id: ausgabenDisplay
+    id: ausgabenForJahrDisplay
     width: 50
     height: visible?ausgabenListe.count* 30:0
 
@@ -26,7 +26,7 @@ Item
         Rectangle
         {
             id: ausgabeElement
-            width: ausgabenDisplay.width
+            width: ausgabenForJahrDisplay.width
             height: 30
 
             color: model.index === currentAusgabe?"lightblue":"transparent"
@@ -34,11 +34,11 @@ Item
             Text
             {
                 id: ausgabe
-                text: model.ausgabe
+                text: model.ausgabe + "/"+model.dbIndex
                 anchors.fill: parent
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                font.pixelSize: ausgabenDisplay.fontSize
+                font.pixelSize: ausgabenForJahrDisplay.fontSize
 
             }
             MouseArea
@@ -49,12 +49,12 @@ Item
                 {
                     if (mouse.button == Qt.RightButton)
                     {
-                //        cAusgabeEditor.ZeitschriftForUpdate(model.dbIndex)
-                //        Qt.createComponent("ZeitschriftWriter.qml").createObject(zeitschriftenDisplay)// artikeleditor.visible = true;
+                        cAusgabeEditor.setForUpdate(model.dbIndex)
+                        Qt.createComponent("AusgabeWriter.qml").createObject(ausgabenForJahrDisplay)// artikeleditor.visible = true;
                     }
                     else
                     {
-                        ausgabenDisplay.currentAusgabe = model.index;
+                        ausgabenForJahrDisplay.currentAusgabe = model.index;
                     //   console.log("Artikel request");
                         cListenController.getArtikelForAusgabe(model.zeitschrift,model.jahr, model.ausgabe);
                     }
@@ -75,7 +75,7 @@ Item
         {
             if (count == 0)
             {
-                ausgabenDisplay.currentAusgabe = -1;
+                ausgabenForJahrDisplay.currentAusgabe = -1;
             }
         }
     }

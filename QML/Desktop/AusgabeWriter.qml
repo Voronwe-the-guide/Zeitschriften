@@ -81,8 +81,8 @@ Window
         anchors.left: cover.right
         anchors.leftMargin: 25
         anchors.top: parent.top
-        anchors.topMargin: 10
-        property int heightElement: parent.height/8
+        anchors.topMargin: 40
+        property int heightElement: parent.height/14
         Column
         {
             anchors.fill:parent
@@ -93,19 +93,21 @@ Window
     {
         id: nameElement
         width: information_area.width
-        height: information_area.heightElement
+        height: information_area.heightElement*2
+        z:10
         Row
             {
                // id: nameElement
                 anchors.fill: parent
               //  height: information_area.heightElement
                // width: parent.width
-                Tracer{bc:"black"}
+             //   Tracer{bc:"black"}
 
                  //   spacing: 10
 
                     IconWithText//DisplayText
                     {
+
                         id: zeitschrift
                         height: parent.height-10
                    //     width: 100 //parent.width
@@ -122,10 +124,45 @@ Window
                         onTextWasEdited:{cAusgabeEditor.setZeitschrift(newText)}
                         onNextPressed: {untertitel.focus = true}
                         onPreviousPressed: {notizen.focus = true}
-                        onWidthChanged:
+                        onReturnPressed:
                         {
-                            console.log(width)
-                        }
+                              if ( zeitschriftListDisplay.elementCount > 0)
+                              {
+                //
+                                   zeitschrift.text = cZeitschriftenList.getElementFromDisplay(0);
+                               //   console.log("Text: "+magazinArea.text)
+                                   cAusgabeEditor.setZeitschrift(zeitschrift.text)
+                              }
+                          }
+                          onArrowDownPressed:
+                          {
+                             // if (rubrikList.count>0)
+                              if (zeitschriftListDisplay.elementCount > 0)
+                              {
+                                 // rubrikList.focus = true;
+                                  zeitschriftListDisplay.setFocus(true);
+                                   zeitschriften.focus = false;
+                              }
+                          }
+
+                          PullDownFile
+                          {
+                              id: zeitschriftListDisplay
+                              width: 150
+                              height: 150
+                              border.color: "black"
+                              anchors.top: parent.bottom
+                              listModel: cZeitschriftNameList
+                           //   z: 10
+                              visible: (!zeitschrift.readOnlyMode) && (zeitschrift.hasFocus || zeitschriftListDisplay.hasFocus)
+                           onJumpedOut: {zeitschrift.focus = true; /*rubrikDisplay.setFocus(false); */}
+                           onTextSelected:
+                           {
+                                zeitschrift.text = text
+                               cAusgabeEditor.setZeitschrift(zeitschrift.text);
+                               zeitschrift.focus = true;
+                           }
+                          }
 
 
                     }
@@ -151,6 +188,45 @@ Window
                         onNextPressed: {yearArea.focus = true}
                         onPreviousPressed: {zeitschrift.focus = true}
 
+                        onReturnPressed:
+                        {
+                              if ( untertitelDisplay.elementCount > 0)
+                              {
+                //
+                                   untertitel.text = cSloganList.getElementFromDisplay(0);
+                               //   console.log("Text: "+magazinArea.text)
+                                   cAusgabeEditor.setUntertitel(untertitel.text)
+                              }
+                          }
+                          onArrowDownPressed:
+                          {
+                             // if (rubrikList.count>0)
+                              if (untertitelDisplay.elementCount > 0)
+                              {
+                                 // rubrikList.focus = true;
+                                  untertitelDisplay.setFocus(true);
+                                   untertitel.focus = false;
+                              }
+                          }
+
+                          PullDownFile
+                          {
+                              id: untertitelDisplay
+                              width:300
+                              height: 150
+                              border.color: "black"
+                              anchors.top: parent.bottom
+                              listModel: cSloganList
+                           //   z: 10
+                              visible: (!untertitel.readOnlyMode) && (untertitel.hasFocus || untertitelDisplay.hasFocus)
+                           onJumpedOut: {untertitel.focus = true; /*rubrikDisplay.setFocus(false); */}
+                           onTextSelected:
+                           {
+                                untertitel.text = text
+                               cAusgabeEditor.setUntertitel(untertitel.text);
+                               untertitel.focus = true;
+                           }
+                          }
                     }
 
             }
@@ -160,7 +236,7 @@ Window
                 id: ausgabeElement
                 height: information_area.heightElement
                 width: parent.width
-                Tracer{bc: "red"}
+              //  Tracer{bc: "red"}
                 Row
                     {
                        // id: nameElement
@@ -190,7 +266,7 @@ Window
                            onTextWasEdited:{ cAusgabeEditor.setAusgabe(newText)}
                            onNextPressed: {pageArea.focus = true}
                            onPreviousPressed: {yearArea.focus = true}
-                           hasValidData: cAusgabeEditor.isAusgabeValid()
+                           hasValidData: cAusgabeEditor.ausgabeValid
                         }
                         IconWithText
                         {
@@ -213,6 +289,7 @@ Window
                 id: preisElement
                 height: information_area.heightElement
                 width: parent.width
+                z:5
                 Row
                     {
                        // id: nameElement
@@ -243,6 +320,45 @@ Window
                           onPreviousPressed : {preisArea.focus = true}
                            onNextPressed: {languageArea.focus = true}
 
+                           onReturnPressed:
+                           {
+                                 if (waehrungDisplay.elementCount > 0)
+                                 {
+                   //
+                                      waehrungArea.text = cWaehrungList.getElementFromDisplay(0);
+                                  //   console.log("Text: "+magazinArea.text)
+                                      cAusgabeEditor.setWaehrung(waehrungArea.text)
+                                 }
+                             }
+                             onArrowDownPressed:
+                             {
+                                // if (rubrikList.count>0)
+                                 if (waehrungDisplay.elementCount > 0)
+                                 {
+                                    // rubrikList.focus = true;
+                                     waehrungDisplay.setFocus(true);
+                                      waehrungArea.focus = false;
+                                 }
+                             }
+
+                             PullDownFile
+                             {
+                                 id: waehrungDisplay
+                                 width: 150
+                                 height: 150
+                                 border.color: "black"
+                                 anchors.top: parent.bottom
+                                 listModel: cWaehrungList
+                              //   z: 10
+                                 visible: (!waehrungArea.readOnlyMode) && (waehrungArea.hasFocus || waehrungDisplay.hasFocus)
+                              onJumpedOut: {waehrungArea.focus = true; /*rubrikDisplay.setFocus(false); */}
+                              onTextSelected:
+                              {
+                                   waehrungArea.text = text
+                                  cAusgabeEditor.setWaehrung(waehrungArea.text);
+                                  waehrungArea.focus = true;
+                              }
+                             }
                         }
                         IconWithText
                         {
@@ -255,8 +371,10 @@ Window
                            onNextPressed: {redakteurArea.focus = true}
                            onPreviousPressed: {waehrungArea.focus = true}
 
+
                         }
-                    }               Tracer{bc: "blue"}
+                    }
+            //    Tracer{bc: "blue"}
 
             }
             Item
@@ -264,7 +382,8 @@ Window
                 id:redaktionElement
                 height: information_area.heightElement
                 width: parent.width
-                Tracer{bc: "green"}
+            //    Tracer{bc: "green"}
+                z:3
                 IconWithText
                 {
                    id:redakteurArea
@@ -276,7 +395,45 @@ Window
                    onTextWasEdited:{ cAusgabeEditor.setChefredakteur(newText)}
                    onNextPressed: {notizen.focus = true}
                    onPreviousPressed: {languageArea.focus = true}
+                   onReturnPressed:
+                   {
+                         if (redakteurAreaDisplay.elementCount > 0)
+                         {
+           //
+                              redakteurArea.text = cRedaktionList.getElementFromDisplay(0);
+                          //   console.log("Text: "+magazinArea.text)
+                              cAusgabeEditor.setChefredakteur(redakteurArea.text)
+                         }
+                     }
+                     onArrowDownPressed:
+                     {
+                        // if (rubrikList.count>0)
+                         if (redakteurAreaDisplay.elementCount > 0)
+                         {
+                            // rubrikList.focus = true;
+                             redakteurAreaDisplay.setFocus(true);
+                              redakteurArea.focus = false;
+                         }
+                     }
 
+                     PullDownFile
+                     {
+                         id: redakteurAreaDisplay
+                         width: 300
+                         height: 150
+                         border.color: "black"
+                         anchors.top: parent.bottom
+                         listModel: cRedaktionList
+                      //   z: 10
+                         visible: (!redakteurArea.readOnlyMode) && (redakteurArea.hasFocus ||redakteurAreaDisplay.hasFocus)
+                      onJumpedOut: {redakteurArea.focus = true; /*rubrikDisplay.setFocus(false); */}
+                      onTextSelected:
+                      {
+                           redakteurArea.text = text
+                          cAusgabeEditor.setWaehrung(redakteurArea.text);
+                          redakteurArea.focus = true;
+                      }
+                     }
                 }
             }
             Item
@@ -314,7 +471,7 @@ Window
                       }
                   }
 
-                Tracer{bc: "yellow"}
+            //    Tracer{bc: "yellow"}
             }
 
 

@@ -4,7 +4,7 @@
 #include "cartikel.h"
 #include <QMap>
 
-#define AUSGABE_TABELLE			"Ausgabe"
+#define AUSGABE_TABELLE			"Ausgaben"
 #define AUSGABE_INDEX			"UniqueIndex"	//!< INTEGER,
 #define AUSGABE_ZEITSCHRIFT		"Zeitschrift"	//!< TEXT,
 #define AUSGABE_JAHR			"Jahr"			//!< INTEGER,

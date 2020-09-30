@@ -26,6 +26,7 @@ public slots:
 	CZeitschrift getZeitschrift (const QString& Zeitschrift,int &listIndex);
 	CZeitschrift getZeitschrift (int listIndex);
 	void AddRubrikToZeitschrift(const QString& zeitschrift, const QString& rubrik);
+	void UpdateZeitschrift(const CZeitschrift& zeitschrift, int listIndex);
     void ToggleSelection(int index);
     void deselectAll();
     void deselect(int theIndex);

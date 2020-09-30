@@ -1,4 +1,5 @@
 #include <QGuiApplication>
+#include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlEngine>
 #include <QQmlContext>
@@ -12,7 +13,7 @@
 #include <DatenbankInfo/czeitschrifteditor.h>
 #include <DatenbankInfo/causgabeeditor.h>
 #include <Helper/cerrordisplay.h>
-
+#include <QSplashScreen>
 
 #include <Settings/csettings.h>
 
@@ -26,7 +27,11 @@ int main(int argc, char *argv[])
 {
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-	QGuiApplication app(argc, argv);
+	QApplication app(argc, argv);
+
+	QPixmap pixmap("qrc:/Images/logo_GEO.png");
+	QSplashScreen splash(pixmap);
+	 splash.show();
 	app.setOrganizationName("Blah");
 	app.setOrganizationDomain("Blub");
 
@@ -51,8 +56,8 @@ int main(int argc, char *argv[])
 	CAusgabeEditor ausgabeEditor(&listenController);
 
 	QQmlApplicationEngine engine;
-    engine.addImportPath("qrc:/");
-    const QUrl url(QStringLiteral("qrc:/Desktop/main.qml"));
+	engine.addImportPath("qrc:/");
+	const QUrl url(QStringLiteral("qrc:/Desktop/main.qml"));
 	QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
 					 &app, [url](QObject *obj, const QUrl &objUrl) {
 		if (!obj && url == objUrl)
@@ -60,12 +65,13 @@ int main(int argc, char *argv[])
 	}, Qt::QueuedConnection);
 
 
+
     engine.rootContext()->setContextProperty("sqliteversion", QString(sqlite3_libversion()));
     engine.rootContext()->setContextProperty("qtversion", QString(qVersion()));
     engine.rootContext()->setContextProperty("cSettings",&settings);
 	engine.rootContext()->setContextProperty("cArtikelList", listenController.artikelDisplay());
 	engine.rootContext()->setContextProperty("cJahreList",listenController.jahrgaengeDisplay());
-	engine.rootContext()->setContextProperty("cAusgabenList",listenController.ausgabenDisplay());
+	engine.rootContext()->setContextProperty("cAusgabenList",listenController.ausgabenForJahrDisplay());
     engine.rootContext()->setContextProperty("cZeitschriftenList",listenController.zeitschriftenDisplay());
     engine.rootContext()->setContextProperty("cZeitschriftenForJahr",listenController.zeitschriftenForJahrDisplay());
     engine.rootContext()->setContextProperty("cRubrikList",listenController.rubrikenListDisplay());
@@ -75,8 +81,14 @@ int main(int argc, char *argv[])
      engine.rootContext()->setContextProperty("cZeitschriftEditor",&zeitschriftEditor);
 	 engine.rootContext()->setContextProperty("cAusgabeEditor",&ausgabeEditor);
 	engine.rootContext()->setContextProperty("cErrorDisplay",&errorDisplay);
-    engine.load(url);
+	engine.rootContext()->setContextProperty("cSloganList",listenController.sloganList());
+	engine.rootContext()->setContextProperty("cRedaktionList",listenController.redaktionList());
+	engine.rootContext()->setContextProperty("cSprachenList",listenController.sprachenList());
+	engine.rootContext()->setContextProperty("cWaehrungList",listenController.waehrungsList());
 
+	engine.load(url);
+
+	splash.close();
 	app.exec();
 
 

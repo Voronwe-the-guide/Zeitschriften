@@ -8,6 +8,7 @@ Rectangle
     property int elementCount: rubrikList.count
     width: 150
     height: 150
+    color: "white"
     border.color: "black"
    // anchors.top: parent.bottom
     function setFocus(isFocus)
@@ -27,7 +28,7 @@ Rectangle
         Item
         {
             width: rubrikDisplay.width
-            height: rubrikArea.height
+            height: 25
             Text
             {
                 id: rubrikText

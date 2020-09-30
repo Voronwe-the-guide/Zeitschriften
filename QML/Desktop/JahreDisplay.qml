@@ -27,7 +27,7 @@ Item
         {
             id: jahrArea
             width: jahreDisplay.width
-            height: jahrButton.height + zeitschriftenDisplay.height// + ausgabenDisplay.height
+            height: jahrButton.height + zeitschriftenDisplay.height// + ausgabenForJahrDisplay.height
 
             Rectangle
             {
@@ -76,7 +76,7 @@ Item
 
    /*         AusgabenDisplay
             {
-                id: ausgabenDisplay
+                id: ausgabenForJahrDisplay
                 anchors.top: zeitschriftenDisplay.bottom//jahrButton.bottom
                 width: parent.width-20
                 anchors.left: parent.left

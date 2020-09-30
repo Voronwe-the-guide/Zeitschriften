@@ -32,7 +32,7 @@ ApplicationWindow
 
     function callNewAusgabeWindow()
     {
-        var this_component = Qt.createComponent("AusgebenWriter.qml").createObject(mainWindow, {isNewOne:true})// artikeleditor.visible = true;
+        var this_component = Qt.createComponent("AusgabeWriter.qml").createObject(mainWindow, {isNewOne:true})// artikeleditor.visible = true;
    //     this_component.nextButtonPressed.connect(restart);
     }
     function restart()
@@ -57,6 +57,17 @@ ApplicationWindow
         function onNewZeitschriftDetected(zeitschrift)
         {
             Qt.createComponent("ZeitschriftWriter.qml").createObject(mainWindow)// artikeleditor.visible = true;
+
+        }
+
+    }
+
+    Connections
+    {
+        target: cListenController
+        function onNewAusgabeDetected(ausgabe)
+        {
+            Qt.createComponent("AusgabeWriter.qml").createObject(mainWindow)// artikeleditor.visible = true;
 
         }
 
@@ -288,7 +299,12 @@ ApplicationWindow
    //     Component.onCompleted: visible = true
     }
 
-  AusgabeWriter
+ /*  ZeitschriftenListe
+   {
+
+   }
+*/
+  /*AusgabeWriter
    {
 
    }

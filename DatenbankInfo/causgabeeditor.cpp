@@ -11,6 +11,17 @@ CAusgabeEditor::CAusgabeEditor(CListenController *listen, QObject *parent):
 
     QObject::connect(m_listen, &CListenController::newAusgabeDetected, this, &CAusgabeEditor::getForUpdate);
 
+	QObject::connect(this, &CAusgabeEditor::zeitschriftUpdated, m_listen, &CListenController::setSloganDisplay); //To show Rubrik only for this Zeitung
+	QObject::connect(this, &CAusgabeEditor::zeitschriftUpdated, m_listen, &CListenController::setRedaktionDisplay); //To show Rubrik only for this Zeitung
+
+	QObject::connect(this, &CAusgabeEditor::zeitschriftUpdated, m_listen, &CListenController::updateZeitschriftSelectionDisplay);
+	QObject::connect(this, &CAusgabeEditor::waehrungUpdated, m_listen, &CListenController::updateWaehrungListDisplay);
+//	QObject::connect(this, &CAusgabeEditor::waehrungUpdated, m_listen, &CListenController::updateSpracheListDisplay);
+	QObject::connect(this, &CAusgabeEditor::untertitelUpdated, m_listen, &CListenController::updateSloganListDisplay);
+	QObject::connect(this, &CAusgabeEditor::chefredakteurUpdated, m_listen, &CListenController::updateRedaktionListDisplay);
+
+
+
 }
 
 bool CAusgabeEditor::getSomethingHasChanged() const
@@ -25,7 +36,11 @@ void CAusgabeEditor::setSomethingHasChanged(bool somethingHasChanged)
 
 bool CAusgabeEditor::isAusgabeValid() const
 {
-    return (getAusgabe()>0);
+	if (getAusgabe()>0)
+		return true;
+
+	return false;
+//	return getAusgabe()>0;
 }
 bool CAusgabeEditor::isZeitschriftValid() const
 {
@@ -33,7 +48,10 @@ bool CAusgabeEditor::isZeitschriftValid() const
 }
 bool CAusgabeEditor::isJahrValid() const
 {
-    return (getJahr()>0);
+	if (getJahr()>0)
+		return true;
+
+	return false;
 }
 
 
@@ -132,9 +150,9 @@ int CAusgabeEditor:: getJahr() const
 
 void CAusgabeEditor::setJahr(int input)
 {
-    m_ausgabe.setAusgabe(input);
+	m_ausgabe.setJahr(input);
     setSomethingHasChanged(true);
-    emit ausgabeUpdated(input);
+	emit jahrUpdated(input);
 
 }
 

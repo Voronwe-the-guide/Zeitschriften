@@ -10,12 +10,12 @@ CAusgabe::CAusgabe()
 {
 	m_AusgabenMap[AUSGABE_INDEX].setNum(-1);
 	m_AusgabenMap[AUSGABE_ZEITSCHRIFT] ="";
-	m_AusgabenMap[AUSGABE_JAHR].setNum(-1);
-	m_AusgabenMap[AUSGABE_AUSGABE].setNum(-1);
+	m_AusgabenMap[AUSGABE_JAHR].setNum(0);
+	m_AusgabenMap[AUSGABE_AUSGABE].setNum(0);
 	m_AusgabenMap[AUSGABE_COVER] ="";
-	m_AusgabenMap[AUSGABE_PREIS].setNum(-1);
+	m_AusgabenMap[AUSGABE_PREIS].setNum(0);
 	m_AusgabenMap[AUSGABE_WAEHRUNG] ="";
-	m_AusgabenMap[AUSGABE_SEITENZAHL].setNum(-1);
+	m_AusgabenMap[AUSGABE_SEITENZAHL].setNum(0);
 	m_AusgabenMap[AUSGABE_CHEFREDAKTEUR]="";
 	m_AusgabenMap[AUSGABE_NOTIZEN]="";
     m_AusgabenMap[AUSGABE_SPRACHE]="";

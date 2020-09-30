@@ -127,6 +127,17 @@ void CZeitschriftDisplayList::AddRubrikToZeitschrift(const QString& zeitschrift,
 
 }
 
+void CZeitschriftDisplayList::UpdateZeitschrift(const CZeitschrift& zeitschrift, int listIndex)
+{
+	if ((listIndex>=0) && (listIndex<m_ZeitschriftenList.count()))
+	{
+		m_ZeitschriftenList.replace(listIndex,zeitschrift);
+		const QModelIndex idx = index(listIndex);
+		emit dataChanged(idx,idx);
+
+	}
+}
+
 
 void CZeitschriftDisplayList::ToggleSelection(int theIndex)
 {

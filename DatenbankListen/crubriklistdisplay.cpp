@@ -61,7 +61,29 @@ void CSelectionListDisplay::SetList(QList<QString> list)
      for (int i=0; i<m_ElementList.count(); ++i)
      {
          SetElementToDisplayList(m_ElementList.at(i));
-     }
+	 }
+}
+
+void CSelectionListDisplay::AddElement(QString element)
+{
+	if (element.isEmpty())
+	{
+		return;
+	}
+	for (int i=0; i<m_ElementList.count(); i++)
+	{
+		if (element  == m_ElementList.at(i))
+		{
+			//Allready there
+			return;
+		}
+	}
+	beginInsertRows(QModelIndex(),rowCount(),rowCount());//This is to keep the list in QML updated
+	m_ElementList << element;
+	endInsertRows();
+
+	SetElementToDisplayList(element);
+
 }
 
 void CSelectionListDisplay::UpdateListDisplay(QString filter)

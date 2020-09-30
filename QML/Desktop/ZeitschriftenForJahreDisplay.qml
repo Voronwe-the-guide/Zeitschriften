@@ -24,18 +24,18 @@ Item
     Component
     {
         id: zeitschriftComponent
-    //    property variant ausgabenHeight: ausgabenDisplay.height
+    //    property variant ausgabenHeight: ausgabenForJahrDisplay.height
 
         Item
         {
             id: zeitschriftArea
             width:zeitschriftenDisplay.width
-            height: zeitschriftButton.height + ausgabenDisplay.height
+            height: zeitschriftButton.height + ausgabenForJahrDisplay.height
             Rectangle
             {
                 id:zeitschriftButton
                 width: parent.width
-                height: 30 //zeitschrift.height + ausgabenDisplay.height
+                height: 30 //zeitschrift.height + ausgabenForJahrDisplay.height
 
                 color: model.index === currentZeitschrift?"lightblue":"transparent"
                 radius: 5
@@ -55,7 +55,7 @@ Item
                     onClicked:
                     {
                         zeitschriftenDisplay.currentZeitschrift = model.index;
-                      //  zeitschriftenDisplay.currentAusgabenListeHight = ausgabenDisplay.height //.ausgabenHeight
+                      //  zeitschriftenDisplay.currentAusgabenListeHight = ausgabenForJahrDisplay.height //.ausgabenHeight
                        //  console.log("Artikel request");
                         cListenController.getAusgabenForZeitschrift(model.zeitschrift, zeitschriftenDisplay.jahr);
 
@@ -64,7 +64,7 @@ Item
             }
             AusgabenDisplay
             {
-                id: ausgabenDisplay
+                id: ausgabenForJahrDisplay
                 anchors.top: zeitschriftButton.bottom//jahrButton.bottom
                 width: parent.width-20
                 anchors.left: parent.left

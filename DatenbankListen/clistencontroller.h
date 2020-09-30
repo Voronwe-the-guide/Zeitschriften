@@ -21,18 +21,25 @@ public:
 
 
 	CJahrDisplayList *jahrgaengeDisplay();
+	CAusgabeDisplayList *ausgabenForJahrDisplay();
 	CAusgabeDisplayList *ausgabenDisplay();
 	CArtikelDisplayList *artikelDisplay();
     CZeitschriftDisplayList *zeitschriftenDisplay();
     CZeitschriftDisplayList *zeitschriftenForJahrDisplay();
     CSelectionListDisplay *rubrikenListDisplay();
     CSelectionListDisplay *zeitschriftenListForSelection();
+	CSelectionListDisplay *sloganList();
+	CSelectionListDisplay *redaktionList();
+	CSelectionListDisplay *sprachenList();
+	CSelectionListDisplay *waehrungsList();
+
 
 
 public slots:
     bool openDB(QString DBPath);
 
     void getListOfZeitschriften();
+	void getListOfAusgaben(bool atStartup = false);
     void getOverview();
 
     void getJahreForZeitschrift(QStringList zeitschriften);
@@ -59,6 +66,13 @@ public slots:
 
     void setZeitschriftSelectionDisplay();
     void updateZeitschriftSelectionDisplay(QString filter);
+
+	void setSloganDisplay(QString zeitschrift);
+	void setRedaktionDisplay(QString zeitschrift);
+	void updateSloganListDisplay(QString filter);
+	void updateWaehrungListDisplay(QString filter);
+	void updateRedaktionListDisplay(QString filter);
+
 
     /*!
      * \brief getArtikelByIndex
@@ -87,16 +101,25 @@ private:
     void getTableNamesFromDB();
 	int makeSQLiteSearch(const QString& request, sqlite3_stmt **stmt,QString callingFunction);
 
+	void AddElementToSprachenList(QString element);
+	void AddElementToWaehrungsList (QString element);
+
     QSqlDatabase m_sqldb;
 
     sqlite3 *m_db;
 	CJahrDisplayList *m_jahrgaengeDisplay;
-    CAusgabeDisplayList *m_ausgabenDisplay;
+	CAusgabeDisplayList *m_ausgabenForJahrDisplay;
     CArtikelDisplayList *m_artikelDisplay;
     CZeitschriftDisplayList *m_zeitschriftenDisplay;
     CZeitschriftDisplayList *m_zeitschriftenForJahrDisplay;
     CSelectionListDisplay *m_RubrikenList;
     CSelectionListDisplay *m_ZeitschriftenListForSelection;
+	CSelectionListDisplay *m_SloganList;
+	CSelectionListDisplay *m_redaktionList;
+	CSelectionListDisplay *m_SprachenList;
+	CSelectionListDisplay *m_waehrungsList;
+	CAusgabeDisplayList *m_ausgabenDisplay;
+
     QString m_searchElement;
 
     QMap<QString, CColumn> m_searchTables;

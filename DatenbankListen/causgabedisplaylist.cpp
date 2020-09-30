@@ -11,6 +11,7 @@ const int CAusgabeDisplayList::Role_SEITENZAHL  = Qt::UserRole+8;
 const int CAusgabeDisplayList::Role_CHEFREDAKTEUR  = Qt::UserRole+9;
 const int CAusgabeDisplayList::Role_NOTIZEN  = Qt::UserRole+10;
 const int  CAusgabeDisplayList::Role_UNTERTITEL = Qt::UserRole+11;
+const int CAusgabeDisplayList::Role_DBIndex = Qt::UserRole+12;
 
 
 CAusgabeDisplayList::CAusgabeDisplayList(QObject *parent) :
@@ -53,6 +54,7 @@ QVariant CAusgabeDisplayList::data ( const QModelIndex & index, int role) const
             case Role_CHEFREDAKTEUR: return temp.getChefredakteur();
             case Role_NOTIZEN: return temp.getNotizen();
         case  Role_UNTERTITEL: return temp.getUntertitel();
+		case Role_DBIndex: return temp.getUniqueIndex();
 		}
 	}
 
@@ -77,19 +79,23 @@ void CAusgabeDisplayList::deleteAll()
 }
 
 
-void CAusgabeDisplayList::AddElement(CAusgabe &ausgabe)
+bool CAusgabeDisplayList::AddElement(CAusgabe &ausgabe)
 {
 	for (int i=0; i<m_AusgabenList.count(); i++)
 	{
-		if ((ausgabe.getJahr() == m_AusgabenList.at(i).getJahr()) && (ausgabe.getAusgabe() == m_AusgabenList.at(i).getAusgabe()))
+		if ((ausgabe.getZeitschrift() == m_AusgabenList.at(i).getZeitschrift())
+				&& (ausgabe.getJahr() == m_AusgabenList.at(i).getJahr())
+				&& (ausgabe.getAusgabe() == m_AusgabenList.at(i).getAusgabe()))
 		{
 			//Allready there
-			return;
+			return false;
 		}
 	}
 	beginInsertRows(QModelIndex(),rowCount(),rowCount());//This is to keep the list in QML updated
 	m_AusgabenList << ausgabe;
 	endInsertRows();
+
+	return true;
 
 }
 
@@ -108,5 +114,6 @@ QHash<int, QByteArray> CAusgabeDisplayList::roleNames() const
     roles[Role_CHEFREDAKTEUR] = "chefredakteur";
     roles[Role_NOTIZEN] = "notizen";
     roles[Role_UNTERTITEL]="untertitel";
+	roles[Role_DBIndex]="dbIndex";
     return roles;
 }

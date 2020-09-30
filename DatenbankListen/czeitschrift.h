@@ -50,6 +50,12 @@ public:
 	void AddElementToRubrikList(QString rubrik);
 	QList <QString> getRubrikList();
 
+	void AddElementToSloganList(QString element);
+	QList <QString> getSloganList();
+
+	void AddElementToRedaktionList(QString element);
+	QList <QString> getRedaktionList();
+
     QString getAsSQLString(bool include_whereID) const;
 
 private:
@@ -58,6 +64,8 @@ private:
 
 	 QMap<QString,QByteArray> m_ZeitschriftMap;
 	 QList <QString> m_rubrikList;
+	 QList <QString> m_sloganList;
+	 QList <QString> m_redaktionList;
 };
 
 #endif // CZEITSCHRIFT_H

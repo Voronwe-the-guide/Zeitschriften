@@ -189,13 +189,57 @@ void CZeitschrift::AddElementToRubrikList(QString rubrik)
 			return;
 		}
 	}
- //   beginInsertRows(QModelIndex(),rowCount(),rowCount());//This is to keep the list in QML updated
 	m_rubrikList << rubrik;
- //   endInsertRows();
-}
+ }
+
 QList <QString> CZeitschrift::getRubrikList()
 {
 	return m_rubrikList;
+}
+
+void CZeitschrift::AddElementToSloganList(QString element)
+{
+	if (element.isEmpty())
+	{
+		return;
+	}
+
+	for (int i=0; i<m_sloganList.count(); i++)
+	{
+		if (m_sloganList.at(i) == element)
+		{
+			//Allready there
+			return;
+		}
+	}
+	m_sloganList << element;
+}
+QList <QString> CZeitschrift::getSloganList()
+{
+	return m_sloganList;
+}
+
+void CZeitschrift::AddElementToRedaktionList(QString element)
+{
+	if (element.isEmpty())
+	{
+		return;
+	}
+
+	for (int i=0; i<m_redaktionList.count(); i++)
+	{
+		if (m_redaktionList.at(i) == element)
+		{
+			//Allready there
+			return;
+		}
+	}
+	m_redaktionList << element;
+}
+
+QList <QString> CZeitschrift::getRedaktionList()
+{
+	return m_redaktionList;
 }
 
 

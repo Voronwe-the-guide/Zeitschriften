@@ -104,10 +104,10 @@ Item
                       onArrowDownPressed:
                       {
                          // if (rubrikList.count>0)
-                          if (zeitschriftEdit.elementCount > 0)
+                          if (zeitschriftListDisplay.elementCount > 0)
                           {
                              // rubrikList.focus = true;
-                              rzeitschriftEdit.setFocus(true);
+                             zeitschriftListDisplay.setFocus(true);
                                magazinArea.focus = false;
                           }
                       }
