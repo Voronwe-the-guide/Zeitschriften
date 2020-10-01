@@ -66,19 +66,21 @@ void CZeitschriftDisplayList::deleteAll()
 }
 
 
-bool CZeitschriftDisplayList::AddElement(CZeitschrift &zeitschrift)
+bool CZeitschriftDisplayList::AddElement(CZeitschrift &zeitschrift, int&listIndex)
 {
     for (int i=0; i<m_ZeitschriftenList.count(); i++)
     {
 		if (zeitschrift.getZeitschrift() == m_ZeitschriftenList.at(i).getZeitschrift())
         {
-            //Allready there
+			listIndex = i;
             return false;
         }
     }
     beginInsertRows(QModelIndex(),rowCount(),rowCount());//This is to keep the list in QML updated
     m_ZeitschriftenList << zeitschrift;
     endInsertRows();
+	listIndex = m_ZeitschriftenList.count()-1;
+
     return true;
 
 }

@@ -74,12 +74,12 @@ void CAusgabeDisplayList::deleteAll()
 		 m_AusgabenList.clear();
 		 endRemoveRows();
 	}
-    m_zeitungen.clear();
+  //  m_zeitungen.clear();
 	emit listEmpty();
 }
 
 
-bool CAusgabeDisplayList::AddElement(CAusgabe &ausgabe)
+bool CAusgabeDisplayList::AddElement(CAusgabe &ausgabe, int&listIndex)
 {
 
 
@@ -91,6 +91,7 @@ bool CAusgabeDisplayList::AddElement(CAusgabe &ausgabe)
 				&& (ausgabe.getAusgabe() == m_AusgabenList.at(i).getAusgabe()))
 		{
 			//Allready there
+			listIndex = i;
 			return false;
 		}
 	}
@@ -100,10 +101,31 @@ bool CAusgabeDisplayList::AddElement(CAusgabe &ausgabe)
 	endInsertRows();
     QTime endTime = QTime::currentTime();
     qDebug()<<"Add Element "<< startTime.msecsTo(forTime)<<" - "<<forTime.msecsTo(endTime);
-
+	listIndex = m_AusgabenList.count()-1;
 	return true;
 
 }
+
+CAusgabe  CAusgabeDisplayList::getElement (int listIndex)
+{
+	CAusgabe ausgabe;
+	if ((listIndex>=0 ) && (listIndex<m_AusgabenList.count()))
+	{
+		ausgabe = m_AusgabenList.at(listIndex);
+	}
+	return ausgabe;
+}
+void  CAusgabeDisplayList::UpdateElement(const CAusgabe& element, int listIndex)
+{
+	if ((listIndex>=0) && (listIndex<m_AusgabenList.count()))
+	{
+		m_AusgabenList.replace(listIndex,element);
+		const QModelIndex idx = index(listIndex);
+		emit dataChanged(idx,idx);
+
+	}
+}
+
 
 QHash<int, QByteArray> CAusgabeDisplayList::roleNames() const
 {

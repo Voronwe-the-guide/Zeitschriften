@@ -22,7 +22,7 @@ signals:
 
 public slots:
     void deleteAll();
-    bool AddElement(CZeitschrift &zeitschrift);
+	bool AddElement(CZeitschrift &zeitschrift, int&listIndex);
 	CZeitschrift getZeitschrift (const QString& Zeitschrift,int &listIndex);
 	CZeitschrift getZeitschrift (int listIndex);
 	void AddRubrikToZeitschrift(const QString& zeitschrift, const QString& rubrik);
