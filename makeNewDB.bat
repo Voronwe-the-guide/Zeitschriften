@@ -1,0 +1,1 @@
+sqliteTools\sqlite3.exe neueDB.db < sql_makeDB.txt

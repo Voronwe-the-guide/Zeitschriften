@@ -1,11 +1,16 @@
 
 ZeitschriftenDBViewer.pro.user.b51d634
 ZeitschriftenDBViewer.pro.user
+*.db
 *.user
 *.user
 *.autosave
+*.build
+*.ReleaseBuild
 GEO_Register.zip
 *.obj
+build/
+ReleaseBuild/
 debug/
 release/
 settings.json

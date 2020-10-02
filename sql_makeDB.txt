@@ -1,0 +1,47 @@
+CREATE TABLE "Zeitschriften" (
+	"UniqueIndex"	INTEGER,
+	"Zeitschrift"	TEXT,
+	"Logo"	BLOB,
+	"Sprache"	TEXT,
+	"Beschreibung"	TEXT,
+	"Notizen"	TEXT,
+	PRIMARY KEY("UniqueIndex")
+);
+
+CREATE TABLE "Ausgaben" (
+"UniqueIndex"INTEGER,
+"Zeitschrift"TEXT,
+"Jahr"INTEGER,
+"Ausgabe"INTEGER,
+"Cover"BLOB,
+"Untertitel"TEXT,
+"Preis"REAL,
+"Waehrung"TEXT,
+"Sprache"TEXT,
+"Seitenzahl"INTEGER,
+"Chefredakteur"TEXT,
+"Notizen"TEXT,
+PRIMARY KEY("UniqueIndex")
+);
+
+CREATE TABLE "Inhalte" (
+"UniqueIndex"INTEGER,
+"Zeitschrift"TEXT DEFAULT 'GEO',
+"Ausgabe"INTEGER,
+"Jahr"INTEGER,
+"Rubrik"TEXT,
+"Ueberschrift"TEXT DEFAULT (null),
+"Zusammenfassung"TEXT,
+"Kurztext"TEXT,
+"Seite"INTEGER,
+"Autor"TEXT,
+"Sprache"TEXT,
+"Fotos"TEXT,
+"Schlagworte"TEXT,
+"Land"TEXT,
+"Notizen"TEXT,
+"Koord_Laenge"REAL,
+"Koord_Breite"REAL,
+"Aenderungszeit"TEXT,
+PRIMARY KEY("UniqueIndex")
+);
