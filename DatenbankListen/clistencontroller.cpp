@@ -282,17 +282,19 @@ void CListenController::getListOfAusgaben(bool atStartup)
 		int index=-1;
 		m_ausgabenDisplay->AddElement(ausgabe,index);
 
-		 m_SprachenList->AddElement(ausgabe.getSprache());
-		 m_waehrungsList->AddElement(ausgabe.getWaehrung());
-
-		 int listIndex = -1;
-		 CZeitschrift zeitschriftForAusgabe = m_zeitschriftenDisplay->getZeitschrift(ausgabe.getZeitschrift(),listIndex);
-		 if (listIndex>=0)
-		 {
-			zeitschriftForAusgabe.AddElementToSloganList(ausgabe.getUntertitel());
-			zeitschriftForAusgabe.AddElementToRedaktionList(ausgabe.getChefredakteur());
-			m_zeitschriftenDisplay->UpdateZeitschrift(zeitschriftForAusgabe,listIndex);
-		 }
+		if (atStartup)
+		{
+			 m_SprachenList->AddElement(ausgabe.getSprache());
+			 m_waehrungsList->AddElement(ausgabe.getWaehrung());
+			 int listIndex = -1;
+			 CZeitschrift zeitschriftForAusgabe = m_zeitschriftenDisplay->getZeitschrift(ausgabe.getZeitschrift(),listIndex);
+			 if (listIndex>=0)
+			 {
+				zeitschriftForAusgabe.AddElementToSloganList(ausgabe.getUntertitel());
+				zeitschriftForAusgabe.AddElementToRedaktionList(ausgabe.getChefredakteur());
+				m_zeitschriftenDisplay->UpdateZeitschrift(zeitschriftForAusgabe,listIndex);
+			 }
+		}
 
 
 	}

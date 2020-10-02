@@ -71,11 +71,12 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("cSettings",&settings);
 	engine.rootContext()->setContextProperty("cArtikelList", listenController.artikelDisplay());
 	engine.rootContext()->setContextProperty("cJahreList",listenController.jahrgaengeDisplay());
-	engine.rootContext()->setContextProperty("cAusgabenList",listenController.ausgabenForJahrDisplay());
+	engine.rootContext()->setContextProperty("cAusgabenForJahrList",listenController.ausgabenForJahrDisplay());
     engine.rootContext()->setContextProperty("cZeitschriftenList",listenController.zeitschriftenDisplay());
     engine.rootContext()->setContextProperty("cZeitschriftenForJahr",listenController.zeitschriftenForJahrDisplay());
     engine.rootContext()->setContextProperty("cRubrikList",listenController.rubrikenListDisplay());
     engine.rootContext()->setContextProperty("cZeitschriftNameList",listenController.zeitschriftenListForSelection());
+	engine.rootContext()->setContextProperty("cAusgabenList",listenController.ausgabenDisplay());
     engine.rootContext()->setContextProperty("cListenController",&listenController);
     engine.rootContext()->setContextProperty("cArtikelEditor",&artikelEditor);
      engine.rootContext()->setContextProperty("cZeitschriftEditor",&zeitschriftEditor);
@@ -85,6 +86,7 @@ int main(int argc, char *argv[])
 	engine.rootContext()->setContextProperty("cRedaktionList",listenController.redaktionList());
 	engine.rootContext()->setContextProperty("cSprachenList",listenController.sprachenList());
 	engine.rootContext()->setContextProperty("cWaehrungList",listenController.waehrungsList());
+
 
 	engine.load(url);
 

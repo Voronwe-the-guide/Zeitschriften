@@ -1,7 +1,6 @@
 import QtQuick 2.14
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
-import Qt.labs.qmlmodels 1.0
 Window
 {
     id: zeitschriftenListeWindow
@@ -20,41 +19,28 @@ Window
 
 
 
-     TableModel {
-         id: zeitschrifenModel
-        TableModelColumn { display: "name" }
-        TableModelColumn { display: "color" }
+    Rectangle {
+        color: "yellow"
+        width: 100; height: 100
 
-        rows: [
-            {
-                "name": "cat",
-                "color": "black"
-            },
-            {
-                "name": "dog",
-                "color": "brown"
-            },
-            {
-                "name": "bird",
-                "color": "white"
-            }
-        ]
-    }
+        MouseArea {
+            anchors.fill: parent
+            onClicked: console.log("clicked yellow")
+        }
 
-        ListView {
-        anchors.fill: parent
-        //columnSpacing: 1
-        //rowSpacing: 1
-        clip: true
-        model: cZeitschriftenList
+        Rectangle {
+            color: "blue"
+            width: 50; height: 50
 
-        delegate: Rectangle {
-            implicitWidth: 100
-            implicitHeight: 50
-            Tracer{}
-            Text {
-                text: model.zeitschrift
+            MouseArea {
+                anchors.fill: parent
+                propagateComposedEvents: true
+                onClicked: {
+                    console.log("clicked blue")
+                    mouse.accepted = false
+                }
             }
         }
-}
+    }
+
 }

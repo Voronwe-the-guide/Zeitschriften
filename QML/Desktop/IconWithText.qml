@@ -22,6 +22,10 @@ Item
 
     property bool hasFocus: textDisplay.focus
 
+    property int verticalAlignment: Text.AlignVCenter
+    property int horizontalAlignment: Text.AlignLeft
+
+
     function setFocus(toFocus)
     {
        // textDisplay.setFocus(toFocus);
@@ -59,6 +63,8 @@ Item
             text: textArea.text
             readOnly: textArea.readOnly
             focus: textArea.focus
+            verticalAlignment: textArea.verticalAlignment
+            horizontalAlignment: textArea.horizontalAlignment
             onTextWasEdited:{ textArea.textWasEdited(newText)}
             onNextPressed: {textArea.nextPressed();}
             onPreviousPressed: {textArea.previousPressed();}

@@ -52,5 +52,7 @@
         <file>Images/preis.svg</file>
         <file>Images/seitenzahl.svg</file>
         <file>Images/waehrung.svg</file>
+        <file>Desktop/AusgabenListe.qml</file>
+        <file>Desktop/Helper/ScrollVertical.qml</file>
     </qresource>
 </RCC>

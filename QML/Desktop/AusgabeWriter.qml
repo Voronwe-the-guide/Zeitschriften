@@ -13,6 +13,9 @@ Window
     modality: Qt.ApplicationModal
     property bool readOnlyMode: false
 
+    signal saveButtonPressed();
+    signal cancelButtonPressed();
+
 
     title: "Edit Ausgabe"
     flags:  Qt.Window | Qt.WindowSystemMenuHint
@@ -450,8 +453,8 @@ Window
                     DisplayText_MultiLine
                     {
                         id: notizen
-                        height: beschreibung.contentHeight + 20 //parent.height-6
-                        width: parent.width-6
+                        height: parent.height //parent.height-6
+                        width: parent.width
                         anchors.horizontalCenter: parent.horizontalCenter
                         anchors.top: parent.top
                         anchors.topMargin: 2
@@ -499,6 +502,7 @@ Window
                   if (retVal)
                   {
                      ausgabeEditWindow.close()
+                      ausgabeEditWindow.saveButtonPressed();
                   }
                   else
                   {
@@ -513,7 +517,11 @@ Window
               id: cancelButton
               text: qsTr("Cancel")
               DialogButtonBox.buttonRole: DialogButtonBox.DestructiveRole
-              onClicked: { ausgabeEditWindow.close()}
+              onClicked:
+              {
+                  ausgabeEditWindow.close()
+                  ausgabeEditWindow.cancelButtonPressed();
+              }
 
           }
 

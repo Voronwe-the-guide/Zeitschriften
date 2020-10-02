@@ -100,7 +100,7 @@ bool CAusgabeDisplayList::AddElement(CAusgabe &ausgabe, int&listIndex)
 	m_AusgabenList << ausgabe;
 	endInsertRows();
     QTime endTime = QTime::currentTime();
-    qDebug()<<"Add Element "<< startTime.msecsTo(forTime)<<" - "<<forTime.msecsTo(endTime);
+  //  qDebug()<<"Add Element "<< startTime.msecsTo(forTime)<<" - "<<forTime.msecsTo(endTime);
 	listIndex = m_AusgabenList.count()-1;
 	return true;
 
@@ -114,6 +114,12 @@ CAusgabe  CAusgabeDisplayList::getElement (int listIndex)
 		ausgabe = m_AusgabenList.at(listIndex);
 	}
 	return ausgabe;
+}
+
+int CAusgabeDisplayList::getDBIndex(int listIndex)
+{
+	CAusgabe ausgabe = getElement(listIndex);
+	return ausgabe.getUniqueIndex();
 }
 void  CAusgabeDisplayList::UpdateElement(const CAusgabe& element, int listIndex)
 {

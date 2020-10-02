@@ -54,7 +54,7 @@ Item
                         console.log("Area cliecked");
                         if (mouse.button == Qt.RightButton)
                         {
-                            cZeitschriftEditor.setZeitschriftForUpdate(model.dbIndex)
+                            cZeitschriftEditor.setForUpdate(model.dbIndex)
                             Qt.createComponent("ZeitschriftWriter.qml").createObject(zeitschriftenDisplay)// artikeleditor.visible = true;
                         }
                         else

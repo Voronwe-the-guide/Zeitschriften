@@ -11,6 +11,9 @@ Window
     modality:Qt.ApplicationModal
 
     signal nextButtonPressed();
+    signal saveButtonPressed();
+    signal cancelButtonPressed();
+
     onVisibilityChanged:
     {
         if (visible)
@@ -72,6 +75,7 @@ Window
                  if (retVal)
                  {
                     editWindow.close()
+                     editWindow.saveButtonPressed()
                  }
                  else
                  {
@@ -89,7 +93,10 @@ Window
              id: cancelButton
              text: qsTr("Cancel")
              DialogButtonBox.buttonRole: DialogButtonBox.DestructiveRole
-             onClicked: { editWindow.close()}
+             onClicked: {
+                 editWindow.close()
+                    editWindow.cancelButtonPressed()
+             }
   //           Keys.onTabPressed:{dialogButtons.nextPressed()}
   //           Keys.onBacktabPressed: {saveButton.focus = true}
   //           Keys.onReturnPressed:{editWindow.close()}

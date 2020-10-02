@@ -35,6 +35,14 @@ ApplicationWindow
         var this_component = Qt.createComponent("AusgabeWriter.qml").createObject(mainWindow, {isNewOne:true})// artikeleditor.visible = true;
    //     this_component.nextButtonPressed.connect(restart);
     }
+
+    function callAusgabeList()
+    {
+        cListenController.getListOfAusgaben()
+        var this_component = Qt.createComponent("AusgabenListe.qml").createObject(mainWindow)// artikeleditor.visible = true;
+
+    }
+
     function restart()
     {
     //    console.log("Restart");
@@ -194,6 +202,16 @@ ApplicationWindow
                 {
                     cAusgabeEditor.setNew();
                     mainWindow.callNewAusgabeWindow();
+                }
+                anchors.verticalCenter: parent.verticalCenter
+            }
+            Button
+            {
+                id: showAusgabenListe
+                text: qsTr("Liste der Ausgaben")
+                onClicked:
+                {
+                     mainWindow.callAusgabeList();
                 }
                 anchors.verticalCenter: parent.verticalCenter
             }

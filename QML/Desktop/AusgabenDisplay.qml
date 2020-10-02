@@ -13,7 +13,7 @@ Item
 
     Connections
     {
-        target: cAusgabenList
+        target: cAusgabenForJahrList
         function onListEmpty()
         {
             currentAusgabe = -1;
@@ -68,7 +68,7 @@ Item
        id: ausgabenListe
         width: parent.width
         height: parent.height
-        model: cAusgabenList
+        model: cAusgabenForJahrList
         delegate: ausgabeComponent
 
         onCountChanged:

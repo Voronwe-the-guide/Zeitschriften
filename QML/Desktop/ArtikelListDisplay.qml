@@ -1,6 +1,8 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.9
 import QtQuick.Layouts 1.3
+
+import "Helper"
 Item
 {
     id: artikelListDisplay
@@ -142,86 +144,8 @@ Item
           Keys.onDownPressed: scrollBar.increase()
 
 /* taken from: https://forum.qt.io/topic/88248/custom-scrollbar-to-add-top-bottom-buttons-windows-style/3 */
-        ScrollBar.vertical: ScrollBar
-        { id: scrollBar;
-            width: 30
-         policy: ScrollBar.AlwaysOn
-         topPadding: 25 + 2
-                     bottomPadding: 25 + 2
+        ScrollBar.vertical: ScrollVertical {id: scrollBar}
 
-                     Rectangle {
-                         width: parent.width
-                         height: 25
-                         color: upButton.pressed ? "lightblue" : "transparent"
-                         Image
-                         {
-                             anchors.fill: parent
-                             source:"qrc:/Images/chevron-up.svg"
-                         }
-
-                        // opacity: vbar.contentItem.opacity
-
-                         MouseArea {
-                             id: upButton
-                             anchors.fill: parent
-
-                             SmoothedAnimation {
-                                 target: artikelList
-                                 property: "contentY"
-                                 running: upButton.pressed
-                                 velocity: 2000
-                                 to: 0
-                             }
-
-                          /*   onReleased: {
-                                 if (artikelList.currentIndex > 0)
-                                 {
-                                     artikelList.currentIndex--;
-                                     artikelList.positionViewAtIndex(artikelList.currentIndex,ListView.Beginning)
-                                 }
-
-                             }
-                             */
-                         }
-                     }
-
-                     Rectangle {
-                         y: parent.height - height
-                         width: parent.width
-                         height: 25
-                         color: downButton.pressed ? "lightblue" : "transparent"
-                    //     opacity: vbar.contentItem.opacity
-                        Image
-                        {
-                            anchors.fill: parent
-                            source:"qrc:/Images/chevron-down.svg"
-                        }
-                         MouseArea {
-                             id: downButton
-                             anchors.fill: parent
-
-                             SmoothedAnimation {
-                                 target: artikelList
-                                 property: "contentY"
-                                 running: downButton.pressed
-                                 to: artikelList.contentHeight - artikelList.height
-                                 velocity: 2000
-                             }
-
-
-                        /*     onReleased: {
-
-                                 if (artikelList.currentIndex < artikelList.count-1)
-                                 {
-                                     artikelList.currentIndex++;
-                                     artikelList.positionViewAtIndex(artikelList.currentIndex,ListView.Beginning)
-                                 }
-
-                            }
-                            */
-                         }
-                     }
-        }
     }
 
 /*

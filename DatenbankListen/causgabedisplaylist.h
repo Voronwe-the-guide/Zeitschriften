@@ -59,6 +59,7 @@ public slots:
 	bool AddElement (CAusgabe &element,int &index);
 //	CAusgabe getElement (const QString& AuZeitschrift,int &listIndex);
 	CAusgabe getElement (int listIndex);
+	int getDBIndex(int listIndex);
 	void UpdateElement(const CAusgabe& element, int listIndex);
 
 protected:

@@ -178,7 +178,7 @@ void CSettings::setWindowHeight(int height)
 void CSettings::setWindowWidth(int width)
 {
     QSize windowSize = GlobalSettings->getWindowSize();
-    windowSize.setHeight(width);
+	windowSize.setWidth(width);
      GlobalSettings->setWindowSize(windowSize);
     m_sizeSettingTimer.start();
 
