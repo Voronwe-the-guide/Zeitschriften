@@ -7,6 +7,8 @@ copy openssl\*.dll %output_path%
 copy sqliteTools %output_path%
 copy sql_makeDB.txt %output_path%
 copy makeNewDB.bat %output_path%
+copy 3rdPartyLicense %output_path%
+copy README.md %output_path%
 
 cd %output_path%
 
@@ -24,6 +26,6 @@ set time=%mydate%_%mytime%
 
 "c:\Program Files\7-Zip\7z.exe" a %output_Name%_%time%.zip %output_Name%
 
-
+pause
 
 
