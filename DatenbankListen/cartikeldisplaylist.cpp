@@ -125,7 +125,7 @@ QHash<int, QByteArray> CArtikelDisplayList::roleNames() const
 	roles[Role_Schlagworte] = "schlagworte";
 	roles[Role_Land] = "land";
 	roles[Role_Koordinate] = "koordinate";
-    roles[Role_Index] = "dbindex";
+    roles[Role_Index] = "dbIndex";
     roles[Role_Notizen] = "notizen";
     roles[Role_Latitude] = "latitude";
     roles[Role_Longitude] = "longitude";

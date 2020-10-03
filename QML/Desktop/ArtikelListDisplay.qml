@@ -10,6 +10,7 @@ Item
     height: 800
     property int fontSize: 20
    // property int currentIndex: 0
+    property int oldIndex: -1;
 
     onVisibleChanged:
     {
@@ -17,6 +18,27 @@ Item
         {
 
         }
+    }
+
+
+    function readList()
+    {
+        artikelList.focus = true
+        cListenController.recallArtikelList()
+        artikelList.currentIndex = oldIndex
+        artikelList.positionViewAtIndex(oldIndex,ListView.Center)
+        oldIndex = -1
+    }
+
+    function callEdit(dbIndex)
+    {
+        oldIndex = artikelList.currentIndex;
+        cArtikelEditor.setArtikelForUpdate(dbIndex);
+       var this_component = Qt.createComponent("ArtikelWriter.qml").createObject(artikelListDisplay)// artikeleditor.visible = true;
+
+  //     cAusgabeEditor.setForUpdate(dbIndex)
+   //     var this_component = Qt.createComponent("AusgabeWriter.qml").createObject(ausgabenDisplay)// artikeleditor.visible = true;
+        this_component.saveButtonPressed.connect(readList);
     }
 
     Connections
@@ -44,11 +66,26 @@ Item
     Component
     {
         id: artikelComponent
-        Item
+        Rectangle
         {
             id: showArtikel
             width: artikelListDisplay.width-50
             height: artikelDisplay.height+artikelSeperator.height
+            color: model.index == artikelList.currentIndex?"lightblue": "white" //"#EBEBEB"/"white"
+
+            MouseArea
+            {
+                anchors.fill: parent
+                propagateComposedEvents: true
+
+                onClicked:
+                {
+                   // ausgabe.color= "red"
+                    artikelList.currentIndex = model.index
+                    artikelList.positionViewAtIndex(model.index,ListView.Center)
+
+                }
+            }
             Artikel
             {
                 id: artikelDisplay
@@ -71,13 +108,14 @@ Item
         //        hasGPS: true
                 onEditButtonPressed:
                 {
-                     cArtikelEditor.setArtikelForUpdate(model.dbindex);
-                   Qt.createComponent("ArtikelWriter.qml").createObject(artikelListDisplay)// artikeleditor.visible = true;
+                    artikelList.currentIndex = model.index
+                    callEdit(model.dbIndex)
+
                  //   editElement.active = true;
                 }
                 onDeleteButtonPressed:
                 {
-                    cListenController.deleteArtikel(model.dbindex);
+                    cListenController.deleteArtikel(model.dbIndex);
                 }
 
             }
@@ -124,9 +162,11 @@ Item
         width: parent.width-20
         height: parent.height-map.height
         anchors.top: map.bottom
-        x: 20
+         currentIndex: 0
+         x: 20
         model: cArtikelList
         delegate: artikelComponent
+        focus: true
         clip: true
        onCurrentIndexChanged:
         {
@@ -138,61 +178,39 @@ Item
          boundsBehavior: Flickable.StopAtBounds
          Layout.fillWidth: true
           Layout.fillHeight: true
+          highlightFollowsCurrentItem : false
+          preferredHighlightBegin: height / 2 - 100 // 100 being item height / 2
+          preferredHighlightEnd: height / 2 + 100 // 100 being item height / 2
+
 
        //   focus: true
-          Keys.onUpPressed: scrollBar.decrease()
-          Keys.onDownPressed: scrollBar.increase()
+          Keys.onUpPressed:
+          {
+              if (artikelList.currentIndex>0)
+              {
+                  artikelList.currentIndex--
+                  artikelList.positionViewAtIndex(artikelList.currentIndex,ListView.Center)
+              }
+          } // scrollBar.decrease()
+          Keys.onDownPressed:
+          {
+              if (artikelList.currentIndex<artikelList.count-1)
+              {
+                  artikelList.currentIndex++
+                  artikelList.positionViewAtIndex(artikelList.currentIndex,ListView.Center)
+              }
+          }
+          Keys.onReturnPressed:
+          {
+              callEdit(model.getDBIndex(artikelList.currentIndex))
+
+          }
 
 /* taken from: https://forum.qt.io/topic/88248/custom-scrollbar-to-add-top-bottom-buttons-windows-style/3 */
         ScrollBar.vertical: ScrollVertical {id: scrollBar}
 
     }
 
-/*
-    ApplicationWindow {
-        id: window
-        width: 400
-        height: 400
-        visible: true
 
-        artikelList {
-            id: artikelList
-
-            model: 100
-            anchors.fill: parent
-
-            ScrollBar.vertical: ScrollBar {
-                id: vbar
-
-                topPadding: 16 + 2
-                bottomPadding: 16 + 2
-
-
-            }
-
-            delegate: ItemDelegate {
-                text: modelData
-                width: parent.width
-            }
-        }
-    }
-
- /*   Loader
-    {
-        id: editElement
-        sourceComponent: editArtikel
-        active: false
-    }
-
-    Component
-    {
-        id: editArtikel
-        ArtikelWriter
-        {
-             id: artikeleditor
-           // visible: false
-        }
-    }
-*/
 
 }

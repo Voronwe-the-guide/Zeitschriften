@@ -1,10 +1,12 @@
 set output_Name=ZeitschriftenDB_Application
-set output_path=..\%output_Name%
+set output_path=ReleaseBuild\%output_Name%
 
 mkdir %output_path%
-copy ReleaseBuild\release\ZeitschriftenDBViewer.exe %output_path%
+copy ReleaseBuild\Viewer\release\ZeitschriftenDBViewer.exe %output_path%
+copy ReleaseBuild\Updater\release\ZeitschriftenDB_Updater.exe %output_path%
 copy openssl\*.dll %output_path%
-copy sqliteTools %output_path%
+mkdir %output_path%\sqliteTools
+copy sqliteTools %output_path%\sqliteTools
 copy sql_makeDB.txt %output_path%
 copy makeNewDB.bat %output_path%
 copy 3rdPartyLicense %output_path%
@@ -12,7 +14,7 @@ copy README.md %output_path%
 
 cd %output_path%
 
-c:\Qt\5.15.1\msvc2019_64\\bin\windeployqt.exe ZeitschriftenDBViewer.exe --qmldir ..\Zeitschriften\QML\
+c:\Qt\5.15.1\msvc2019_64\\bin\windeployqt.exe ZeitschriftenDBViewer.exe --qmldir ..\..\QML\
 
 cd ..
 

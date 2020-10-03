@@ -40,6 +40,7 @@ public slots:
 
     void getListOfZeitschriften();
 	void getListOfAusgaben(bool atStartup = false);
+    void recallArtikelList();
     void getOverview();
 
     void getJahreForZeitschrift(QStringList zeitschriften);
@@ -125,8 +126,11 @@ private:
 
     QString m_searchElement;
 
+    QString m_lastArtikelRequestString;
+
     QMap<QString, CColumn> m_searchTables;
     QMap<QString, CColumn> m_searchTablesSetting;
+
 
 
 

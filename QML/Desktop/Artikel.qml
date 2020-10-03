@@ -486,8 +486,9 @@ Item
         {
             id: detail
             width: parent.width
-            height: zusammenfassung.height > schlagworte.height?zusammenfassung.height:schlagworte.height
-           Row
+   //         height: artikelDisplay.readOnlyMode?zusammenfassung.height  :  (zusammenfassung.height> schlagworte.height?zusammenfassung.height:schlagworte.height)
+            height: schlagworte.fullDisplay?(zusammenfassung.height> schlagworte.height?zusammenfassung.height:schlagworte.height) : zusammenfassung.height
+            Row
            {
             anchors.fill: parent
             BackgroundElement
@@ -530,29 +531,59 @@ Item
                 id: schlagworte_bg
                 height: parent.height //-6
                 width: parent.width/2-6
-
+                clip: true
                 DisplayText_MultiLine
                 {
                     id: schlagworte
                     height: schlagworte.contentHeight + 20 //parent.height-6
-                    width: parent.width-6
-                    anchors.horizontalCenter: parent.horizontalCenter
+                    width: parent.width-30  //6
+                    anchors.left: parent.left
+                    anchors.leftMargin: 6
+              //      anchors.horizontalCenter: parent.horizontalCenter
                     anchors.top: parent.top
                     anchors.topMargin: 2
                     toolTip: qsTr("Schlagworte zur Suche")
-
+                    clip: true
 
                   //  anchors.centerIn: parent
                      text: artikelDisplay.stichworte
                     wrapMode: Text.Wrap
                     verticalAlignment: Text.AlignTop
 
-                    clip: true
+
                     readOnly: artikelDisplay.readOnlyMode
                     onTextWasEdited:{ artikelDisplay.stichworteEdit(newText)}
                     onPreviousPressed: {zusammenfassung.focus = true}
                     onNextPressed: {magazinArea.focus = true}//artikelDisplay.nextPressed()}
+
+                    property bool fullDisplay: false
+
+
                   }
+                   Rectangle
+                   {
+                       width: 25
+                       height: 15
+                       anchors.top: parent.top
+                       anchors.right: parent.right
+                       visible: schlagworte.height>zusammenfassung.height
+                        Image
+                        {
+
+
+                          anchors.fill: parent
+                          //  color: "red"
+                            source:schlagworte.fullDisplay?"qrc:/Images/chevron-up.svg":"qrc:/Images/chevron-down.svg"
+                            MouseArea
+                            {
+                                anchors.fill: parent
+                                onClicked:
+                                {
+                                    schlagworte.fullDisplay = !schlagworte.fullDisplay
+                                }
+                            }
+                        }
+                       }
               }
            }
 
