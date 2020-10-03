@@ -50,12 +50,31 @@ ApplicationWindow
     }
 
 
+    MessageDialog
+    {
+        id: errorDialog
+        width: 400
+        height: 300
+        title: qsTr("Fehler")
+        icon: StandardIcon.Critical
+
+        text:"Hello"
+        visible: false
+        modality: Qt.ApplicationModal
+        onAccepted: {
+          visible: false
+         }
+    }
+
     Connections
     {
         target: cErrorDisplay
         function onDisplayError(error)
         {
-            Qt.createComponent("MessageDisplay.qml").createObject(mainWindow, {text:error})// artikeleditor.visible = true;
+            console.log ("Error output: "+error)
+            errorDialog.text = error;
+            errorDialog.visible = true;
+  //          Qt.createComponent("MessageDisplay.qml").createObject(mainWindow/*, {text:error}*/)// artikeleditor.visible = true;
         }
 
     }

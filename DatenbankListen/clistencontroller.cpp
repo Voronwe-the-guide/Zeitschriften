@@ -50,33 +50,25 @@ CListenController::~CListenController()
 
 bool CListenController::openDB(QString DBPath)
 {
- /*   if (m_sqldb.isOpen())
-    {
-        m_sqldb.close();
-    }
-    m_sqldb = QSqlDatabase::addDatabase("QSQLITE");
-    if (DBPath.startsWith("file:///"))
-    {
-        DBPath = DBPath.remove("file:///");
-    }
-    m_sqldb.setDatabaseName(DBPath);
-    if (!m_sqldb.open())
-    {
-        qDebug() <<m_sqldb.lastError().text();
-        return false;
-    }
 
-    getTableNamesFromDB();
-    getListOfZeitschriften();
-    getOverview();
+    m_jahrgaengeDisplay->deleteAll();
+    m_ausgabenForJahrDisplay->deleteAll();
+    m_artikelDisplay->deleteAll();
+    m_zeitschriftenDisplay->deleteAll();
+   m_zeitschriftenForJahrDisplay->deleteAll();
+    m_RubrikenList->deleteAll();
+    m_ZeitschriftenListForSelection->deleteAll();
+    m_SloganList->deleteAll();
+    m_redaktionList->deleteAll();
+    m_SprachenList->deleteAll();
+    m_waehrungsList->deleteAll();
+    m_ausgabenDisplay->deleteAll();
 
-
-    return true;
-*/
-   int rc =  sqlite3_close(m_db);
+   int rc =  sqlite3_close_v2(m_db);
     if (rc != SQLITE_OK)
     {
         qDebug()<<"Could not close current SQLite DB ";
+        emit errorMessage("CListenController::OpenDB",tr("Problem with closing DB, please restart Application"));
         return false;
     }
     m_db = nullptr;
@@ -85,6 +77,7 @@ bool CListenController::openDB(QString DBPath)
     if (rc != SQLITE_OK)
     {
         qDebug()<<"Could not open SQLite DB "<<DBPath;
+        emit errorMessage("CListenController::OpenDB",tr("Could not open DB ")+DBPath);
         return false;
     }
     m_db = db;
@@ -498,7 +491,9 @@ void CListenController::getLowerInfoForJahr(int jahr)
 
 int CListenController::getZeitschriftenForJahr(int jahr)
 {
-	  m_ausgabenForJahrDisplay->deleteAll();
+
+
+    m_ausgabenForJahrDisplay->deleteAll();
       m_artikelDisplay->deleteAll();
       m_zeitschriftenForJahrDisplay->deleteAll();
       if (m_db == nullptr)
@@ -552,7 +547,7 @@ int CListenController::getZeitschriftenForJahr(int jahr)
 			  }
           }
           QTime loopEnd = QTime::currentTime();
-          qDebug()<<"Loop Finished in "<<localStart.msecsTo(loopEnd);
+      //    qDebug()<<"Loop Finished in "<<localStart.msecsTo(loopEnd);
 		  m_artikelDisplay->AddElement(artikel);
 		  int ausgabeIndex = -1;
 		  int zeitschriftIndex = -1;
@@ -569,7 +564,7 @@ int CListenController::getZeitschriftenForJahr(int jahr)
 		  }
 		 */ QTime addingEnd = QTime::currentTime();
 
-          qDebug()<<"Adding Finished in "<<loopEnd.msecsTo(addingEnd);
+       //   qDebug()<<"Adding Finished in "<<loopEnd.msecsTo(addingEnd);
       }
       QTime endTime = QTime::currentTime();
       int doneIn = startTime.msecsTo(endTime);
