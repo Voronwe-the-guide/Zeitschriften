@@ -69,7 +69,7 @@ QVariant CArtikelDisplayList::data ( const QModelIndex & index, int role) const
 			case Role_Fotos: return HighlightSearchElement(temp.getFotos());
 			case Role_Schlagworte: return HighlightSearchElement(temp.getSchlagworte());
 			case Role_Land: return HighlightSearchElement(temp.getLand());
-			case Role_Index: return temp.getDBIndex();
+            case Role_Index: return temp.getUniqueIndex();
             case Role_Notizen: return temp.getNotizen();
 			case Role_Koordinate: return temp.getKoordinateAsString();
 			case Role_Latitude: return temp.getKoordinate().latitude();
@@ -212,7 +212,7 @@ QString CArtikelDisplayList::getSprache(int index)
 }
 int CArtikelDisplayList::getDBIndex(int index)
 {
-	return getArtikel(index).getDBIndex();
+    return getArtikel(index).getUniqueIndex();
 
 }
 QString CArtikelDisplayList::getNotizen(int index)

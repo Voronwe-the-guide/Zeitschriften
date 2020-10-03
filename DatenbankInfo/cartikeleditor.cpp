@@ -304,7 +304,7 @@ bool CArtikelEditor::saveChangesInDB()
 		emit entryIsNotValid();
 		return false;
 	}
-   if (m_Artikel.getDBIndex()<0)
+   if (m_Artikel.getUniqueIndex()<0)
    {
        storeNewArtikel();
    }
@@ -335,8 +335,8 @@ void CArtikelEditor::storeNewArtikel()
 
     if (index>=0)
     {
-        m_Artikel.setDBIndex(index);
-        QString sqlRequest = m_Artikel.getArtikelAsSQLString(true);
+        m_Artikel.setUniqueIndex(index);
+        QString sqlRequest = m_Artikel.getAsSQLString(true);
 		m_listen->updateInhalteTable(m_Artikel);
      }
 

@@ -1080,7 +1080,7 @@ void CListenController::updateInhalteTable(const CArtikel &Artikel)// QString sq
     }
  //   sqlite3_stmt *stmt;
     char *zErrMsg;
-	QString sqlElements = Artikel.getArtikelAsSQLString(true);
+    QString sqlElements = Artikel.getAsSQLString(true);
     QString request = QString("UPDATE Inhalte %1").arg(sqlElements);
     int rc = sqlite3_exec(m_db,request.toStdString().c_str(),nullptr,nullptr,&zErrMsg);
 //    int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt);

@@ -3,7 +3,7 @@
 
 #include <QAbstractListModel>
 #include <QObject>
-#include "causgabe.h"
+#include <DatenbankListen/causgabe.h>
 
 
 class CAusgabeDisplayList  : public QAbstractListModel

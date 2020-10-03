@@ -1,5 +1,6 @@
-#include "causgabedisplaylist.h"
+#include <DatenbankListen/causgabedisplaylist.h>
 #include <QDebug>
+#include <QTime>
 const int  CAusgabeDisplayList::Role_Jahr  = Qt::UserRole+1;
 const int  CAusgabeDisplayList::Role_Ausgabe  = Qt::UserRole+2;
 const int  CAusgabeDisplayList::Role_Zeitschrift = Qt::UserRole+3;

@@ -1,4 +1,4 @@
-#include "czeitschrift.h"
+#include <DatenbankListen/czeitschrift.h>
 #include <Helper/helper.h>
 #include <Settings/csettings.h>
 

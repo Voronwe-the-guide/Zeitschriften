@@ -1,4 +1,4 @@
-#include "czeitschriftdisplaylist.h"
+#include <DatenbankListen/czeitschriftdisplaylist.h>
 
 const int  CZeitschriftDisplayList::Role_Zeitschrift  = Qt::UserRole+1;
 const int CZeitschriftDisplayList::Role_Selection = Qt::UserRole+2;

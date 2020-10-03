@@ -94,10 +94,10 @@ public:
      void setLastChange(const QString &Koordinate);
     void setLastChange(const QDateTime &lastChange);
 
-	int getDBIndex() const;
-    void setDBIndex(int index);
+    int getUniqueIndex() const;
+    void setUniqueIndex(int index);
 
-	QString getArtikelAsSQLString(bool include_whereID) const;
+    QString getAsSQLString(bool include_whereID) const;
 
 
 

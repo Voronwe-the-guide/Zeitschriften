@@ -1,4 +1,4 @@
-#include "cartikel.h"
+#include <DatenbankListen/cartikel.h>
 #include <QMapIterator>
 #include <QDebug>
 #include <Helper/helper.h>
@@ -353,7 +353,7 @@ void CArtikel::setLastChange(const QDateTime &lastChange)
 	*/
 }
 
-int CArtikel::getDBIndex() const
+int CArtikel::getUniqueIndex() const
 {
 	int result = -1;
 	if (m_artikelMap.contains(ARTIKEL_INDEX))
@@ -363,7 +363,7 @@ int CArtikel::getDBIndex() const
 	return result;
 }
 
-void CArtikel::setDBIndex(int index)
+void CArtikel::setUniqueIndex(int index)
 {
 	m_artikelMap[ARTIKEL_INDEX].setNum(index);
 }
@@ -383,7 +383,7 @@ void CArtikel::setNotizen(const QString &Notizen)
 	setText(ARTIKEL_NOTIZEN,Notizen);// m_artikelMap[ARTIKEL_NOTIZEN] = Notizen.toUtf8();
 
 }
-QString CArtikel::getArtikelAsSQLString(bool include_whereID) const
+QString CArtikel::getAsSQLString(bool include_whereID) const
 {
     QString artikel = "SET ";
 
@@ -428,7 +428,7 @@ QString CArtikel::getArtikelAsSQLString(bool include_whereID) const
 
     if (include_whereID)
     {
-       artikel += QString(" WHERE %1='%2'").arg(ARTIKEL_INDEX).arg(getDBIndex());
+       artikel += QString(" WHERE %1='%2'").arg(ARTIKEL_INDEX).arg(getUniqueIndex());
     }
 
 	return artikel;

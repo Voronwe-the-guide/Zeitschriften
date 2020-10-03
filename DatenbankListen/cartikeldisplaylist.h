@@ -3,7 +3,7 @@
 
 #include <QAbstractListModel>
 #include <QObject>
-#include "cartikel.h"
+#include <DatenbankListen/cartikel.h>
 
 
 class CArtikelDisplayList : public QAbstractListModel

@@ -1,7 +1,7 @@
 #ifndef CAUSGABE_H
 #define CAUSGABE_H
 
-#include "cartikel.h"
+
 #include <QMap>
 
 #define AUSGABE_TABELLE			"Ausgaben"
