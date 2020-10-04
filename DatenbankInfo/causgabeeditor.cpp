@@ -84,7 +84,7 @@ void CAusgabeEditor::getForUpdate(CAusgabe ausgabe)
 }
 
 
-bool CAusgabeEditor::saveChangesInDB()
+int CAusgabeEditor::saveChangesInDB(bool fromNew)
 {
     bool dataIsValid =true;
     dataIsValid = dataIsValid && isZeitschriftValid();
@@ -94,7 +94,23 @@ bool CAusgabeEditor::saveChangesInDB()
     if (!dataIsValid)
     {
         emit entryIsNotValid();
-        return false;
+        return -1;
+    }
+
+    if (fromNew)
+    {
+        CAusgabeDisplayList::searchStruct search;
+        search.magazin = m_ausgabe.getZeitschrift();
+        search.jahr = m_ausgabe.getJahr();
+        search.ausgabe = m_ausgabe.getAusgabe();
+
+        CAusgabe ausgabe = m_listen->getAusgabeByData( search);
+        int index = ausgabe.getUniqueIndex();
+        if (index>=0)
+        {
+            emit entryAllreadyThere();
+            return -2;
+        }
     }
 
     if (m_ausgabe.getUniqueIndex()<0)
@@ -105,7 +121,7 @@ bool CAusgabeEditor::saveChangesInDB()
     {
         saveUpdate();
     }
-    return true;
+    return 0;
 }
 
 void CAusgabeEditor::saveUpdate()

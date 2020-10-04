@@ -114,10 +114,18 @@ Window
                         spacing: 10
                        width: parent.width
                        height: 30
-                        IconWithText//DisplayText
+                       IconWithText
+                       {
+                           text: model.dbIndex
+                           id: index
+                           width: 20
+                           height: parent.height
+                       }
+                       IconWithText//DisplayText
                         {
 
                             id: zeitschrift
+                            anchors.left: index.right
                             height: parent.height
                        //     width: 100 //parent.width
 
@@ -155,6 +163,7 @@ Window
                     //        property string trenner: ((artikelDisplay.kurztext!="") && (artikelDisplay.ueberschrift!=""))?": ":""
                             text: model.untertitel //+trenner+artikelDisplay.ueberschrift
                         }
+
 
                     }//End titleRow
                     Item {id: seperator; width: parent.width; height: 5}

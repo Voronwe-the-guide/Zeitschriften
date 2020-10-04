@@ -12,6 +12,7 @@ Window
     visible: true
     modality: Qt.ApplicationModal
     property bool readOnlyMode: false
+    property bool isNewOne:false
 
     signal saveButtonPressed();
     signal cancelButtonPressed();
@@ -483,6 +484,21 @@ Window
        // Tracer{}
     }
 
+    MessageDialog
+    {
+        id: errorDialog
+        width: 400
+        height: 300
+        title: qsTr("Fehler")
+        icon: StandardIcon.Critical
+
+        text:"Hello"
+        visible: false
+        modality: Qt.ApplicationModal
+        onAccepted: {
+          visible: false
+         }
+    }
 
     DialogButtonBox
     {
@@ -498,18 +514,27 @@ Window
               DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
               onClicked:
               {
-                 var retVal= cAusgabeEditor.saveChangesInDB();
-                  if (retVal)
+                 var retVal= cAusgabeEditor.saveChangesInDB(isNewOne);
+                  if (retVal == 0)
                   {
                      ausgabeEditWindow.close()
                       ausgabeEditWindow.saveButtonPressed();
                   }
-                  else
+                  else if (retVal == -1)
                   {
-                      Qt.createComponent("MessageDisplay.qml").createObject(ausgabeEditWindow, {text:qsTr("Daten nicht korrekt!")})// artikeleditor.visible = true;
+                      errorDialog.text = "Daten nicht korrekt!"
+                      errorDialog.visible = true;
+                    //  Qt.createComponent("MessageDisplay.qml").createObject(editWindow, {text:qsTr("Daten nicht korrekt!")})// artikeleditor.visible = true;
 
                   }
-              }
+                  else if (retVal == -2)
+                  {
+                      errorDialog.text = "Ausgabe existiert schon!"
+                      errorDialog.visible = true;
+                   //   Qt.createComponent("MessageDisplay.qml").createObject(editWindow, {text:qsTr("Ausgabe existiert schon!")})// artikeleditor.visible = true;
+
+                  }
+               }
 
 
           }

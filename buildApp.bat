@@ -11,6 +11,7 @@ copy sql_makeDB.txt %output_path%
 copy makeNewDB.bat %output_path%
 copy 3rdPartyLicense %output_path%
 copy README.md %output_path%
+copy LICENSE %output_path%
 
 cd %output_path%
 

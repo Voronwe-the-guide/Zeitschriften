@@ -5,6 +5,7 @@
 #include <sqlite/sqlite3.h>
 #include <QDebug>
 #include <QFileInfo>
+#include <iostream>
 
 
 int makeSQLiteSearch(const QString& request,sqlite3 *db, sqlite3_stmt **stmt,QString callingFunction)
@@ -68,12 +69,9 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    CArtikelDisplayList artikelListeAlt;
-    CArtikelDisplayList artikelListeNeu;
-    CAusgabeDisplayList ausgabenListeAlt;
-    CAusgabeDisplayList ausgabenListeNeu;
-    CZeitschriftDisplayList zeitschriftenListeAlt;
-    CZeitschriftDisplayList zeitschriftenListeNeu;
+    CArtikelDisplayList artikelListe;
+    CAusgabeDisplayList ausgabenListe;
+    CZeitschriftDisplayList zeitschriftenListe;
 
     QString DBinput;
     QString DBoutput;
@@ -120,7 +118,7 @@ int main(int argc, char *argv[])
          return -1;
     }
 
-    for (int i=0; i<artikelListeAlt.rowCount(); i++)
+    for (int i=0; i<artikelListe.rowCount(); i++)
     {
 
     }
@@ -151,7 +149,7 @@ int main(int argc, char *argv[])
 
             }
             int index = -1;
-            bool isNew = zeitschriftenListeAlt.AddElement(zeitschrift,index);
+            bool isNew = zeitschriftenListe.AddElement(zeitschrift,index);
             if (isNew)
             {
                 int index = addEmptyRowToTable(db_out,ZEITSCHRIFT_TABELLE);
@@ -187,7 +185,7 @@ int main(int argc, char *argv[])
 
             }
             int index = -1;
-            bool isNewAusgabe = ausgabenListeAlt.AddElement(ausgabe,index);
+            bool isNewAusgabe = ausgabenListe.AddElement(ausgabe,index);
             if (isNewAusgabe)
             {
                 int index = addEmptyRowToTable(db_out,AUSGABE_TABELLE);
@@ -197,7 +195,7 @@ int main(int argc, char *argv[])
                 updateElementInTable(db_out,request);
             }
             index = -1;
-            bool isNewZeitschrift = zeitschriftenListeAlt.AddElement(zeitschrift,index);
+            bool isNewZeitschrift = zeitschriftenListe.AddElement(zeitschrift,index);
             if (isNewZeitschrift)
             {
                 qDebug()<<"\n Neue Zeitschrift "<<zeitschrift.getZeitschrift();
@@ -212,7 +210,50 @@ int main(int argc, char *argv[])
     }
 
     qDebug()<<"Get ArtikelListe";
-     request = QString("SELECT * FROM ")+ARTIKEL_TABELLE +" ORDER BY "+ARTIKEL_ZEITSCHRIFT+" ASC, "+ARTIKEL_JAHR+" ASC, "+ARTIKEL_AUSGABE+" ASC, "+ARTIKEL_SEITE+" ASC";
+
+    qDebug()<<"Check for Zeitschrift";
+    char **result;
+    int row;int column;
+
+     rc = sqlite3_get_table(db_in, "SELECT * from Inhalte", &result, &row,    &column,  nullptr);
+     if (rc != SQLITE_OK)
+     {
+         qDebug()<<"ERROR - No Inhalte Table found";
+         return -1;
+     }
+     bool zeitschriftAvailable = false;
+     for (int i=0; i<column; i++)
+     {
+         QString name = result[i];
+         if (name.contains(ARTIKEL_ZEITSCHRIFT))
+         {
+             zeitschriftAvailable = true;
+             break;
+         }
+     }
+
+     sqlite3_free_table(result);
+
+
+        QString ZeitschriftName;
+     if (zeitschriftAvailable)
+     {
+        request = QString("SELECT * FROM ")+ARTIKEL_TABELLE +" ORDER BY "+ARTIKEL_ZEITSCHRIFT+" ASC, "+ARTIKEL_JAHR+" ASC, "+ARTIKEL_AUSGABE+" ASC, "+ARTIKEL_SEITE+" ASC";
+     }
+     else
+     {
+        char Name[100];
+         std::cout << "Zeitschrift Name nicht gefunden. Welcher soll genutzt werden? : ";
+         std::cin >> Name;
+         ZeitschriftName = Name;
+
+         request = QString("SELECT * FROM ")+ARTIKEL_TABELLE +" ORDER BY "+ARTIKEL_JAHR+" ASC, "+ARTIKEL_AUSGABE+" ASC, "+ARTIKEL_SEITE+" ASC";
+
+     }
+
+
+
+
      rc = makeSQLiteSearch(request.toStdString().c_str(),db_in,&stmt, nullptr);
     if (rc == SQLITE_OK)
     {
@@ -236,30 +277,36 @@ int main(int argc, char *argv[])
 
             }
 
-            artikelListeAlt.AddElement(artikel);
+            artikelListe.AddElement(artikel);
             int index = addEmptyRowToTable(db_out,ARTIKEL_TABELLE);
             artikel.setUniqueIndex(index);
             QString sqlElements = artikel.getAsSQLString(true);
             QString request = QString("UPDATE ")+ARTIKEL_TABELLE+" "+sqlElements;
             updateElementInTable(db_out,request);
+            if (!zeitschriftAvailable)
+            {
+                zeitschrift.setZeitschrift(ZeitschriftName);
+                ausgabe.setZeitschrift(ZeitschriftName);
+                artikel.setZeitschrift(ZeitschriftName);
+            }
 
             index = -1;
-            bool isNewZeitschrift = zeitschriftenListeAlt.AddElement(zeitschrift,index);
+            bool isNewZeitschrift = zeitschriftenListe.AddElement(zeitschrift,index);
             if (isNewZeitschrift)
             {
                 qDebug()<<"\n Neue Zeitschrift "<<zeitschrift.getZeitschrift();
                 int index = addEmptyRowToTable(db_out,ZEITSCHRIFT_TABELLE);
                 zeitschrift.setUniqueIndex(index);
-                QString sqlElements = ausgabe.getAsSQLString(true);
+                 QString sqlElements = zeitschrift.getAsSQLString(true);
                 QString request = QString("UPDATE ")+ZEITSCHRIFT_TABELLE+" "+sqlElements;
                 updateElementInTable(db_out,request);
             }
 
             index = -1;
-            bool isNewAusgabe = ausgabenListeAlt.AddElement(ausgabe,index);
+            bool isNewAusgabe = ausgabenListe.AddElement(ausgabe,index);
             if (isNewAusgabe)
             {
-                qDebug()<<"\n Neue Zeitschrift "<<ausgabe.getZeitschrift()<<" / "<<ausgabe.getJahr()<<" / "<<ausgabe.getAusgabe();
+                qDebug()<<"\n Neue Ausgabe "<<ausgabe.getZeitschrift()<<" / "<<ausgabe.getJahr()<<" / "<<ausgabe.getAusgabe();
                 int index = addEmptyRowToTable(db_out,AUSGABE_TABELLE);
                 ausgabe.setUniqueIndex(index);
                 QString sqlElements = ausgabe.getAsSQLString(true);

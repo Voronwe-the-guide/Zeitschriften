@@ -12,6 +12,7 @@ Window
     visible: true
     modality:Qt.ApplicationModal
     property bool readOnlyMode: false
+    property bool isNewOne: false;
 
 
     title: "Edit Zeitschrift"
@@ -194,6 +195,21 @@ Window
 
     }
 
+    MessageDialog
+    {
+        id: errorDialog
+        width: 400
+        height: 300
+        title: qsTr("Fehler")
+        icon: StandardIcon.Critical
+
+        text:"Hello"
+        visible: false
+        modality: Qt.ApplicationModal
+        onAccepted: {
+          visible: false
+         }
+    }
 
     DialogButtonBox
     {
@@ -209,16 +225,27 @@ Window
               DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
               onClicked:
               {
-                 var retVal= cZeitschriftEditor.saveChangesInDB();
-                  if (retVal)
+                 var retVal= cZeitschriftEditor.saveChangesInDB(isNewOne);
+                  if (retVal == 0)
                   {
                      zeitschriftEditWindow.close()
+                      zeitschriftEditWindow.saveButtonPressed();
                   }
-                  else
+                  else if (retVal == -1)
                   {
-                      Qt.createComponent("MessageDisplay.qml").createObject(zeitschriftEditWindow, {text:qsTr("Daten nicht korrekt!")})// artikeleditor.visible = true;
+                      errorDialog.text = "Daten nicht korrekt!"
+                      errorDialog.visible = true;
+                    //  Qt.createComponent("MessageDisplay.qml").createObject(editWindow, {text:qsTr("Daten nicht korrekt!")})// artikeleditor.visible = true;
 
                   }
+                  else if (retVal == -2)
+                  {
+                      errorDialog.text = "Zeitschrift existiert schon!"
+                      errorDialog.visible = true;
+                   //   Qt.createComponent("MessageDisplay.qml").createObject(editWindow, {text:qsTr("Ausgabe existiert schon!")})// artikeleditor.visible = true;
+
+                  }
+
               }
 
 

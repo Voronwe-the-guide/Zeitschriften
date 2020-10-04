@@ -62,9 +62,9 @@ signals:
 
 public slots:
 
-	bool saveChangesInDB();
+    bool saveChangesInDB(bool fromNew);
     void setNewArtikel();
-	bool saveAndNext();
+    bool saveAndNext(bool fromNew);
     void setArtikelForUpdate(int dbIndex);
     void setArtikelForUpdate(CArtikel artikel);
 

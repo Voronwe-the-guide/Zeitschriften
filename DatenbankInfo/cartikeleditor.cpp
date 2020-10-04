@@ -19,10 +19,10 @@ void CArtikelEditor::setNewArtikel()
 
 }
 
-bool CArtikelEditor::saveAndNext()
+bool CArtikelEditor::saveAndNext(bool fromNew)
 {
 	bool retVal = true;
-	retVal = saveChangesInDB();
+    retVal = saveChangesInDB(fromNew);
 	if(!retVal)
 	{
 		return false;
@@ -290,7 +290,7 @@ void CArtikelEditor::setSomethingHasChanged(bool somethingHasChanged)
 }
 
 
-bool CArtikelEditor::saveChangesInDB()
+bool CArtikelEditor::saveChangesInDB(bool fromNew)
 {
 
 	bool dataIsValid =true;
@@ -303,7 +303,8 @@ bool CArtikelEditor::saveChangesInDB()
 	{
 		emit entryIsNotValid();
 		return false;
-	}
+    }
+
    if (m_Artikel.getUniqueIndex()<0)
    {
        storeNewArtikel();

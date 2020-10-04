@@ -67,15 +67,26 @@ void CZeitschriftEditor::setSomethingHasChanged(bool somethingHasChanged)
     m_somethingHasChanged = somethingHasChanged;
 }
 
-bool CZeitschriftEditor::saveChangesInDB()
+int CZeitschriftEditor::saveChangesInDB(bool fromNew)
 {
     bool dataIsValid =true;
     dataIsValid = dataIsValid && isNameValid();
     if (!dataIsValid)
     {
         emit entryIsNotValid();
-        return false;
+        return -1;
     }
+    if (fromNew)
+    {
+       CZeitschrift zeitschrift = m_listen->getZeitschriftByName(m_zeitschrift.getZeitschrift());
+        int index = zeitschrift.getUniqueIndex();
+        if (index>=0)
+        {
+            emit entryAllreadyThere();
+            return -2;
+        }
+    }
+
     if (m_zeitschrift.getUniqueIndex()<0)
     {
         storeNew();
@@ -84,7 +95,7 @@ bool CZeitschriftEditor::saveChangesInDB()
     {
         saveUpdate();
     }
-    return true;
+    return 0;
 }
 
 

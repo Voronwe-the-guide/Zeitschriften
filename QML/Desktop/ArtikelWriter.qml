@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
+import QtQuick.Dialogs 1.3
 Window
 {
     id: editWindow
@@ -55,6 +56,23 @@ Window
         }
     }
 
+
+   MessageDialog
+   {
+       id: errorDialog
+       width: 400
+       height: 300
+       title: qsTr("Fehler")
+       icon: StandardIcon.Critical
+
+       text:"Hello"
+       visible: false
+       modality: Qt.ApplicationModal
+       onAccepted: {
+         visible: false
+        }
+   }
+
    DialogButtonBox
    {
        id: dialogButtons
@@ -71,17 +89,27 @@ Window
              DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
              onClicked:
              {
-                var retVal= cArtikelEditor.saveChangesInDB();
+                var retVal= cArtikelEditor.saveChangesInDB(isNewOne);
                  if (retVal)
                  {
                     editWindow.close()
                      editWindow.saveButtonPressed()
                  }
-                 else
+                 else //if (retVal == -1)
                  {
-                     Qt.createComponent("MessageDisplay.qml").createObject(editWindow, {text:qsTr("Daten nicht korrekt!")})// artikeleditor.visible = true;
+                     errorDialog.text = "Daten nicht korrekt!"
+                     errorDialog.visible = true;
+                   //  Qt.createComponent("MessageDisplay.qml").createObject(editWindow, {text:qsTr("Daten nicht korrekt!")})// artikeleditor.visible = true;
 
                  }
+              /*   else if (retVal == -2)
+                 {
+                     errorDialog.text = "Ausgabe existiert schon!"
+                     errorDialog.visible = true;
+                  //   Qt.createComponent("MessageDisplay.qml").createObject(editWindow, {text:qsTr("Ausgabe existiert schon!")})// artikeleditor.visible = true;
+
+                 }
+                 */
              }
  //            Keys.onTabPressed:{cancelButton.focus = true;}
  //            Keys.onBacktabPressed:{dialogButtons.previousPressed()}
@@ -110,7 +138,7 @@ Window
              text: qsTr("Speichern und Nächster")
              onClicked:
              {
-                var retVal = cArtikelEditor.saveAndNext();
+                var retVal = cArtikelEditor.saveAndNext(isNewOne);
                 if (retVal)
                 {
                     editWindow.close();

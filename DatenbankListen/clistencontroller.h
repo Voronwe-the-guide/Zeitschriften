@@ -86,7 +86,6 @@ public slots:
 
 	CZeitschrift getZeitschriftByName(const QString& name);
 	CAusgabe getAusgabeByData( CAusgabeDisplayList::searchStruct& name);
-
     void searchArtikel(QString searchElement);
 
     QString getSearchElement() const;

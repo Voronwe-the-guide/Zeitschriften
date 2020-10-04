@@ -36,6 +36,7 @@ public:
 signals:
     void ausgabeDisplayUpdated();
     void entryIsNotValid(); //Will be send back before sendig data to SQL
+    void entryAllreadyThere();
 
 
 
@@ -67,7 +68,7 @@ public slots:
 
     void getForUpdate(CAusgabe ausgabe);
 
-    bool saveChangesInDB();
+    int saveChangesInDB(bool fromNew);
     void saveUpdate();
     void storeNew();
 

@@ -1495,6 +1495,9 @@ CAusgabe CListenController::getAusgabeByData(CAusgabeDisplayList::searchStruct& 
 	return ausgabe;
 }
 
+
+
+
 void CListenController::setSearchElement(const QString &searchElement)
 {
     m_searchElement = searchElement;
