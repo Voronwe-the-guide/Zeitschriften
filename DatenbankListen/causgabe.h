@@ -49,7 +49,9 @@ public:
 	void setCover(const QString &Cover);
 
 	double getPreis() const;
+    QString getPreisAsString() const;
 	void setPreis(double Preis);
+    void setPreis(QString Preis);
 
 	QString getWaehrung() const;
 	void setWaehrung(const QString &Waehrung);

@@ -198,12 +198,13 @@ void CAusgabeEditor::setCover(const QString & input)
 
 }
 
-double CAusgabeEditor::getPreis() const
+QString CAusgabeEditor::getPreis() const
 {
-    return  m_ausgabe.getPreis();
+    return m_ausgabe.getPreisAsString();
 
 }
-void CAusgabeEditor::setPreis(double input)
+
+void CAusgabeEditor::setPreis(QString input)
 {
     m_ausgabe.setPreis(input);
     setSomethingHasChanged(true);

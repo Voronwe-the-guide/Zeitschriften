@@ -48,7 +48,7 @@ QVariant CAusgabeDisplayList::data ( const QModelIndex & index, int role) const
 			case Role_Ausgabe: return temp.getAusgabe();
 			case Role_Zeitschrift: return temp.getZeitschrift();
             case Role_COVER: return temp.getCover()	;
-            case Role_PREIS: return temp.getPreis();
+            case Role_PREIS: return temp.getPreisAsString();
             case Role_WAEHRUNG: return temp.getWaehrung();
             case Role_SPRACHE: return temp.getSprache();
             case Role_SEITENZAHL: return temp.getSeitenzahl();

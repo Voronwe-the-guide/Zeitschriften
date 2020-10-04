@@ -14,7 +14,7 @@ class CAusgabeEditor : public QObject
     Q_PROPERTY(int  jahr READ getJahr NOTIFY ausgabeDisplayUpdated)
     Q_PROPERTY(QString  zeitschrift READ getZeitschrift NOTIFY ausgabeDisplayUpdated)
     Q_PROPERTY(QString   cover READ getCover NOTIFY coverDisplayUpdated)
-    Q_PROPERTY(double   preis READ getPreis NOTIFY ausgabeDisplayUpdated)
+    Q_PROPERTY(QString   preis READ getPreis NOTIFY ausgabeDisplayUpdated)
     Q_PROPERTY(QString   waehrung READ getWaehrung NOTIFY ausgabeDisplayUpdated)
 	Q_PROPERTY(int   seitenzahl READ getSeitenzahl NOTIFY ausgabeDisplayUpdated)
     Q_PROPERTY(QString  chefredakteur READ getChefredakteur NOTIFY ausgabeDisplayUpdated)
@@ -45,7 +45,7 @@ signals:
     void zeitschriftUpdated(const QString &Zeitschrift);
     void coverUpdated(const QString &Cover);
     void coverDisplayUpdated();
-    void preisUpdated(double Preis);
+    void preisUpdated(QString Preis);
     void waehrungUpdated(const QString &Waehrung);
     void seitenzahlUpdated(int Seitenzahl);
     void chefredakteurUpdated(const QString &Chefredakteur);
@@ -85,8 +85,8 @@ public slots:
     QString getCover() const;
     void setCover(const QString & input);
 
-    double getPreis() const;
-    void setPreis(double  input);
+    QString getPreis() const;
+    void setPreis(QString);
 
     QString getWaehrung() const;
     void setWaehrung(const QString & input);

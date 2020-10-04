@@ -303,7 +303,7 @@ Window
                         IconWithText
                         {
                             id: preisArea
-                            text:  cAusgabeEditor.preis// r==0)?"":cAusgabeEditor.jahr
+                            text:  (cAusgabeEditor.preis<0.05)?"":cAusgabeEditor.preis// r==0)?"":cAusgabeEditor.jahr
                             iconSource: "qrc:/Images/preis.svg"//.png"
                             toolTip: qsTr("Preis")
                             readOnly:ausgabeEditWindow.readOnlyMode

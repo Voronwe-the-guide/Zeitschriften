@@ -153,7 +153,25 @@ double CAusgabe::getPreis() const
 
 void CAusgabe::setPreis(double Preis)
 {
-	m_AusgabenMap[AUSGABE_INDEX].setNum(Preis);
+    m_AusgabenMap[AUSGABE_PREIS].setNum(Preis);
+}
+
+
+QString CAusgabe::getPreisAsString() const
+{
+    QString preis = QString::number(getPreis(), 'f', 2);
+    preis = preis.replace(".",",");
+
+    if (preis=="0,00") preis="";
+    return preis;
+
+}
+
+void CAusgabe::setPreis(QString input)
+{
+    input = input.replace(",",".");
+    double preis = input.toDouble();
+    setPreis(preis);
 }
 
 QString CAusgabe::getWaehrung() const
