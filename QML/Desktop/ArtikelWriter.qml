@@ -2,11 +2,15 @@ import QtQuick 2.0
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Dialogs 1.3
+import ZeitschriftLib 1.0
 Window
 {
     id: editWindow
-    width: 1000
-    height: artikel.height+dialogButtons.height+map.height
+    property int windowType: WindowNames.WINDOW_EDIT_ARTIKEL
+    width:cSettings.getWindowSize(windowType).width // .mainWindowSize.width // .getWindowSize().width
+    height:artikel.height+dialogButtons.height+map.height+30 // cSettings.getWindowSize(windowType).height //.mainWindowSize.height //.getWindowSize().height
+    onWidthChanged: cSettings.setWindowWidth(windowType,width)
+ //   onHeightChanged: cSettings.setWindowHeight(windowType,height)
     visible: true
     property bool isNewOne: false;
     modality:Qt.ApplicationModal

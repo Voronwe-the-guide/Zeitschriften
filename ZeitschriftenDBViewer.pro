@@ -37,7 +37,9 @@ SOURCES += \
         DatenbankListen/czeitschriftdisplaylist.cpp \
         Helper/cerrordisplay.cpp \
         Helper/helper.cpp \
+        Helper/qmlfactory.cpp \
         Settings/csettings.cpp \
+        Settings/cwindowinfo.cpp \
         main.cpp \
         sqlite/sqlite3.c
 
@@ -75,7 +77,9 @@ HEADERS += \
     DatenbankListen/czeitschriftdisplaylist.h \
     Helper/cerrordisplay.h \
     Helper/helper.h \
+    Helper/qmlfactory.h \
       Settings/csettings.h \
+    Settings/cwindowinfo.h \
     sqlite/sqlite3.h \
     sqlite/sqlite3ext.h
 

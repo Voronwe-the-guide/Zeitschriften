@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Dialogs 1.3
 import QtQuick.Controls 2.12
+import ZeitschriftLib 1.0
 //import Qt.labs.folderlistmodel 2.1
 //import Qt.labs.settings 1.0
 
@@ -12,11 +13,13 @@ ApplicationWindow
     visible: true
     minimumHeight: 400
     minimumWidth: 900
-    width:cSettings.mainWindowSize.width // .getWindowSize().width
-    height: cSettings.mainWindowSize.height //.getWindowSize().height
+
     title: qsTr("Zeitschriften DB: "+width+"x"+height+" "+cSettings.currentDB)
-    onWidthChanged: cSettings.setWindowWidth(width)
-    onHeightChanged: cSettings.setWindowHeight(height)
+    property int windowType: WindowNames.WINDOW_MAIN
+    width:cSettings.getWindowSize(windowType).width // .mainWindowSize.width // .getWindowSize().width
+    height: cSettings.getWindowSize(windowType).height //.mainWindowSize.height //.getWindowSize().height
+    onWidthChanged: cSettings.setWindowWidth(windowType,width)
+    onHeightChanged: cSettings.setWindowHeight(windowType,height)
    // var this_component
     function callNewArtikelWindow()
     {

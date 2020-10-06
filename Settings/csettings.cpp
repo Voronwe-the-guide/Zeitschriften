@@ -2,6 +2,19 @@
 #include <QJsonDocument>
 #include <QDebug>
 
+CSettingsData::CSettingsData():
+	m_defaultInfo(QSize(400,400))
+{
+	m_WindowMap[QVariant::fromValue(WindowNames::WINDOW_MAIN).toString()] =CWindowInfo(QSize(1000,800));
+	m_WindowMap[QVariant::fromValue(WindowNames::WINDOW_EDIT_ARTIKEL).toString()] =CWindowInfo(QSize(1000,600));
+	m_WindowMap[QVariant::fromValue(WindowNames::WINDOW_EDIT_AUSGABE).toString()] =CWindowInfo(QSize(600,400));
+	m_WindowMap[QVariant::fromValue(WindowNames::WINDOW_EDIT_ZEITSCHRIFT).toString()] =CWindowInfo(QSize(600,400));
+	m_WindowMap[QVariant::fromValue(WindowNames::WINDOW_LIST_AUSGABE).toString()] =CWindowInfo(QSize(900,900));
+	m_WindowMap[QVariant::fromValue(WindowNames::WINDOW_LIST_ZEITSCHRIFT).toString()] =CWindowInfo(QSize(600,400));
+
+
+}
+
 QString CSettingsData::getCurrentDB() const
 {
     return m_currentDB;
@@ -19,14 +32,65 @@ QDir CSettingsData::getCurrentDBPath() const
     return DBPath;
 }
 
-QSize CSettingsData::getWindowSize() const
+QSize CSettingsData::getWindowSize(WindowNames::eWindow windowName) const
 {
-    return m_windowSize;
+	if (m_WindowMap.contains(QVariant::fromValue(windowName).toString()))
+	{
+		return m_WindowMap.value(QVariant::fromValue(windowName).toString()).getWindowSize();
+	}
+
+	return m_defaultInfo.getWindowSize();
 }
-void CSettingsData::setWindowSize(const QSize &windowSize)
+void CSettingsData::setWindowSize(WindowNames::eWindow windowName, const QSize &windowSize)
 {
-    m_windowSize = windowSize;
+	CWindowInfo info(windowSize);
+	if (m_WindowMap.contains(QVariant::fromValue(windowName).toString()))
+	{
+		info = m_WindowMap[QVariant::fromValue(windowName).toString()];
+		info.setWindowSize(windowSize);
+	}
+
+	m_WindowMap[QVariant::fromValue(windowName).toString()] = windowSize;
 }
+
+QStringList CSettingsData::getWindowNames()
+{
+	return m_WindowMap.keys();
+}
+
+void CSettingsData::setSizeFromJSON(QJsonArray DataArray)
+{
+	for (int i=0; i<DataArray.count(); i++)
+	{
+	   QJsonObject DataObject = DataArray[i].toObject();
+	   QJsonObject WindowInfo = DataObject["Details"].toObject();
+	   CWindowInfo info;
+	   info.setFromJSON(WindowInfo);
+	   m_WindowMap[DataObject["Window"].toString()]=info;
+   }
+}
+
+QJsonArray CSettingsData::getSizeAsJSON()
+{
+	QJsonArray jsonArray;
+
+	QMapIterator<QString, CWindowInfo> i(m_WindowMap);
+	while (i.hasNext())
+	{
+		i.next();
+
+		CWindowInfo info = i.value();
+		QJsonObject windowInfo;
+		windowInfo["Window"] = i.key();
+		windowInfo["Details"] = info.getAsJSON();
+		jsonArray.append(windowInfo);
+	}
+
+	return jsonArray;
+
+
+}
+
 
 
 QSharedPointer<CSettingsData> GlobalSettings;
@@ -77,6 +141,7 @@ void CSettings::loadSettingsFile()
 	QJsonDocument document = QJsonDocument::fromJson(settings.toUtf8());
 	QJsonObject object = document.object();
 	readDataFromJSONFormat(object);
+	int i=5;
 }
 
 void CSettings::writeSettingsFile()
@@ -97,15 +162,14 @@ void CSettings::cleanData()
 {
     GlobalSettings->setCurrentDB("");
     QSize windowSize(1200,600);
-    GlobalSettings->setWindowSize(windowSize);
+	GlobalSettings->setWindowSize(WindowNames::WINDOW_MAIN,windowSize);
 }
 
 QJsonObject CSettings::getAsJSONObject()
 {
 	QJsonObject jsonObject;
     jsonObject["CurrentDB"]=GlobalSettings->getCurrentDB();
-    jsonObject["WindowWidth"]=GlobalSettings->getWindowSize().width();
-    jsonObject["WindowHeight"]=GlobalSettings->getWindowSize().height();
+	jsonObject["WindowList"]=GlobalSettings->getSizeAsJSON();
 
 	return jsonObject;
 
@@ -130,8 +194,7 @@ void CSettings::readDataFromJSONFormat(QJsonObject &jsonObject)
 	cleanData();
 
     GlobalSettings->setCurrentDB(jsonObject["CurrentDB"].toString());
-    QSize windowSize(jsonObject["WindowWidth"].toInt(),jsonObject["WindowHeight"].toInt());
-    GlobalSettings->setWindowSize(windowSize);
+	GlobalSettings->setSizeFromJSON(jsonObject["WindowList"].toArray());
 
 }
 void CSettings::readDataFromJSONFormat(std::string &json)
@@ -157,29 +220,30 @@ void CSettings::setCurrentDB(const QString &currentDBPath)
 
 }
 
-QSize CSettings::getWindowSize() const
+QSize  CSettings::getWindowSize(WindowNames::eWindow windowName) const
 {
-    return GlobalSettings->getWindowSize();
+	return GlobalSettings->getWindowSize(windowName);
+
+}
+void  CSettings::setWindowSize(WindowNames::eWindow windowName, const QSize &windowSize)
+{
+	GlobalSettings->setWindowSize(windowName,windowSize);
+
 }
 
-void CSettings::setWindowSize(const QSize &windowSize)
+void CSettings::setWindowHeight(WindowNames::eWindow windowName,int height)
 {
-    GlobalSettings->setWindowSize(windowSize);
-}
-
-void CSettings::setWindowHeight(int height)
-{
-   QSize windowSize = GlobalSettings->getWindowSize();
+   QSize windowSize = GlobalSettings->getWindowSize(windowName);
    windowSize.setHeight(height);
-    GlobalSettings->setWindowSize(windowSize);
+	GlobalSettings->setWindowSize(windowName,windowSize);
    m_sizeSettingTimer.start();
 
 }
-void CSettings::setWindowWidth(int width)
+void CSettings::setWindowWidth(WindowNames::eWindow windowName,int width)
 {
-    QSize windowSize = GlobalSettings->getWindowSize();
+	QSize windowSize = GlobalSettings->getWindowSize(windowName);
 	windowSize.setWidth(width);
-     GlobalSettings->setWindowSize(windowSize);
+	 GlobalSettings->setWindowSize(windowName,windowSize);
     m_sizeSettingTimer.start();
 
 }

@@ -22,6 +22,7 @@
 #include <QDebug>
 
 #include <QTextEdit>
+#include <Helper/qmlfactory.h>
 
 int main(int argc, char *argv[])
 {
@@ -35,6 +36,7 @@ int main(int argc, char *argv[])
 	app.setOrganizationName("Blah");
 	app.setOrganizationDomain("Blub");
 
+	QMLFactory::registerTypes();
 	qRegisterMetaType<CArtikel>("CArtikel");
 	qRegisterMetaType<CAusgabe>("CAusgabe");
     qRegisterMetaType<CZeitschrift>("CZeitschrift");

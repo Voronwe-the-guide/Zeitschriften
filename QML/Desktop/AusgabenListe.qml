@@ -1,14 +1,17 @@
 import QtQuick 2.15
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
-
+import ZeitschriftLib 1.0
 import "Helper"
 
 Window
 {
     id:ausgabenDisplay
-    width: 900
-    height: 900
+    property int windowType: WindowNames.WINDOW_LIST_AUSGABE
+    width:cSettings.getWindowSize(WindowNames.WINDOW_LIST_AUSGABE).width // .mainWindowSize.width // .getWindowSize().width
+    height: cSettings.getWindowSize(WindowNames.WINDOW_LIST_AUSGABE).height //.mainWindowSize.height //.getWindowSize().height
+    onWidthChanged: cSettings.setWindowWidth(WindowNames.WINDOW_LIST_AUSGABE,width)
+    onHeightChanged: cSettings.setWindowHeight(WindowNames.WINDOW_LIST_AUSGABE,height)
 
     visible: true
     modality:Qt.ApplicationModal

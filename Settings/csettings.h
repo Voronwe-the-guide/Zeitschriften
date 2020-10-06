@@ -3,46 +3,55 @@
 
 #include <QFileInfo>
 #include <QJsonObject>
+#include <QJsonArray>
 #include <QSize>
 #include <QTimer>
 #include <QDir>
+#include <QQuickItem>
+
+#include <Settings/cwindowinfo.h>
+
+
 
 class CSettingsData
 {
 
 public:
-    QString getCurrentDB() const;
+	CSettingsData();
+
+	QString getCurrentDB() const;
     void setCurrentDB(const QString &currentDBPath);
     QDir getCurrentDBPath() const;
 
-    QSize getWindowSize() const;
-    void setWindowSize(const QSize &windowSize);
+	QSize getWindowSize(WindowNames::eWindow windowName) const;
+	void setWindowSize(WindowNames::eWindow windowName, const QSize &windowSize);
+	QStringList getWindowNames();
+
+	QJsonArray getSizeAsJSON();
+	void setSizeFromJSON(QJsonArray array);
+
 
 private:
     QString m_currentDB;
-    QSize m_windowSize;
+
+	QMap<QString, CWindowInfo> m_WindowMap;
+	CWindowInfo m_defaultInfo;
 
 };
+
+
 
 class CSettings  : public QObject
 {
 	Q_OBJECT
     Q_PROPERTY(QString currentDB	 READ getCurrentDB NOTIFY dbUpdated)
+
 public:
-/*    static CSettings* getInstance()
-    {
-        if (nullptr == sm_Instance) {sm_Instance = new CSettings(); }
-        return sm_Instance;
-    }
-*/
+
     CSettings();
 	CSettings (std::string &JsonInfo);
 	CSettings (QJsonObject &jsonObject);
 
-	CSettings (const  CSettings&) = default;
-	CSettings& operator=(const CSettings&) = default;
-	CSettings ( CSettings&&) = default;
-	CSettings& operator=( CSettings&&) = default;
 
     static CSettingsData* getConfiguration();
 	QJsonObject getAsJSONObject();
@@ -54,10 +63,14 @@ public:
 public slots:
     QString getCurrentDB() const;
     void setCurrentDB(const QString &currentDBPath);
-    QSize getWindowSize() const;
-    void setWindowSize(const QSize &windowSize);
-    void setWindowHeight(int height);
-    void setWindowWidth(int width);
+	void setWindowHeight(WindowNames::eWindow windowName,int height);
+	void setWindowWidth(WindowNames::eWindow windowName,int width);
+
+	QSize getWindowSize(WindowNames::eWindow windowName) const;
+	void setWindowSize(WindowNames::eWindow windowName, const QSize &windowSize);
+
+
+
 
     void writeSettingsFile();
     void loadSettingsFile();
@@ -70,13 +83,9 @@ signals:
 
 private:
 
- //   static CSettings* sm_Instance;
-//	QString m_currentDB;
-//    QSize m_windowSize;
-    QTimer m_sizeSettingTimer;
+	 QTimer m_sizeSettingTimer;
 };
 
 
-//CSettings* CSettings::sm_Instance = nullptr;
 
 #endif // CSETTINGS_H

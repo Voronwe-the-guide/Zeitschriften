@@ -2,13 +2,16 @@ import QtQuick 2.15
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Dialogs 1.3
-
+import ZeitschriftLib 1.0
 
 Window
 {
     id: ausgabeEditWindow
-    width: 600
-    height: 400
+    property int windowType: WindowNames.WINDOW_EDIT_AUSGABE
+    width:cSettings.getWindowSize(windowType).width // .mainWindowSize.width // .getWindowSize().width
+    height: cSettings.getWindowSize(windowType).height //.mainWindowSize.height //.getWindowSize().height
+    onWidthChanged: cSettings.setWindowWidth(windowType,width)
+    onHeightChanged: cSettings.setWindowHeight(windowType,height)
     visible: true
     modality: Qt.ApplicationModal
     property bool readOnlyMode: false
