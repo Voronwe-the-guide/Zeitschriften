@@ -11,9 +11,9 @@ ApplicationWindow
    id: mainWindow
     visible: true
     minimumHeight: 400
-    minimumWidth: 800
-    width:cSettings.getWindowSize().width
-    height: cSettings.getWindowSize().height
+    minimumWidth: 900
+    width:cSettings.mainWindowSize.width // .getWindowSize().width
+    height: cSettings.mainWindowSize.height //.getWindowSize().height
     title: qsTr("Zeitschriften DB: "+width+"x"+height+" "+cSettings.currentDB)
     onWidthChanged: cSettings.setWindowWidth(width)
     onHeightChanged: cSettings.setWindowHeight(height)
@@ -336,11 +336,11 @@ ApplicationWindow
    //     Component.onCompleted: visible = true
     }
 
- /*  ZeitschriftenListe
+  AusgabenListe
    {
 
    }
-*/
+
   /*AusgabeWriter
    {
 

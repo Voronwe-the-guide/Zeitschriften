@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.15
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Dialogs 1.3
@@ -37,6 +37,7 @@ Window
         anchors.leftMargin: 25
         fillMode: Image.PreserveAspectFit
         source:  cAusgabeEditor.cover
+        mipmap: true
         MouseArea
         {
             anchors.fill: parent

@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.15
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 
@@ -91,6 +91,7 @@ Window
                     width: height/1.3//4142
                     source:  model.cover
                     fillMode: Image.PreserveAspectFit
+                    mipmap: true
 
                     Rectangle
                     {
