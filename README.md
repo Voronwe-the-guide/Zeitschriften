@@ -37,6 +37,8 @@ Dies erstmal in Kürze, Viel Spaß
 
 ----- Software Build ------
 
+Der Code ist ziemlich messy,  ich sollte mal drüber nachdenken, den aufzuräumen und ordentlich zu machen
+
 For building the Software, Qt 5.15 is needed, which can be got from here: https://www.qt.io/download
 
 Take in account the following:
