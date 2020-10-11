@@ -118,13 +118,14 @@ Window
                         spacing: 10
                        width: parent.width
                        height: 30
-                       IconWithText
+                     /*  IconWithText
                        {
                            text: model.dbIndex
                            id: index
                            width: 20
                            height: parent.height
                        }
+                       */
                        IconWithText//DisplayText
                         {
 

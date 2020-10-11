@@ -339,11 +339,11 @@ ApplicationWindow
    //     Component.onCompleted: visible = true
     }
 
-  AusgabenListe
+ /* AusgabenListe
    {
 
    }
-
+*/
   /*AusgabeWriter
    {
 

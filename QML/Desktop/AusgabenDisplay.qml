@@ -34,7 +34,7 @@ Item
             Text
             {
                 id: ausgabe
-                text: model.ausgabe + "/"+model.dbIndex
+                text: model.ausgabe// + "/"+model.dbIndex
                 anchors.fill: parent
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
