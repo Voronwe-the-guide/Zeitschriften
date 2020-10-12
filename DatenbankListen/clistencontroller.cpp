@@ -1145,7 +1145,7 @@ void CListenController::updateInhalteTable(const CArtikel &Artikel)// QString sq
         zeitschrift.setZeitschrift(Artikel.getZeitschrift());
         zeitschrift.setSprache(Artikel.getSprache());
         updateZeitschriftenTable(zeitschrift,true);
-        emit newZeitschriftDetected(zeitschrift);
+     //   emit newZeitschriftDetected(zeitschrift);
     }
 
 	//Check, ob Ausgabe neu gemacht werden muß
@@ -1163,7 +1163,7 @@ void CListenController::updateInhalteTable(const CArtikel &Artikel)// QString sq
 		ausgabe.setAusgabe(Artikel.getAusgabe());
 		zeitschrift.setSprache(Artikel.getSprache());
 		updateAusgabenTable(ausgabe);
-		emit newAusgabeDetected(ausgabe);
+    //	emit newAusgabeDetected(ausgabe);
 	}
 
 //	getListOfZeitschriften();
