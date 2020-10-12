@@ -133,6 +133,21 @@ void  CAusgabeDisplayList::UpdateElement(const CAusgabe& element, int listIndex)
 	}
 }
 
+int CAusgabeDisplayList::getIndexInList(const CAusgabe& ausgabe)
+{
+    for (int i=0; i<m_AusgabenList.count(); i++)
+    {
+        if ((m_AusgabenList.at(i).getZeitschrift() == ausgabe.getZeitschrift())
+            && (m_AusgabenList.at(i).getJahr() == ausgabe.getJahr())
+            && (m_AusgabenList.at(i).getAusgabe() == ausgabe.getAusgabe()))
+        {
+            return i;
+        }
+    }
+
+    return -1;
+
+}
 
 QHash<int, QByteArray> CAusgabeDisplayList::roleNames() const
 {

@@ -378,6 +378,56 @@ void CListenController::recallArtikelList()
 
 }
 
+/*return current Index in List*/
+int CListenController::setListAfterNewArtikel(CArtikel newOne)
+{
+    m_artikelDisplay->deleteAll();
+
+    if (m_db == nullptr)
+    {
+        qDebug()<<"No open DB!";
+        return -1;
+    }
+    sqlite3_stmt *stmt;
+    Helper helper;
+    QString request = QString("SELECT * FROM ")+ARTIKEL_TABELLE
+                        + " WHERE "+ARTIKEL_JAHR+QString("='%1' ").arg(newOne.getJahr())
+                                    +" AND "+ARTIKEL_AUSGABE+QString("='%1'").arg(newOne.getAusgabe())
+                                    +" AND "+ARTIKEL_ZEITSCHRIFT+QString("='%1' ").arg(helper.fixSpecialCharacters(newOne.getZeitschrift()))
+                                   + " ORDER BY "+ARTIKEL_ZEITSCHRIFT+" ASC, "+ARTIKEL_JAHR+" ASC, "+ARTIKEL_AUSGABE+" ASC, "+ARTIKEL_SEITE+" ASC";
+
+    int rc = makeSQLiteSearch(request.toStdString().c_str(),&stmt,"getArtikelForAusgabe");
+
+//	int rc = sqlite3_prepare_v2(m_db, request.toStdString().c_str(), -1, &stmt, nullptr);
+    if (rc != SQLITE_OK)
+    {
+           return -1; // or throw
+    }
+
+    m_lastArtikelRequestString = request;
+
+    while ((rc = sqlite3_step(stmt)) == SQLITE_ROW)
+    {
+        int number = sqlite3_column_count(stmt);
+        CArtikel artikel;
+        for (int i=0; i<number; ++i)
+        {
+
+            QString columnName(reinterpret_cast<const char*>(sqlite3_column_name(stmt,i)));
+            QByteArray columnText(reinterpret_cast<const char*>(sqlite3_column_text(stmt,i)));
+            artikel.setDBElement(columnName,columnText);
+        }
+
+        m_artikelDisplay->AddElement(artikel);
+    }
+
+    sqlite3_finalize(stmt);
+  //  int indexInJahr = m_jahrgaengeDisplay->getIndexInList(newOne.getJahr());
+
+    return m_artikelDisplay->getIndexInList(newOne);
+
+
+}
 
 /*!
   Will search for all Jahrgänge and Zeitschriften
@@ -430,6 +480,7 @@ void CListenController::getOverview()
     sqlite3_finalize(stmt);
 
 }
+
 
 /*!
   Will add or remove the Zeitung for the selection list, depending on the current status
@@ -1134,7 +1185,7 @@ void CListenController::updateInhalteTable(const CArtikel &Artikel)// QString sq
         qDebug()<<"SqLite request returned OK for "<<request;
 
     }
- //   sqlite3_finalize(stmt);
+ //  sqlite3_finalize(stmt);
 
 	//Check ob Zeitschrift neu gemacht werden muß
 	CZeitschrift zeitschrift = getZeitschriftByName(Artikel.getZeitschrift());  //  m_zeitschriftenDisplay->getZeitschrift(Artikel.getZeitschrift(),zeitschriftIndex);

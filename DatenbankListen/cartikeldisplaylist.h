@@ -30,6 +30,8 @@ public slots:
 	void deleteAll();
 	void AddElement(CArtikel &artikel);
 
+    int  getIndexInList (CArtikel &artikel);
+
     CArtikel getArtikel(int index);
     QString getZeitschrift(int index);
     int getJahr(int index);				//!< Jahrgang der Zeitschrift

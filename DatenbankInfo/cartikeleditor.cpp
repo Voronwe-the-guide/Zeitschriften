@@ -315,6 +315,27 @@ bool CArtikelEditor::saveChangesInDB(bool fromNew)
        saveUpdate();
    }
 
+   if (fromNew)
+   {
+
+     int jahrIndex = m_listen->jahrgaengeDisplay()->getIndexInList(m_Artikel.getJahr());
+     m_listen->getZeitschriftenForJahr(m_Artikel.getJahr());
+     m_listen->getAusgabenForZeitschrift(m_Artikel.getZeitschrift(),m_Artikel.getJahr());
+
+     int listIndex= m_listen->setListAfterNewArtikel(m_Artikel);
+     int zeitschriftIndex=-1;
+     CZeitschrift zeit = m_listen->zeitschriftenForJahrDisplay()->getZeitschrift(m_Artikel.getZeitschrift(),zeitschriftIndex);
+     CAusgabe ausgabe;
+     ausgabe.setZeitschrift(m_Artikel.getZeitschrift());
+     ausgabe.setJahr(m_Artikel.getJahr());
+     ausgabe.setAusgabe(m_Artikel.getAusgabe());
+     int ausgabeIndex = m_listen->ausgabenForJahrDisplay()->getIndexInList(ausgabe);
+
+     emit displayJahrIndex(jahrIndex);
+     emit displayZeitschriftInJahrIndex(zeitschriftIndex);
+     emit displayAusgabeInJahrIndex(ausgabeIndex);
+     emit displayArtikelIndex(listIndex);
+   }
    return true;
 
 }

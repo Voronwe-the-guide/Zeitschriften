@@ -93,6 +93,9 @@ public slots:
 
     void addOrRemoveZeitschrift(int index);
 
+    int setListAfterNewArtikel(CArtikel newOne);
+
+
 signals:
 	void errorMessage(QString sender, QString Message);
     void newZeitschriftDetected(CZeitschrift zeitschrift);

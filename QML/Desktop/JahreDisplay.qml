@@ -20,6 +20,21 @@ Item
         }
     }
 
+    Connections
+    {
+        target: cArtikelEditor
+        function onDisplayJahrIndex(index)
+        {
+            if (index>=0)
+            {
+                jahreList.currentIndex = index;
+                jahreList.positionViewAtIndex(jahreList.currentIndex,ListView.Center);
+                currentJahr = jahreList.currentIndex
+
+            }
+        }
+    }
+
     Component
     {
         id: jahrComponent
@@ -56,6 +71,7 @@ Item
                     onClicked:
                     {
                         jahreDisplay.currentJahr = model.index;
+                        jahreList.currentIndex = model.index;
                      //   console.log("Ausgaben request");
                         cArtikelList.deleteAll();
                         cListenController.getLowerInfoForJahr(model.jahr);
@@ -88,10 +104,14 @@ Item
 
     ListView
     {
+       id: jahreList
         width: parent.width
         height: parent.height
         model: cJahreList
         delegate: jahrComponent
+        highlightFollowsCurrentItem : false
+        preferredHighlightBegin: height / 2 - 100 // 100 being item height / 2
+        preferredHighlightEnd: height / 2 + 100 // 100 being item height / 2
         onCountChanged:
         {
           //  console.log("Jahre count = "+count)

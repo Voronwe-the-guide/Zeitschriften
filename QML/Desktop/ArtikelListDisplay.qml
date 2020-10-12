@@ -63,6 +63,20 @@ Item
         }
     }
 
+    Connections
+    {
+        target: cArtikelEditor
+        function onDisplayArtikelIndex(listIndex)
+        {
+            if (listIndex>=0)
+            {
+                artikelList.currentIndex = listIndex;
+                artikelList.positionViewAtIndex(artikelList.currentIndex,ListView.Center)
+
+            }
+        }
+    }
+
     Component
     {
         id: artikelComponent
@@ -174,7 +188,8 @@ Item
         }
       //  snapMode: ListView.SnapToItem
       //  highlightRangeMode: ListView.StrictlyEnforceRange
-        flickableDirection: Flickable.VerticalFlick
+
+       flickableDirection: Flickable.VerticalFlick
          boundsBehavior: Flickable.StopAtBounds
          Layout.fillWidth: true
           Layout.fillHeight: true

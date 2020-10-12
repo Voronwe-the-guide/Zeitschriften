@@ -25,6 +25,8 @@ public slots:
 	void deleteAll();
 	void AddElement(CJahr &jahr);
 
+    int getIndexInList(int Jahr);
+
 
 protected:
 

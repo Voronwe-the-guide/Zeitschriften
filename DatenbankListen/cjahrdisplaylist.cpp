@@ -67,6 +67,20 @@ void CJahrDisplayList::AddElement(CJahr &jahr)
 
 }
 
+int CJahrDisplayList::getIndexInList(int Jahr)
+{
+    for (int i=0; i<m_JahrList.count(); i++)
+    {
+        if (m_JahrList.at(i).Jahr() == Jahr)
+        {
+            return i;
+        }
+    }
+
+    return -1;
+
+}
+
 
 
 

@@ -60,6 +60,11 @@ signals:
 
 	void entryIsNotValid(); //Will be send back before sendig data to SQL
 
+    void displayJahrIndex(int index);
+    void displayZeitschriftInJahrIndex(int index);
+    void displayAusgabeInJahrIndex(int index);
+    void displayArtikelIndex(int listIndex);
+
 public slots:
 
     bool saveChangesInDB(bool fromNew);
