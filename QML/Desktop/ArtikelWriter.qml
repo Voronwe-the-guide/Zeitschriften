@@ -150,7 +150,9 @@ Window
                 }
                 else
                 {
-                    Qt.createComponent("MessageDisplay.qml").createObject(editWindow, {text:qsTr("Daten nicht korrekt!")})// artikeleditor.visible = true;
+                    errorDialog.text = "Daten nicht korrekt!"
+                    errorDialog.visible = true;
+                  //  Qt.createComponent("MessageDisplay.qml").createObject(editWindow, {text:qsTr("Daten nicht korrekt!")})// artikeleditor.visible = true;
 
                 }
 
