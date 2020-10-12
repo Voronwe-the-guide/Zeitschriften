@@ -32,6 +32,7 @@ bool CArtikelEditor::saveAndNext(bool fromNew)
 	newOne.setAusgabe(m_Artikel.getAusgabe());
 	newOne.setRubrik(m_Artikel.getRubrik());
 	newOne.setZeitschrift(m_Artikel.getZeitschrift());
+    newOne.setSprache(m_Artikel.getSprache());
     setArtikelForUpdate(newOne);
 	return true;
 
