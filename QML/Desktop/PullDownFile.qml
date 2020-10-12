@@ -6,8 +6,9 @@ Rectangle
 
     property QtObject listModel
     property int elementCount: rubrikList.count
+    property int elementHight: 25
     width: 150
-    height: 150
+    height: elementCount<=3?elementCount*elementHight:3*elementHight
     color: "white"
     border.color: "black"
    // anchors.top: parent.bottom
@@ -27,8 +28,9 @@ Rectangle
         id: rubrikCompent
         Item
         {
+            id: rubrikItem
             width: rubrikDisplay.width
-            height: 25
+            height: rubrikDisplay.elementHight
             Text
             {
                 id: rubrikText

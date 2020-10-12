@@ -156,8 +156,7 @@ Window
                           PullDownFile
                           {
                               id: zeitschriftListDisplay
-                              width: 150
-                              height: 150
+
                               border.color: "black"
                               anchors.top: parent.bottom
                               listModel: cZeitschriftNameList
@@ -221,7 +220,7 @@ Window
                           {
                               id: untertitelDisplay
                               width:300
-                              height: 150
+
                               border.color: "black"
                               anchors.top: parent.bottom
                               listModel: cSloganList
@@ -352,8 +351,7 @@ Window
                              PullDownFile
                              {
                                  id: waehrungDisplay
-                                 width: 150
-                                 height: 150
+
                                  border.color: "black"
                                  anchors.top: parent.bottom
                                  listModel: cWaehrungList
@@ -428,7 +426,7 @@ Window
                      {
                          id: redakteurAreaDisplay
                          width: 300
-                         height: 150
+
                          border.color: "black"
                          anchors.top: parent.bottom
                          listModel: cRedaktionList

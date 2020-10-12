@@ -119,8 +119,8 @@ Item
                       PullDownFile
                       {
                           id: zeitschriftListDisplay
-                          width: 150
-                          height: 150
+
+
                           border.color: "black"
                           anchors.top: parent.bottom
                           listModel: cZeitschriftNameList
@@ -217,8 +217,8 @@ Item
                    PullDownFile
                    {
                        id: rubrikDisplay
-                       width: 150
-                       height: 150
+
+
                        border.color: "black"
                        anchors.top: parent.bottom
                        listModel: cRubrikList
