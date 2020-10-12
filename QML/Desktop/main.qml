@@ -49,7 +49,7 @@ ApplicationWindow
     function restart()
     {
     //    console.log("Restart");
-        callWriter()
+        callNewArtikelWindow()
     }
 
 
