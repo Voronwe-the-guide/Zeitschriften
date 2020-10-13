@@ -1,6 +1,7 @@
 from PIL import Image
 import glob, os
 
+
 count = 0
 image_list = []
 basewidth = 100
