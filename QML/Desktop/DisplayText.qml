@@ -66,7 +66,10 @@ TextEdit //Field //Input//Edit
 
     Rectangle
     {
-        anchors.fill: parent
+       // anchors.fill: parent
+        width: parent.width+    6
+        height: parent.height+6
+        anchors.centerIn: parent
         color: textdisplay.hasValidData? "lightgrey":"red" //"transparent"
         opacity: 0.6
         border.color: parent.focus?"blue":"transparent"
