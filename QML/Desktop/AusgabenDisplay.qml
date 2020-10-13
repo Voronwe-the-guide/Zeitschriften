@@ -20,6 +20,23 @@ Item
         }
     }
 
+    Connections
+    {
+        target: cArtikelEditor
+        function onDisplayAusgabeInJahrIndex(index)
+        {
+            console.log("Neuer Ausgabe Index"+index)
+            if (index>=0)
+            {
+                console.log("In index");
+                ausgabenListe.currentIndex = index;
+                ausgabenListe.positionViewAtIndex(ausgabenListe.currentIndex,ListView.Center);
+                currentAusgabe = ausgabenListe.currentIndex
+
+            }
+        }
+    }
+
     Component
     {
         id: ausgabeComponent
@@ -55,6 +72,7 @@ Item
                     else
                     {
                         ausgabenForJahrDisplay.currentAusgabe = model.index;
+                        ausgabenListe.currentIndex = model.index
                     //   console.log("Artikel request");
                         cListenController.getArtikelForAusgabe(model.zeitschrift,model.jahr, model.ausgabe);
                     }
@@ -70,6 +88,9 @@ Item
         height: parent.height
         model: cAusgabenForJahrList
         delegate: ausgabeComponent
+        highlightFollowsCurrentItem : false
+        preferredHighlightBegin: height / 2 - 100 // 100 being item height / 2
+        preferredHighlightEnd: height / 2 + 100 // 100 being item height / 2
 
         onCountChanged:
         {

@@ -21,6 +21,23 @@ Item
         }
     }
 
+    Connections
+    {
+        target: cArtikelEditor
+        function onDisplayZeitschriftInJahrIndex(index)
+        {
+            console.log("Neuer Zeitschrift Index"+index)
+            if (index>=0)
+            {
+                console.log("In index");
+                zeitschriftenListe.currentIndex = index;
+                zeitschriftenListe.positionViewAtIndex(zeitschriftenListe.currentIndex,ListView.Center);
+                currentZeitschrift = zeitschriftenListe.currentIndex
+
+            }
+        }
+    }
+
     Component
     {
         id: zeitschriftComponent
@@ -55,6 +72,7 @@ Item
                     onClicked:
                     {
                         zeitschriftenDisplay.currentZeitschrift = model.index;
+                        zeitschriftenListe.currentIndex = model.index
                       //  zeitschriftenDisplay.currentAusgabenListeHight = ausgabenForJahrDisplay.height //.ausgabenHeight
                        //  console.log("Artikel request");
                         cListenController.getAusgabenForZeitschrift(model.zeitschrift, zeitschriftenDisplay.jahr);
@@ -83,6 +101,9 @@ Item
         height: parent.height
         model: cZeitschriftenForJahr
         delegate: zeitschriftComponent
+        highlightFollowsCurrentItem : false
+        preferredHighlightBegin: height / 2 - 100 // 100 being item height / 2
+        preferredHighlightEnd: height / 2 + 100 // 100 being item height / 2
 
         onCountChanged:
         {

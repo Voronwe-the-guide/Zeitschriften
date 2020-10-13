@@ -318,23 +318,35 @@ bool CArtikelEditor::saveChangesInDB(bool fromNew)
    if (fromNew)
    {
 
+      m_listen->setSearchElement("");
      int jahrIndex = m_listen->jahrgaengeDisplay()->getIndexInList(m_Artikel.getJahr());
-     m_listen->getZeitschriftenForJahr(m_Artikel.getJahr());
-     m_listen->getAusgabenForZeitschrift(m_Artikel.getZeitschrift(),m_Artikel.getJahr());
+     if (jahrIndex<0)
+     {
+         m_listen->getOverview();
+          jahrIndex = m_listen->jahrgaengeDisplay()->getIndexInList(m_Artikel.getJahr());
 
-     int listIndex= m_listen->setListAfterNewArtikel(m_Artikel);
+     }
+
+     m_listen->getZeitschriftenForJahr(m_Artikel.getJahr());
+
      int zeitschriftIndex=-1;
      CZeitschrift zeit = m_listen->zeitschriftenForJahrDisplay()->getZeitschrift(m_Artikel.getZeitschrift(),zeitschriftIndex);
+
+     m_listen->getAusgabenForZeitschrift(m_Artikel.getZeitschrift(),m_Artikel.getJahr());
      CAusgabe ausgabe;
      ausgabe.setZeitschrift(m_Artikel.getZeitschrift());
      ausgabe.setJahr(m_Artikel.getJahr());
      ausgabe.setAusgabe(m_Artikel.getAusgabe());
      int ausgabeIndex = m_listen->ausgabenForJahrDisplay()->getIndexInList(ausgabe);
 
+
+     int artikelIndex= m_listen->setListAfterNewArtikel(m_Artikel);
+
+
      emit displayJahrIndex(jahrIndex);
      emit displayZeitschriftInJahrIndex(zeitschriftIndex);
      emit displayAusgabeInJahrIndex(ausgabeIndex);
-     emit displayArtikelIndex(listIndex);
+     emit displayArtikelIndex(artikelIndex);
    }
    return true;
 

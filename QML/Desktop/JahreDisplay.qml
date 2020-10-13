@@ -25,8 +25,10 @@ Item
         target: cArtikelEditor
         function onDisplayJahrIndex(index)
         {
+            console.log("Neuer Jahr Index"+index)
             if (index>=0)
             {
+               console.log("In index");
                 jahreList.currentIndex = index;
                 jahreList.positionViewAtIndex(jahreList.currentIndex,ListView.Center);
                 currentJahr = jahreList.currentIndex
