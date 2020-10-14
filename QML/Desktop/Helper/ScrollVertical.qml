@@ -34,15 +34,7 @@ ScrollBar
                          to: 0
                      }
 
-                  /*   onReleased: {
-                         if (artikelList.currentIndex > 0)
-                         {
-                             artikelList.currentIndex--;
-                             artikelList.positionViewAtIndex(artikelList.currentIndex,ListView.Beginning)
-                         }
 
-                     }
-                     */
                  }
              }
 
@@ -65,21 +57,12 @@ ScrollBar
                          target: scrollBar.connectedScrollElement //ausgabenList
                          property: "contentY"
                          running: downButton.pressed
-                         to: scrollBar.connectedScrollElement.contentHeight -scrollBar.connectedScrollElement.height//artikelList.contentHeight - artikelList.height
+                         to: scrollBar.connectedScrollElement.contentHeight -scrollBar.connectedScrollElement.height
                          velocity: 2000
                      }
 
 
-                /*     onReleased: {
 
-                         if (artikelList.currentIndex < artikelList.count-1)
-                         {
-                             artikelList.currentIndex++;
-                             artikelList.positionViewAtIndex(artikelList.currentIndex,ListView.Beginning)
-                         }
-
-                    }
-                    */
                  }
              }
 }

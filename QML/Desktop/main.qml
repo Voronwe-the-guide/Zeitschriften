@@ -20,6 +20,7 @@ ApplicationWindow
     height: cSettings.getWindowSize(windowType).height //.mainWindowSize.height //.getWindowSize().height
     onWidthChanged: cSettings.setWindowWidth(windowType,width)
     onHeightChanged: cSettings.setWindowHeight(windowType,height)
+
    // var this_component
     function callNewArtikelWindow()
     {
@@ -284,6 +285,7 @@ ApplicationWindow
             anchors.left: jahre.right
              width: parent.width - jahre.width
              height: parent.height
+             focus: true
         }
     }
 

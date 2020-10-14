@@ -11,7 +11,7 @@ Item
     property int fontSize: 20
    // property int currentIndex: 0
     property int oldIndex: -1;
-
+       focus: true
     onVisibleChanged:
     {
         if (visible)
@@ -98,8 +98,7 @@ Item
                     artikelList.focus = true
                     artikelList.currentIndex = model.index
                     artikelList.positionViewAtIndex(model.index,ListView.Center)
-
-                }
+                 }
             }
             Artikel
             {
@@ -190,9 +189,11 @@ Item
         delegate: artikelComponent
         focus: true
         clip: true
+
+
        onCurrentIndexChanged:
         {
-           console.log("Current Index: "+currentIndex);
+   //        console.log("Current Index: "+currentIndex);
            if (currentIndex>=0)
            {
                 map.currenUniqueIndex = cArtikelList.getDBIndex(currentIndex)// currentItem.dbIndex
@@ -225,6 +226,7 @@ Item
           } // scrollBar.decrease()
           Keys.onDownPressed:
           {
+        //      console.log("down pressed");
               if (artikelList.currentIndex<artikelList.count-1)
               {
                   artikelList.currentIndex++

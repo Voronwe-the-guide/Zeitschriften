@@ -193,7 +193,6 @@ Window
           jahrValid: cArtikelEditor.jahrValid;
           ausgabeValid: cArtikelEditor.ausgabeValid;
           seiteValid: cArtikelEditor.seiteValid;
-
           Connections
           {
               target:cArtikelEditor
