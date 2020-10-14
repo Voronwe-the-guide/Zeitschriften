@@ -110,17 +110,21 @@ void CArtikelDisplayList::AddElement(CArtikel &artikel)
 
 int CArtikelDisplayList::getIndexInList(CArtikel &artikel)
 {
-    for (int i=0; i<m_ArtikelList.count(); i++)
-    {
-        if (m_ArtikelList.at(i).getUniqueIndex() == artikel.getUniqueIndex())
-        {
-            return i;
-        }
-    }
+   return getIndexInList(artikel.getUniqueIndex());
 
-    return -1;
+}
 
+int CArtikelDisplayList::getIndexInList(int uniqueIndex)
+{
+	for (int i=0; i<m_ArtikelList.count(); i++)
+	{
+		if (m_ArtikelList.at(i).getUniqueIndex() == uniqueIndex)
+		{
+			return i;
+		}
+	}
 
+	return -1;
 }
 
 QHash<int, QByteArray> CArtikelDisplayList::roleNames() const

@@ -16,6 +16,26 @@ id: mapFlag
  property string ausgabe_text: ""
  property string seite_text:""
  property int dbIndex: -1;
+ property int currentIndex: -1;
+  property QtObject watchMe: null
+ property bool isCurrent: dbIndex == watchMe.currenUniqueIndex //false
+
+ z: isCurrent?100000:1
+
+ signal itemSelected(var dbIndex)
+
+ function setCurrent(currentIndex)
+ {
+     if (currentIndex == mapFlag.dbIndex)
+     {
+         mapFlag.isCurrent = true;
+     }
+     else
+     {
+         mapFlag.isCurrent = false;
+     }
+ }
+
  sourceItem: Item
  {
 //Tracer{}
@@ -27,6 +47,21 @@ id: mapFlag
      {
        anchors.fill: parent
          source: "qrc:/Images/mapflag.svg"
+     }
+
+     Rectangle
+     {
+         width: parent.width
+         height: parent.height-30
+         color: mapFlag.isCurrent?"red":"transparent"
+         MouseArea
+         {
+             anchors.fill: parent
+             onClicked:
+             {
+                 itemSelected(dbIndex)
+             }
+         }
      }
 
      Column

@@ -31,6 +31,7 @@ public slots:
 	void AddElement(CArtikel &artikel);
 
     int  getIndexInList (CArtikel &artikel);
+	int getIndexInList(int uniqueIndex);
 
     CArtikel getArtikel(int index);
     QString getZeitschrift(int index);

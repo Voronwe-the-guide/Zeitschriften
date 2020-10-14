@@ -95,6 +95,7 @@ Item
                 onClicked:
                 {
                    // ausgabe.color= "red"
+                    artikelList.focus = true
                     artikelList.currentIndex = model.index
                     artikelList.positionViewAtIndex(model.index,ListView.Center)
 
@@ -168,6 +169,13 @@ Item
         width: 600 //parent.width
         height:300
         anchors.horizontalCenter: parent.horizontalCenter
+        onItemSelected:
+        {
+           var listIndex=cArtikelList.getIndexInList(dbIndex);
+            artikelList.currentIndex = listIndex;
+            artikelList.positionViewAtIndex(artikelList.currentIndex,ListView.Center)
+
+        }
     }
 
     ListView
@@ -184,7 +192,15 @@ Item
         clip: true
        onCurrentIndexChanged:
         {
-           //console.log("Current Index: "+currentIndex);
+           console.log("Current Index: "+currentIndex);
+           if (currentIndex>=0)
+           {
+                map.currenUniqueIndex = cArtikelList.getDBIndex(currentIndex)// currentItem.dbIndex
+           }
+           else
+           {
+               map.currenUniqueIndex = -1;
+           }
         }
       //  snapMode: ListView.SnapToItem
       //  highlightRangeMode: ListView.StrictlyEnforceRange
