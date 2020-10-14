@@ -54,5 +54,6 @@
         <file>Images/waehrung.svg</file>
         <file>Desktop/AusgabenListe.qml</file>
         <file>Desktop/Helper/ScrollVertical.qml</file>
+        <file>Images/mapflag_select.svg</file>
     </qresource>
 </RCC>

@@ -36,7 +36,7 @@ id: mapFlag
      }
  }
 
- function getWidth(mag,jahr,seite)
+/* function getWidth(mag,jahr,seite)
  {
      var middel = 0;
      var result =0;
@@ -64,7 +64,7 @@ id: mapFlag
      console.log("Result: "+result);
      return result;
  }
-
+*/
  sourceItem: Item
  {
 //Tracer{}
@@ -76,14 +76,14 @@ id: mapFlag
       Image
      {
        anchors.fill: parent
-         source: "qrc:/Images/mapflag.svg"
+         source: mapFlag.isCurrent?"qrc:/Images/mapflag_select.svg":"qrc:/Images/mapflag.svg"
      }
 
-     Rectangle
+     Item
      {
          width: parent.width
          height: parent.height-20
-         color: mapFlag.isCurrent?"red":"transparent"
+        // color: mapFlag.isCurrent?"red":"transparent"
          MouseArea
          {
              anchors.fill: parent
