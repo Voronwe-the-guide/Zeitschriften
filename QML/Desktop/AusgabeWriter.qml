@@ -436,7 +436,7 @@ Window
                       onTextSelected:
                       {
                            redakteurArea.text = text
-                          cAusgabeEditor.setWaehrung(redakteurArea.text);
+                          cAusgabeEditor.setChefredakteur(redakteurArea.text);
                           redakteurArea.focus = true;
                       }
                      }

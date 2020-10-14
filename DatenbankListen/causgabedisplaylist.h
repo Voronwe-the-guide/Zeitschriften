@@ -62,7 +62,7 @@ public slots:
 	int getDBIndex(int listIndex);
 	void UpdateElement(const CAusgabe& element, int listIndex);
 
-    int CAusgabeDisplayList::getIndexInList(const CAusgabe& ausgabe);
+	int getIndexInList(const CAusgabe& ausgabe);
 
 protected:
 
