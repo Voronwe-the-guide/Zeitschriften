@@ -1,7 +1,8 @@
-import QtQuick 2.0
+import QtQuick 2.15
 import QtQuick.Controls 2.9
 import QtQuick.Layouts 1.3
-
+import QtQuick.Controls.Styles 1.4
+import QtQuick.Dialogs 1.3
 import "Helper"
 Item
 {
@@ -40,6 +41,8 @@ Item
    //     var this_component = Qt.createComponent("AusgabeWriter.qml").createObject(ausgabenDisplay)// artikeleditor.visible = true;
         this_component.saveButtonPressed.connect(readList);
     }
+
+
 
     Connections
     {
@@ -129,7 +132,8 @@ Item
                 }
                 onDeleteButtonPressed:
                 {
-                    cListenController.deleteArtikel(model.dbIndex);
+                    deleteDialog.dBDeleteIndex = model.dbIndex;
+                    deleteDialog.visible = true;
                 }
 
             }
@@ -244,6 +248,31 @@ Item
 
     }
 
+
+    MessageDialog
+    {
+        id: deleteDialog
+        width: 400
+        height: 300
+        title: qsTr("Löschen")
+        icon: StandardIcon.Question
+        property int dBDeleteIndex:-1
+        text:qsTr("Wirklich löschen?")
+        visible: false
+        modality: Qt.ApplicationModal
+        standardButtons:StandardButton.No| StandardButton.Yes
+        onNo:
+        {
+            console.log("No pressed for "+dBDeleteIndex);
+            visible: false
+        }
+        onYes:
+        {
+            console.log("Yes pressed for "+dBDeleteIndex);
+            cListenController.deleteArtikel(dBDeleteIndex);
+            visible: false
+        }
+    }
 
 
 }

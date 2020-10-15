@@ -1074,6 +1074,8 @@ void CListenController::deleteArtikel(int index)
     }
  //   int index = static_cast<int>(sqlite3_last_insert_rowid(m_db));
  //   sqlite3_finalize(stmt);
+
+	recallArtikelList();
     return ;
 }
 
